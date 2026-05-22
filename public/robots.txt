@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /confirm/
+Disallow: /cheat-sheets/
+
+Sitemap: https://clinicalperformancelab.vercel.app/sitemap.xml

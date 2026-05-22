@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check your inbox · Clinical Performance Lab</title>
+<meta name="description" content="Confirmation link sent. Click it to get your CPL cheat sheets.">
+<link rel="canonical" href="https://clinicalperformancelab.vercel.app/thank-you/">
+<meta property="og:title" content="Check your inbox · Clinical Performance Lab">
+<meta property="og:description" content="Confirmation link sent. Click it to get your CPL cheat sheets.">
+<meta property="og:url" content="https://clinicalperformancelab.vercel.app/thank-you/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clinical Performance Lab">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body class="thank-you">
+
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-logo">CPL</span>
+      <span>Clinical Performance Lab
+        <small>iHuman case mastery</small>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/faq/">FAQ</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/cases/" class="btn btn-primary btn-sm">Get a Guide</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+<section class="hero">
+  <div class="container container-narrow text-center">
+    <span class="hero-eyebrow"><span class="dot"></span>Check your inbox</span>
+    <h1>One quick step.</h1>
+    <p class="hero-sub">
+      We've sent a confirmation link to your email. Click it (in the next 24 hours) and your PDFs land in your inbox immediately.
+    </p>
+    <p class="muted">
+      Don't see it? Check the spam folder. The sender is <strong>onboarding@resend.dev</strong>.
+    </p>
+    <div class="mt-4">
+      <a href="/cases/" class="btn btn-primary btn-lg">Browse cases while you wait →</a>
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Clinical Performance Lab</div>
+      <p class="footer-tagline">Submission-ready iHuman case guides built from verified student submissions. Used by NR509, NR511, NR602, NURS 6512, NRNP 6541 students.</p>
+      <p class="footer-tagline" style="margin-top:12px;">
+        <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
+      </p>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+        <li><a href="/cases/">Case Catalog</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about/">About CPL</a></li>
+        <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/terms/">Terms of Use</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
+    <span>clinicalperformancelab.vercel.app</span>
+  </div>
+</footer>
+
+
+
+<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <div class="popup">
+    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
+    <span class="resource-stage">Free · Take a minute</span>
+    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
+    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
+    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
+      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
+    </form>
+    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
+  </div>
+</div>
+
+
+<script src="/cpl.js" defer></script>
+
+</body>
+</html>

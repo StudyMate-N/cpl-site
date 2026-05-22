@@ -1,5 +1,61 @@
 {
-  "buildCommand": "pip install reportlab pdf2image pillow && python3 build.py",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python3 build.py",
   "outputDirectory": "public",
-  "framework": null
+  "framework": null,
+  "functions": {
+    "api/subscribe.js": {
+      "maxDuration": 10
+    },
+    "api/confirm.js": {
+      "maxDuration": 10
+    },
+    "api/unsubscribe.js": {
+      "maxDuration": 5
+    },
+    "api/cron/drip.js": {
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/drip",
+      "schedule": "0 * * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/cheat-sheets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" },
+        { "key": "Content-Disposition", "value": "inline" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(css|js|svg|png|jpg|webp)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/free",
+      "destination": "/free-resources/",
+      "permanent": true
+    },
+    {
+      "source": "/catalog",
+      "destination": "/cases/",
+      "permanent": true
+    }
+  ]
 }

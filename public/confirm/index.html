@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirm your email · Clinical Performance Lab</title>
+<meta name="description" content="Confirm your email and get your CPL cheat sheets.">
+<link rel="canonical" href="https://clinicalperformancelab.vercel.app/confirm/">
+<meta property="og:title" content="Confirm your email · Clinical Performance Lab">
+<meta property="og:description" content="Confirm your email and get your CPL cheat sheets.">
+<meta property="og:url" content="https://clinicalperformancelab.vercel.app/confirm/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clinical Performance Lab">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body class="confirm">
+
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-logo">CPL</span>
+      <span>Clinical Performance Lab
+        <small>iHuman case mastery</small>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/faq/">FAQ</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/cases/" class="btn btn-primary btn-sm">Get a Guide</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+<section class="hero">
+  <div class="container container-narrow text-center">
+    <span class="hero-eyebrow"><span class="dot"></span>Almost there</span>
+    <h1 id="confirmTitle">Confirming your email…</h1>
+    <p class="hero-sub" id="confirmSub">
+      Validating your confirmation link. This takes a few seconds.
+    </p>
+    <div id="confirmResult"></div>
+  </div>
+</section>
+
+<script>
+(async function() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('t');
+  const titleEl = document.getElementById('confirmTitle');
+  const subEl = document.getElementById('confirmSub');
+  const resultEl = document.getElementById('confirmResult');
+
+  if (!token) {
+    titleEl.textContent = "Missing confirmation token";
+    subEl.textContent = "This link is incomplete. If you got it via email, try clicking it directly rather than copy-pasting.";
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/confirm?t=' + encodeURIComponent(token));
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      titleEl.textContent = "Your PDFs are on the way!";
+      subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
+      resultEl.innerHTML = '<div class="form-success">Email confirmed: ' + data.email + '. Volumes: ' + (data.volumes || []).join(', ') + '</div><div style="margin-top:24px;"><a href="/cases/" class="btn btn-primary btn-lg">Browse case catalog →</a></div>';
+    } else {
+      titleEl.textContent = "Couldn't confirm";
+      subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
+      resultEl.innerHTML = '<a href="/free-resources/" class="btn btn-primary">Get a new link</a>';
+    }
+  } catch (e) {
+    titleEl.textContent = "Something went wrong";
+    subEl.textContent = "We couldn't reach the confirmation service. Try again in a minute or email Tutorspot98@gmail.com.";
+  }
+})();
+</script>
+
+
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Clinical Performance Lab</div>
+      <p class="footer-tagline">Submission-ready iHuman case guides built from verified student submissions. Used by NR509, NR511, NR602, NURS 6512, NRNP 6541 students.</p>
+      <p class="footer-tagline" style="margin-top:12px;">
+        <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
+      </p>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+        <li><a href="/cases/">Case Catalog</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about/">About CPL</a></li>
+        <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/terms/">Terms of Use</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
+    <span>clinicalperformancelab.vercel.app</span>
+  </div>
+</footer>
+
+
+
+<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <div class="popup">
+    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
+    <span class="resource-stage">Free · Take a minute</span>
+    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
+    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
+    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
+      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
+    </form>
+    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
+  </div>
+</div>
+
+
+<script src="/cpl.js" defer></script>
+
+</body>
+</html>

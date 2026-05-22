@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Catalog · Clinical Performance Lab</title>
+<meta name="description" content="Browse 16 iHuman case guides. Same-day delivery on most cases. Built from verified student submissions.">
+<link rel="canonical" href="https://clinicalperformancelab.vercel.app/cases/">
+<meta property="og:title" content="Case Catalog · Clinical Performance Lab">
+<meta property="og:description" content="Browse 16 iHuman case guides. Same-day delivery on most cases. Built from verified student submissions.">
+<meta property="og:url" content="https://clinicalperformancelab.vercel.app/cases/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clinical Performance Lab">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+</head>
+<body class="catalog">
+
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-logo">CPL</span>
+      <span>Clinical Performance Lab
+        <small>iHuman case mastery</small>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/faq/">FAQ</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/cases/" class="btn btn-primary btn-sm">Get a Guide</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+<section class="hero">
+  <div class="container">
+    <span class="hero-eyebrow"><span class="dot"></span>Case Catalog</span>
+    <h1><span data-counter="16" data-counter-suffix=" cases">0 cases</span>. <span class="accent">All orderable today.</span></h1>
+    <p class="hero-sub">
+      Each guide is the full answer key for one iHuman case template — verified history questions, exact PE findings, platform-confirmed DDx, complete management plan. Word + PDF, delivered same day. Use code <strong>CPLFIRST15</strong> for 15% off your first.
+    </p>
+    <div class="hero-ctas">
+      <button class="btn btn-primary btn-lg" onclick="document.getElementById('catalog-grid').scrollIntoView({behavior:'smooth'})">Browse cases ↓</button>
+      <button class="btn btn-ghost btn-lg" onclick="document.getElementById('bundle-builder').scrollIntoView({behavior:'smooth'})">Build a bundle →</button>
+    </div>
+  </div>
+</section>
+
+<section class="section catalog-section" id="catalog-grid">
+  <div class="container">
+
+    <!-- Toolbar: search + active filter readout -->
+    <div class="catalog-toolbar">
+      <div class="catalog-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="catalogSearch" placeholder="Search by name, course, diagnosis…" autocomplete="off">
+        <button class="catalog-search-clear" id="catalogSearchClear" aria-label="Clear search" style="display:none;">×</button>
+      </div>
+      <div class="catalog-result-count" id="catalogResultCount" aria-live="polite">
+        Showing all 16 cases
+      </div>
+    </div>
+
+    <!-- Filter rail -->
+    <div class="catalog-filters">
+      <div class="filter-group">
+        <span class="filter-label">School</span>
+        <button class="filter-chip" data-filter="school" data-value="chamberlain-u">Chamberlain University</button><button class="filter-chip" data-filter="school" data-value="walden-u">Walden University</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">System</span>
+        <button class="filter-chip" data-filter="tag" data-value="adult">Adult</button><button class="filter-chip" data-filter="tag" data-value="cardiovascular">Cardiovascular</button><button class="filter-chip" data-filter="tag" data-value="ent">ENT</button><button class="filter-chip" data-filter="tag" data-value="endocrine">Endocrine</button><button class="filter-chip" data-filter="tag" data-value="gi">GI</button><button class="filter-chip" data-filter="tag" data-value="gu">GU</button><button class="filter-chip" data-filter="tag" data-value="geriatric">Geriatric</button><button class="filter-chip" data-filter="tag" data-value="mental-health">Mental Health</button><button class="filter-chip" data-filter="tag" data-value="neurologic">Neurologic</button><button class="filter-chip" data-filter="tag" data-value="pediatric">Pediatric</button><button class="filter-chip" data-filter="tag" data-value="respiratory">Respiratory</button><button class="filter-chip" data-filter="tag" data-value="shadow-health">Shadow Health</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Lead time</span>
+        <button class="filter-chip" data-filter="lead-time" data-value="same-day">⚡ Same-day</button>
+        <button class="filter-chip" data-filter="lead-time" data-value="fast-build">⌛ 24–48h</button>
+      </div>
+      <button class="filter-clear" id="filterClear" style="display:none;">Clear filters ×</button>
+    </div>
+
+    <!-- Unified case grid -->
+    <div class="case-grid" id="caseGrid">
+      
+<a class="case-card" href="/case/harvey-hoya-htn/"
+   data-slug="harvey-hoya-htn"
+   data-tags="cardiovascular,adult"
+   data-school="chamberlain-u"
+   data-courses="nr-509,nr-511"
+   data-lead-time="same-day"
+   data-search="harvey hoya — hypertension stage 2 high blood pressure noted at community health fair hypertension, primary (essential) — stage 2 with target organ damage nr 509 / nr 511 week 5 chamberlain university cardiovascular adult harvey hoya anselmo lopez herbie romero felipe garcia">
+  <h3>Harvey Hoya — Hypertension Stage 2</h3>
+  <p class="case-cc">High blood pressure noted at community health fair</p>
+  <div class="case-meta"><span class="case-tag">Cardiovascular</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 / NR 511 Week 5</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/bebe-babbitt-migraine/"
+   data-slug="bebe-babbitt-migraine"
+   data-tags="neurologic,adult"
+   data-school="chamberlain-u"
+   data-courses="nr-509"
+   data-lead-time="same-day"
+   data-search="bebe babbitt — migraine with aura more frequent severe headaches migraine with aura nr 509 week 6 chamberlain university neurologic adult bebe babbitt marta hernandez jessica walbertz mabel johnson">
+  <h3>Bebe Babbitt — Migraine with Aura</h3>
+  <p class="case-cc">More frequent severe headaches</p>
+  <div class="case-meta"><span class="case-tag">Neurologic</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 Week 6</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/cynthia-francis-hyperlipidemia/"
+   data-slug="cynthia-francis-hyperlipidemia"
+   data-tags="endocrine,adult"
+   data-school="chamberlain-u"
+   data-courses="nr-509,nr-511"
+   data-lead-time="same-day"
+   data-search="cynthia francis — hyperlipidemia follow-up after abnormal lipid panel hyperlipidemia / mixed dyslipidemia nr 509 / nr 511 chamberlain university endocrine adult cynthia francis">
+  <h3>Cynthia Francis — Hyperlipidemia</h3>
+  <p class="case-cc">Follow-up after abnormal lipid panel</p>
+  <div class="case-meta"><span class="case-tag">Endocrine</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 / NR 511</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/samantha-graves-gastroenteritis/"
+   data-slug="samantha-graves-gastroenteritis"
+   data-tags="gi,pediatric"
+   data-school="chamberlain-u"
+   data-courses="nr-602"
+   data-lead-time="same-day"
+   data-search="samantha graves — viral gastroenteritis vomiting and diarrhea ×2 days acute viral gastroenteritis with mild dehydration nr 602 week 5 chamberlain university gi pediatric samantha graves courtney graham">
+  <h3>Samantha Graves — Viral Gastroenteritis</h3>
+  <p class="case-cc">Vomiting and diarrhea ×2 days</p>
+  <div class="case-meta"><span class="case-tag">GI</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 602 Week 5</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/kennedy-poole-adhd/"
+   data-slug="kennedy-poole-adhd"
+   data-tags="mental-health,pediatric"
+   data-school="chamberlain-u"
+   data-courses="nr-602"
+   data-lead-time="same-day"
+   data-search="kennedy poole — adhd, inattentive slipping grades and academic decline adhd, predominantly inattentive (f90.0) nr 602 week 4 chamberlain university mental health pediatric kennedy poole">
+  <h3>Kennedy Poole — ADHD, Inattentive</h3>
+  <p class="case-cc">Slipping grades and academic decline</p>
+  <div class="case-meta"><span class="case-tag">Mental Health</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 602 Week 4</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/victoria-lewis/"
+   data-slug="victoria-lewis"
+   data-tags="adult"
+   data-school="chamberlain-u"
+   data-courses=""
+   data-lead-time="same-day"
+   data-search="victoria lewis — adult case [available after intake] [available after intake] chamberlain — verify with intake chamberlain university adult victoria lewis">
+  <h3>Victoria Lewis — Adult Case</h3>
+  <p class="case-cc">[Available after intake]</p>
+  <div class="case-meta"><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">Chamberlain — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/betty-burns-pt1/"
+   data-slug="betty-burns-pt1"
+   data-tags="adult"
+   data-school="chamberlain-u"
+   data-courses=""
+   data-lead-time="same-day"
+   data-search="betty burns part 1 [available after intake] [available after intake] chamberlain — verify with intake chamberlain university adult betty burns">
+  <h3>Betty Burns Part 1</h3>
+  <p class="case-cc">[Available after intake]</p>
+  <div class="case-meta"><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">Chamberlain — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/betty-burns-pt2/"
+   data-slug="betty-burns-pt2"
+   data-tags="adult"
+   data-school="chamberlain-u"
+   data-courses=""
+   data-lead-time="same-day"
+   data-search="betty burns part 2 [available after intake] [available after intake] chamberlain — verify with intake chamberlain university adult betty burns">
+  <h3>Betty Burns Part 2</h3>
+  <p class="case-cc">[Available after intake]</p>
+  <div class="case-meta"><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">Chamberlain — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/christine-smith-pyelonephritis/"
+   data-slug="christine-smith-pyelonephritis"
+   data-tags="gu,adult"
+   data-school="walden-u"
+   data-courses="nrnp-6531"
+   data-lead-time="same-day"
+   data-search="christine smith — pyelonephritis flank pain, fever, dysuria acute pyelonephritis nrnp 6531 week 7 walden university gu adult christine smith">
+  <h3>Christine Smith — Pyelonephritis</h3>
+  <p class="case-cc">Flank pain, fever, dysuria</p>
+  <div class="case-meta"><span class="case-tag">GU</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NRNP 6531 Week 7</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/amanda-wheaton-pharyngitis/"
+   data-slug="amanda-wheaton-pharyngitis"
+   data-tags="ent,adult"
+   data-school="chamberlain-u"
+   data-courses="nr-509"
+   data-lead-time="fast-build"
+   data-search="amanda wheaton — gas pharyngitis sore throat ×3 days group a streptococcal pharyngitis nr 509 — verify with intake chamberlain university ent adult amanda wheaton">
+  <h3>Amanda Wheaton — GAS Pharyngitis</h3>
+  <p class="case-cc">Sore throat ×3 days</p>
+  <div class="case-meta"><span class="case-tag">ENT</span><span class="case-tag">Adult</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/tina-jones-shadow-health/"
+   data-slug="tina-jones-shadow-health"
+   data-tags="shadow-health,adult"
+   data-school="walden-u"
+   data-courses="nurs-6512"
+   data-lead-time="fast-build"
+   data-search="tina jones — shadow health multiple — tina jones case series various (per assignment) nurs 6512 / various walden university shadow health adult tina jones">
+  <h3>Tina Jones — Shadow Health</h3>
+  <p class="case-cc">Multiple — Tina Jones case series</p>
+  <div class="case-meta"><span class="case-tag">Shadow Health</span><span class="case-tag">Adult</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NURS 6512 / various</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/tanner-bell-uri/"
+   data-slug="tanner-bell-uri"
+   data-tags="respiratory,pediatric"
+   data-school="chamberlain-u"
+   data-courses="nr-602"
+   data-lead-time="fast-build"
+   data-search="tanner bell — pediatric uri cough and runny nose ×5 days viral upper respiratory infection nr 602 — verify with intake chamberlain university respiratory pediatric tanner bell">
+  <h3>Tanner Bell — Pediatric URI</h3>
+  <p class="case-cc">Cough and runny nose ×5 days</p>
+  <div class="case-meta"><span class="case-tag">Respiratory</span><span class="case-tag">Pediatric</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 602 — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/lori-jacobs-uti/"
+   data-slug="lori-jacobs-uti"
+   data-tags="gu,adult"
+   data-school="chamberlain-u"
+   data-courses="nr-511"
+   data-lead-time="fast-build"
+   data-search="lori jacobs — uti dysuria and urinary frequency uncomplicated urinary tract infection nr 511 — verify with intake chamberlain university gu adult lori jacobs">
+  <h3>Lori Jacobs — UTI</h3>
+  <p class="case-cc">Dysuria and urinary frequency</p>
+  <div class="case-meta"><span class="case-tag">GU</span><span class="case-tag">Adult</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 511 — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/geriatric-fall/"
+   data-slug="geriatric-fall"
+   data-tags="geriatric,adult"
+   data-school="walden-u"
+   data-courses=""
+   data-lead-time="fast-build"
+   data-search="geriatric patient — fall risk recent fall, mobility concern multifactorial fall risk nrnp — verify with intake walden university geriatric adult various">
+  <h3>Geriatric Patient — Fall Risk</h3>
+  <p class="case-cc">Recent fall, mobility concern</p>
+  <div class="case-meta"><span class="case-tag">Geriatric</span><span class="case-tag">Adult</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NRNP — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/depression-anxiety/"
+   data-slug="depression-anxiety"
+   data-tags="mental-health,adult"
+   data-school="walden-u"
+   data-courses="nrnp-6541"
+   data-lead-time="fast-build"
+   data-search="adult — depression screen low mood, fatigue major depressive disorder nrnp 6541 — verify with intake walden university mental health adult various">
+  <h3>Adult — Depression Screen</h3>
+  <p class="case-cc">Low mood, fatigue</p>
+  <div class="case-meta"><span class="case-tag">Mental Health</span><span class="case-tag">Adult</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NRNP 6541 — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+<a class="case-card" href="/case/type-2-diabetes/"
+   data-slug="type-2-diabetes"
+   data-tags="endocrine,adult"
+   data-school="chamberlain-u"
+   data-courses="nr-511"
+   data-lead-time="fast-build"
+   data-search="adult — new type 2 diabetes polyuria, polydipsia, weight loss diabetes mellitus, type 2 — new diagnosis nr 511 — verify with intake chamberlain university endocrine adult various">
+  <h3>Adult — New Type 2 Diabetes</h3>
+  <p class="case-cc">Polyuria, polydipsia, weight loss</p>
+  <div class="case-meta"><span class="case-tag">Endocrine</span><span class="case-tag">Adult</span><span class="case-tag lead-build">⌛ 24–48h build</span></div>
+  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 511 — verify with intake</p>
+  <div class="case-cta">
+    <span>Preview case →</span>
+    <span aria-hidden="true">→</span>
+  </div>
+</a>
+
+    </div>
+
+    <!-- Empty state -->
+    <div class="catalog-empty" id="catalogEmpty" style="display:none;">
+      <p>No cases match those filters.</p>
+      <button class="btn btn-ghost" onclick="window.cpl.catalog.clearAll()">Show all cases</button>
+    </div>
+  </div>
+</section>
+
+<!-- Bundle builder section -->
+<section class="section" id="bundle-builder" style="background:var(--cream-2);">
+  <div class="container">
+    <div class="section-title-block">
+      <span class="eyebrow">Bundle Builder</span>
+      <h2>Pick your cases. <span style="color:var(--teal-700); font-style:italic;">Save more.</span></h2>
+      <p>Pick 1, 3, or 5 cases. Price updates live. Mix any cases — single price for any combination.</p>
+    </div>
+
+    <div class="bundle-builder" data-cases='[{&quot;slug&quot;: &quot;harvey-hoya-htn&quot;, &quot;title&quot;: &quot;Harvey Hoya \u2014 Hypertension Stage 2&quot;, &quot;tags&quot;: [&quot;Cardiovascular&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;bebe-babbitt-migraine&quot;, &quot;title&quot;: &quot;Bebe Babbitt \u2014 Migraine with Aura&quot;, &quot;tags&quot;: [&quot;Neurologic&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;cynthia-francis-hyperlipidemia&quot;, &quot;title&quot;: &quot;Cynthia Francis \u2014 Hyperlipidemia&quot;, &quot;tags&quot;: [&quot;Endocrine&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;samantha-graves-gastroenteritis&quot;, &quot;title&quot;: &quot;Samantha Graves \u2014 Viral Gastroenteritis&quot;, &quot;tags&quot;: [&quot;GI&quot;, &quot;Pediatric&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;kennedy-poole-adhd&quot;, &quot;title&quot;: &quot;Kennedy Poole \u2014 ADHD, Inattentive&quot;, &quot;tags&quot;: [&quot;Mental Health&quot;, &quot;Pediatric&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;victoria-lewis&quot;, &quot;title&quot;: &quot;Victoria Lewis \u2014 Adult Case&quot;, &quot;tags&quot;: [&quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;betty-burns-pt1&quot;, &quot;title&quot;: &quot;Betty Burns Part 1&quot;, &quot;tags&quot;: [&quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;betty-burns-pt2&quot;, &quot;title&quot;: &quot;Betty Burns Part 2&quot;, &quot;tags&quot;: [&quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;christine-smith-pyelonephritis&quot;, &quot;title&quot;: &quot;Christine Smith \u2014 Pyelonephritis&quot;, &quot;tags&quot;: [&quot;GU&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;same-day&quot;}, {&quot;slug&quot;: &quot;amanda-wheaton-pharyngitis&quot;, &quot;title&quot;: &quot;Amanda Wheaton \u2014 GAS Pharyngitis&quot;, &quot;tags&quot;: [&quot;ENT&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}, {&quot;slug&quot;: &quot;tina-jones-shadow-health&quot;, &quot;title&quot;: &quot;Tina Jones \u2014 Shadow Health&quot;, &quot;tags&quot;: [&quot;Shadow Health&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}, {&quot;slug&quot;: &quot;tanner-bell-uri&quot;, &quot;title&quot;: &quot;Tanner Bell \u2014 Pediatric URI&quot;, &quot;tags&quot;: [&quot;Respiratory&quot;, &quot;Pediatric&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}, {&quot;slug&quot;: &quot;lori-jacobs-uti&quot;, &quot;title&quot;: &quot;Lori Jacobs \u2014 UTI&quot;, &quot;tags&quot;: [&quot;GU&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}, {&quot;slug&quot;: &quot;geriatric-fall&quot;, &quot;title&quot;: &quot;Geriatric Patient \u2014 Fall Risk&quot;, &quot;tags&quot;: [&quot;Geriatric&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}, {&quot;slug&quot;: &quot;depression-anxiety&quot;, &quot;title&quot;: &quot;Adult \u2014 Depression Screen&quot;, &quot;tags&quot;: [&quot;Mental Health&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}, {&quot;slug&quot;: &quot;type-2-diabetes&quot;, &quot;title&quot;: &quot;Adult \u2014 New Type 2 Diabetes&quot;, &quot;tags&quot;: [&quot;Endocrine&quot;, &quot;Adult&quot;], &quot;lead_time&quot;: &quot;fast-build&quot;}]'>
+      <div class="bundle-pool">
+        <h3 class="bundle-section-title">Available cases <span class="muted" style="font-weight:400; font-size:0.85rem;">— click to add</span></h3>
+        <div class="bundle-pool-grid" id="bundlePool"></div>
+      </div>
+
+      <div class="bundle-summary">
+        <div class="bundle-cart" id="bundleCart">
+          <h3 class="bundle-section-title">Your bundle</h3>
+          <div class="bundle-cart-items" id="bundleCartItems">
+            <p class="muted" style="text-align:center; padding:32px 0;">No cases selected yet.<br>Click a case on the left to add it.</p>
+          </div>
+
+          <div class="bundle-pricing" id="bundlePricing" style="display:none;">
+            <div class="bundle-tier-row" id="bundleTierRow">
+              <span class="bundle-tier-label" id="bundleTierLabel">—</span>
+              <span class="bundle-tier-saves" id="bundleTierSaves"></span>
+            </div>
+            <div class="bundle-price-row">
+              <div>
+                <span class="bundle-price-original" id="bundlePriceOriginal"></span>
+                <span class="bundle-price-final" id="bundlePriceFinal">$0</span>
+              </div>
+              <div class="bundle-price-savings" id="bundlePriceSavings"></div>
+            </div>
+            <button class="btn btn-primary btn-lg" id="bundleOrder" style="width:100%;">Order this bundle →</button>
+            <p class="muted bundle-disclaimer">We'll confirm via email or WhatsApp before charging. Use code <strong>CPLFIRST15</strong> for 15% off if this is your first single case.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Clinical Performance Lab</div>
+      <p class="footer-tagline">Submission-ready iHuman case guides built from verified student submissions. Used by NR509, NR511, NR602, NURS 6512, NRNP 6541 students.</p>
+      <p class="footer-tagline" style="margin-top:12px;">
+        <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
+      </p>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+        <li><a href="/cases/">Case Catalog</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/about/">About CPL</a></li>
+        <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/terms/">Terms of Use</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
+    <span>clinicalperformancelab.vercel.app</span>
+  </div>
+</footer>
+
+
+
+<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <div class="popup">
+    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
+    <span class="resource-stage">Free · Take a minute</span>
+    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
+    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
+    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
+      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
+    </form>
+    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
+  </div>
+</div>
+
+
+<script src="/cpl.js" defer></script>
+
+</body>
+</html>

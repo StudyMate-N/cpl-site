@@ -1,0 +1,29 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Zip archives (source was extracted, zips not needed in repo)
+*.zip
+
+# Temporary extraction directories
+_extract_*/
+
+# Node
+node_modules/
+
+# Vercel
+.vercel/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
