@@ -4,4 +4,4 @@ Disallow: /api/
 Disallow: /confirm/
 Disallow: /cheat-sheets/
 
-Sitemap: https://clinicalperformancelab.vercel.app/sitemap.xml
+Sitemap: https://cpl-site.vercel.app/sitemap.xml

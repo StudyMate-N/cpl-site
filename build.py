@@ -30,7 +30,7 @@ from datetime import datetime, timezone
 from cases_data import CASES, PRICING, by_status, by_slug
 
 # ─── Configuration ────────────────────────────────────────────────
-BASE_URL = "https://clinicalperformancelab.vercel.app"
+BASE_URL = "https://cpl-site.vercel.app"
 SITE_NAME = "Clinical Performance Lab"
 SITE_TAG = "Submission-ready clinical reasoning for nursing students"
 
@@ -158,7 +158,7 @@ def footer_html():
   </div>
   <div class="footer-bottom">
     <span>© {year} Clinical Performance Lab. For personal study use only.</span>
-    <span>clinicalperformancelab.vercel.app</span>
+    <span>cpl-site.vercel.app</span>
   </div>
 </footer>
 """
