@@ -138,46 +138,46 @@ function verifyUnsubscribeToken(token) {
   }
 }
 
-// ─── KV helper (Vercel KV / Upstash compatible) ───────────────────
+// ─── KV helper (Upstash Redis) ────────────────────────────────────
 let _kv = null;
 function getKV() {
   if (_kv) return _kv;
-  try {
-    // Lazy require — only loaded in production
-    const { kv } = require('@vercel/kv');
-    _kv = kv;
-    return _kv;
-  } catch (e) {
-    // Fallback for local dev without KV configured
-    console.warn('Vercel KV unavailable, using in-memory fallback (DEV ONLY)');
-    const store = new Map();
-    _kv = {
-      get: async (k) => store.has(k) ? store.get(k) : null,
-      set: async (k, v, opts) => store.set(k, v),
-      del: async (k) => store.delete(k),
-      incr: async (k) => { const v = (store.get(k) || 0) + 1; store.set(k, v); return v; },
-      expire: async (k, s) => {},
-      lpush: async (k, ...vals) => {
-        const arr = store.get(k) || [];
-        arr.unshift(...vals);
-        store.set(k, arr);
-        return arr.length;
-      },
-      lrange: async (k, start, stop) => {
-        const arr = store.get(k) || [];
-        if (stop === -1) return arr.slice(start);
-        return arr.slice(start, stop + 1);
-      },
-      lrem: async (k, count, val) => {
-        const arr = store.get(k) || [];
-        const idx = arr.indexOf(val);
-        if (idx >= 0) arr.splice(idx, 1);
-        store.set(k, arr);
-        return idx >= 0 ? 1 : 0;
-      },
-    };
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+  if (url && token) {
+    const { Redis } = require('@upstash/redis');
+    _kv = new Redis({ url, token });
     return _kv;
   }
+  // In-memory fallback for local dev without Redis configured
+  console.warn('Redis unavailable, using in-memory fallback (DEV ONLY)');
+  const store = new Map();
+  _kv = {
+    get: async (k) => store.has(k) ? store.get(k) : null,
+    set: async (k, v, opts) => store.set(k, v),
+    del: async (k) => store.delete(k),
+    incr: async (k) => { const v = (store.get(k) || 0) + 1; store.set(k, v); return v; },
+    expire: async (k, s) => {},
+    lpush: async (k, ...vals) => {
+      const arr = store.get(k) || [];
+      arr.unshift(...vals);
+      store.set(k, arr);
+      return arr.length;
+    },
+    lrange: async (k, start, stop) => {
+      const arr = store.get(k) || [];
+      if (stop === -1) return arr.slice(start);
+      return arr.slice(start, stop + 1);
+    },
+    lrem: async (k, count, val) => {
+      const arr = store.get(k) || [];
+      const idx = arr.indexOf(val);
+      if (idx >= 0) arr.splice(idx, 1);
+      store.set(k, arr);
+      return idx >= 0 ? 1 : 0;
+    },
+  };
+  return _kv;
 }
 
 // ─── Subscriber records ───────────────────────────────────────────
