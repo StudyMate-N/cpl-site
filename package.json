@@ -4,7 +4,6 @@
   "description": "Clinical Performance Lab — static site + serverless email backend",
   "private": true,
   "scripts": {
-    "build": "python3 build.py",
     "dev:serve": "python3 -m http.server 8000 --directory public",
     "test:tokens": "node scripts/test-tokens.js"
   },
