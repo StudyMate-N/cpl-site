@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pip install reportlab pdf2image pillow && python3 build.py",
+  "outputDirectory": "public",
+  "framework": null
+}
