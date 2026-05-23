@@ -8,6 +8,8 @@
 
 # Temporary extraction directories
 _extract_*/
+_new_files/
+_new_updated/
 
 # Node
 node_modules/

@@ -27,10 +27,10 @@ import html
 import json
 from datetime import datetime, timezone
 
-from cases_data import CASES, PRICING, by_status, by_slug
+from cases_data import CASES, PRICING, by_lead_time, by_slug, COURSES
 
 # ─── Configuration ────────────────────────────────────────────────
-BASE_URL = "https://cpl-site.vercel.app"
+BASE_URL = "https://clinicalperformancelab.vercel.app"
 SITE_NAME = "Clinical Performance Lab"
 SITE_TAG = "Submission-ready clinical reasoning for nursing students"
 
@@ -158,7 +158,7 @@ def footer_html():
   </div>
   <div class="footer-bottom">
     <span>© {year} Clinical Performance Lab. For personal study use only.</span>
-    <span>cpl-site.vercel.app</span>
+    <span>clinicalperformancelab.vercel.app</span>
   </div>
 </footer>
 """
@@ -238,11 +238,13 @@ def case_card_html(case):
     # Tag chips
     tag_chips = "".join(f'<span class="case-tag">{esc(t)}</span>' for t in case.get("tags", []))
 
-    # Lead-time chip — same-day cases get a positive lime chip, fast-build cases get a neutral chip
+    # Lead-time chip
     if lead_time == "same-day":
         lead_chip = '<span class="case-tag lead-fast">⚡ Same-day</span>'
+    elif lead_time == "fast-build":
+        lead_chip = '<span class="case-tag lead-build">⌛ 24–48h</span>'
     else:
-        lead_chip = '<span class="case-tag lead-build">⌛ 24–48h build</span>'
+        lead_chip = '<span class="case-tag lead-request">📋 On request</span>'
 
     return f"""
 <a class="case-card" href="{href}"
@@ -267,8 +269,8 @@ def case_card_html(case):
 # ─── PAGE: Home ───────────────────────────────────────────────────
 def build_home():
     cheat_cards = "".join(cheat_sheet_card_html(cs) for cs in CHEAT_SHEETS)
-    # Show the same-day (battle-tested) cases on the home page
-    featured = [c for c in CASES if c.get("lead_time") == "same-day"][:6]
+    # Homepage shows only same-day cases — the 9 with complete verified guides
+    featured = by_lead_time("same-day")
     case_cards = "".join(case_card_html(c) for c in featured)
 
     pricing_html = ""
@@ -299,7 +301,7 @@ def build_home():
     </div>
     <div class="hero-trust" data-reveal data-reveal-delay="320">
       <span><strong data-counter="200" data-counter-suffix="+">0</strong> verified student submissions</span>
-      <span><strong data-counter="16">0</strong> cases in catalog</span>
+      <span><strong data-counter="38">0</strong> cases in catalog</span>
       <span><strong>Same-day</strong> delivery</span>
     </div>
   </div>
@@ -343,7 +345,7 @@ def build_home():
       {case_cards}
     </div>
     <div class="text-center mt-4">
-      <a href="/cases/" class="btn btn-ghost">See all 16 cases →</a>
+      <a href="/cases/" class="btn btn-ghost">See all {len(CASES)} cases →</a>
     </div>
   </div>
 </section>
@@ -461,13 +463,19 @@ def build_catalog():
 <section class="hero">
   <div class="container">
     <span class="hero-eyebrow"><span class="dot"></span>Case Catalog</span>
-    <h1><span data-counter="16" data-counter-suffix=" cases">0 cases</span>. <span class="accent">All orderable today.</span></h1>
+    <h1><span data-counter="{len(all_cases)}" data-counter-suffix=" cases">0 cases</span>. <span class="accent">All orderable today.</span></h1>
     <p class="hero-sub">
-      Each guide is the full answer key for one iHuman case template — verified history questions, exact PE findings, platform-confirmed DDx, complete management plan. Word + PDF, delivered same day. Use code <strong>CPLFIRST15</strong> for 15% off your first.
+      9 complete guides deliver same-day. 9 more build within 24–48h. 20 available on request across NR509, NR511, NR602, NURS 6512, NRNP 6531, 6541, 6542, 6552, and 6568. Use code <strong>CPLFIRST15</strong> for 15% off your first.
     </p>
     <div class="hero-ctas">
       <button class="btn btn-primary btn-lg" onclick="document.getElementById('catalog-grid').scrollIntoView({{behavior:'smooth'}})">Browse cases ↓</button>
       <button class="btn btn-ghost btn-lg" onclick="document.getElementById('bundle-builder').scrollIntoView({{behavior:'smooth'}})">Build a bundle →</button>
+    </div>
+    <div class="hero-trust" style="margin-top:28px;">
+      <span><strong>9</strong> same-day guides</span>
+      <span><strong>9</strong> fast-build (24–48h)</span>
+      <span><strong>20</strong> on-request (48–72h)</span>
+      <span><strong>9</strong> courses covered</span>
     </div>
   </div>
 </section>
@@ -501,6 +509,7 @@ def build_catalog():
         <span class="filter-label">Lead time</span>
         <button class="filter-chip" data-filter="lead-time" data-value="same-day">⚡ Same-day</button>
         <button class="filter-chip" data-filter="lead-time" data-value="fast-build">⌛ 24–48h</button>
+        <button class="filter-chip" data-filter="lead-time" data-value="on-request">📋 On request</button>
       </div>
       <button class="filter-clear" id="filterClear" style="display:none;">Clear filters ×</button>
     </div>

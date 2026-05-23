@@ -1350,3 +1350,17 @@ a:hover { color: var(--teal-900); text-decoration: underline; }
   .bundle-cart { position: static; }
   .bundle-price-final { font-size: 2.4rem; }
 }
+
+/* On-request lead time chip */
+.case-tag.lead-request {
+  background: var(--cream-2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* Course filter chips in catalog */
+.filter-group.scrollable {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  padding-bottom: 4px;
+}

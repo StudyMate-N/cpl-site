@@ -1,118 +1,228 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://cpl-site.vercel.app/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/free-resources/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/cases/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/faq/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/about/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/terms/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/privacy/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/harvey-hoya-htn/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/bebe-babbitt-migraine/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/cynthia-francis-hyperlipidemia/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/samantha-graves-gastroenteritis/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/kennedy-poole-adhd/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://cpl-site.vercel.app/case/victoria-lewis/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://cpl-site.vercel.app/case/victoria-lewis-rash/</loc>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/betty-burns-pt1/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/betty-burns-pt2/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/christine-smith-pyelonephritis/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/amanda-wheaton-pharyngitis/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/marvin-webber-cardiovascular/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6531-wk7-pneumonia/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/caleb-metz-adolescent/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/emma-ryan-pediatric-uri/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/benjamin-cavill-low-back/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/kathleen-parks-nr509/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6541-encopresis/</loc>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/tina-jones-shadow-health/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6531-wk2-gi/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6531-wk4-cardiovascular/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/adam-barnes-5yo/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/peds-18mo-vomiting/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nurs6512-nr509-wk1-uri/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6552-prenatal/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6552-abnormal-uterine-bleeding/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6552-contraception/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-mdd/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-anxiety-gad/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-bipolar/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-psychosis/</loc>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/tanner-bell-uri/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://cpl-site.vercel.app/case/lori-jacobs-uti/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://cpl-site.vercel.app/case/geriatric-fall/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://cpl-site.vercel.app/case/geriatric-fall-risk/</loc>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://cpl-site.vercel.app/case/depression-anxiety/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://cpl-site.vercel.app/case/adult-depression-screen/</loc>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://cpl-site.vercel.app/case/type-2-diabetes/</loc>
-    <lastmod>2026-05-22</lastmod>
+    <loc>https://cpl-site.vercel.app/case/type-2-diabetes-new/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/copd-exacerbation/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/heart-failure-management/</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/case/hypothyroidism-adult/</loc>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
