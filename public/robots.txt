@@ -1,7 +1,7 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /confirm/
 Disallow: /cheat-sheets/
 
-Sitemap: https://cpl-site.vercel.app/sitemap.xml
+Sitemap: https://clinicalperformancelab.vercel.app/sitemap.xml
