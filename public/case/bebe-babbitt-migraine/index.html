@@ -86,6 +86,26 @@
 
         </div>
 
+        
+<div class="preview-gallery" data-reveal>
+  <h3>Guide preview</h3>
+  <p class="gallery-sub">Page 1 is fully readable. Remaining pages are blurred &mdash; order the full guide for complete access.</p>
+  <div class="preview-gallery-grid">
+    <div class="pg-thumb" onclick="openPgLightbox(this)"><img src="/previews/bebe-babbitt-migraine/page_1.png" alt="Guide preview page 1" loading="lazy"><span class="pg-label">Page 1</span></div><div class="pg-thumb pg-blurred" onclick="openPgLightbox(this)"><img src="/previews/bebe-babbitt-migraine/page_2.png" alt="Guide preview page 2" loading="lazy"><span class="pg-label">Page 2</span></div><div class="pg-thumb pg-blurred" onclick="openPgLightbox(this)"><img src="/previews/bebe-babbitt-migraine/page_3.png" alt="Guide preview page 3" loading="lazy"><span class="pg-label">Page 3</span></div><div class="pg-thumb pg-blurred" onclick="openPgLightbox(this)"><img src="/previews/bebe-babbitt-migraine/page_4.png" alt="Guide preview page 4" loading="lazy"><span class="pg-label">Page 4</span></div>
+  </div>
+</div>
+
+<div class="pg-lightbox" id="pgLightbox" onclick="closePgLightbox()">
+  <button class="pg-lightbox-close" aria-label="Close">&times;</button>
+  <img src="" alt="Preview page enlarged" id="pgLightboxImg">
+</div>
+<script>
+function openPgLightbox(el){var s=el.querySelector('img').src;document.getElementById('pgLightboxImg').src=s;document.getElementById('pgLightbox').classList.add('active');}
+function closePgLightbox(){document.getElementById('pgLightbox').classList.remove('active');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePgLightbox();});
+</script>
+
+
         <div class="preview-section">
           <h3>Scoring traps this case</h3>
           <p>The point-loss patterns we map for you:</p>

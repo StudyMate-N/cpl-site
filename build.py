@@ -578,6 +578,49 @@ def build_catalog():
 
 
 # ─── PAGE: Individual case preview ────────────────────────────────
+def _preview_gallery_html(slug):
+    """Build blurred-PDF preview gallery if images exist for this case."""
+    preview_dir = os.path.join(PUBLIC, "previews", slug)
+    if not os.path.isdir(preview_dir):
+        return ""
+    pages = sorted(
+        f for f in os.listdir(preview_dir) if f.startswith("page_") and f.endswith(".png")
+    )
+    if not pages:
+        return ""
+    thumbs = []
+    for p in pages:
+        num = p.replace("page_", "").replace(".png", "")
+        is_blurred = num != "1"
+        cls = "pg-thumb pg-blurred" if is_blurred else "pg-thumb"
+        label = f"Page {num}" if not is_blurred else f"Page {num}"
+        thumbs.append(
+            f'<div class="{cls}" onclick="openPgLightbox(this)">'
+            f'<img src="/previews/{slug}/{p}" alt="Guide preview page {num}" loading="lazy">'
+            f'<span class="pg-label">{label}</span>'
+            f'</div>'
+        )
+    return f"""
+<div class="preview-gallery" data-reveal>
+  <h3>Guide preview</h3>
+  <p class="gallery-sub">Page 1 is fully readable. Remaining pages are blurred &mdash; order the full guide for complete access.</p>
+  <div class="preview-gallery-grid">
+    {"".join(thumbs)}
+  </div>
+</div>
+
+<div class="pg-lightbox" id="pgLightbox" onclick="closePgLightbox()">
+  <button class="pg-lightbox-close" aria-label="Close">&times;</button>
+  <img src="" alt="Preview page enlarged" id="pgLightboxImg">
+</div>
+<script>
+function openPgLightbox(el){{var s=el.querySelector('img').src;document.getElementById('pgLightboxImg').src=s;document.getElementById('pgLightbox').classList.add('active');}}
+function closePgLightbox(){{document.getElementById('pgLightbox').classList.remove('active');}}
+document.addEventListener('keydown',function(e){{if(e.key==='Escape')closePgLightbox();}});
+</script>
+"""
+
+
 def build_case_preview(case):
     traps_html = "".join(
         f'<div class="trap-callout" data-reveal data-reveal-delay="{i*80}"><div class="trap-callout-title">⚠ Scoring Trap</div><div>{esc(t)}</div></div>'
@@ -670,6 +713,8 @@ def build_case_preview(case):
           <h3>What's in the guide</h3>
           {counts}
         </div>
+
+        {_preview_gallery_html(case['slug'])}
 
         <div class="preview-section">
           <h3>Scoring traps this case</h3>

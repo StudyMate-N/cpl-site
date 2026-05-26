@@ -11,6 +11,9 @@ _extract_*/
 _new_files/
 _new_updated/
 
+# Source guide PDFs (large binaries, not for repo)
+_guides_src/
+
 # Node
 node_modules/
 
