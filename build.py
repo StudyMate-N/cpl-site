@@ -46,6 +46,172 @@ CHEAT_SHEETS = [
     {"id": "plan",          "vol": "IV",  "title": "Management Plan & SOAP",   "pages": 9, "filename": "cpl-vol-4-plan.pdf"},
 ]
 
+# Interactive case simulator content (free clinical-reasoning practice)
+SIMULATOR_DATA = {
+    "harvey": {
+        "title": "Harvey Hoya — Hypertension Stage 2",
+        "meta": "57-year-old male · NR 509 / NR 511 Week 5 · Chamberlain",
+        "questions": [
+            {
+                "stage": "History",
+                "q": "The patient says 'I was told my blood pressure was high at a health fair.' What is your first response?",
+                "options": [
+                    "How can I help you today?",
+                    "Tell me your blood pressure number.",
+                    "Have you taken medication for this before?",
+                    "How long have you had hypertension?",
+                ],
+                "correct": 0,
+                "feedback": "Correct. The patient-centered opener scores on pivotal communication. Always open with 'How can I help you today?' — never lead with a closed clinical question on iHuman.",
+            },
+            {
+                "stage": "History",
+                "q": "Patient confirms elevated BP readings. Which OLDCARTS element should you address next?",
+                "options": [
+                    "Onset — when did they first notice elevated BP?",
+                    "Radiation — does the pain spread anywhere?",
+                    "Severity — rate your headache 1–10",
+                    "Duration — how long has this been a problem?",
+                ],
+                "correct": 0,
+                "feedback": "Onset is always first in OLDCARTS. Establishing the timeline is foundational — iHuman scores you on systematic history-taking, not breadth-first questions.",
+            },
+            {
+                "stage": "Physical Exam",
+                "q": "You're starting the cardiac exam. Which auscultation point represents the MITRAL valve (also where you palpate for PMI)?",
+                "options": [
+                    "2nd ICS, right sternal border (Aortic)",
+                    "4th ICS, left sternal border (Tricuspid)",
+                    "5th ICS, midclavicular line",
+                    "3rd ICS, left sternal border (Erb's point)",
+                ],
+                "correct": 2,
+                "feedback": "Correct. 5th ICS, midclavicular line = Mitral/Apex. This is also where you check PMI — lateral displacement indicates LVH, a key target organ damage finding in HTN.",
+            },
+            {
+                "stage": "Physical Exam",
+                "q": "On fundoscopic exam you notice copper wire appearance with focal narrowing where arteries cross veins. What is the clinical term?",
+                "options": [
+                    "Papilledema",
+                    "Arteriovenous nicking",
+                    "Exudates",
+                    "Cotton wool spots",
+                ],
+                "correct": 1,
+                "feedback": "AV nicking = hypertensive retinopathy = target organ damage. This is a HIGH-YIELD scoring trap — missing it means missing the TOD diagnosis, which downgrades the case grade.",
+            },
+        ],
+    },
+    "bebe": {
+        "title": "Bebe Babbitt — Migraine with Aura",
+        "meta": "26-year-old female · NR 509 Week 6 · Chamberlain",
+        "questions": [
+            {
+                "stage": "History",
+                "q": "Patient presents with 'more frequent, severe headaches.' Which SNOOP4 red flag would indicate you should NOT manage this as a primary headache?",
+                "options": [
+                    "Photophobia and phonophobia",
+                    "Sudden onset — 'worst headache of my life'",
+                    "Unilateral throbbing pain",
+                    "Nausea with the headache",
+                ],
+                "correct": 1,
+                "feedback": "Thunderclap onset = subarachnoid hemorrhage until proven otherwise. This is the 'S' in SNOOP4. Immediate imaging is required for this red flag — the only situation where ordering CT is correct on a headache case.",
+            },
+            {
+                "stage": "History",
+                "q": "Patient describes 'zig-zaggy lights before the headache.' What is the correct clinical documentation term?",
+                "options": [
+                    "Visual aura",
+                    "Scintillating scotomas",
+                    "Photophobia",
+                    "Optic neuritis",
+                ],
+                "correct": 1,
+                "feedback": "Scintillating scotomas is the correct clinical term. 'Zig-zaggy lights' in lay language = scintillating scotomas in EHR documentation. Lay language loses points on the documentation rubric.",
+            },
+            {
+                "stage": "Physical Exam",
+                "q": "This is a clinical diagnosis — no red flags on SNOOP4 screen. What happens if you order a CT head?",
+                "options": [
+                    "It confirms the migraine diagnosis",
+                    "It earns you extra points for thoroughness",
+                    "It triggers the 'harmful to patient' flag — Tests score drops to 0%",
+                    "It is required for any severe headache",
+                ],
+                "correct": 2,
+                "feedback": "Critical trap. Ordering imaging on a classic migraine with normal exam and negative SNOOP4 = harmful flag. The iHuman platform will zero your Tests score for unnecessary radiation exposure.",
+            },
+            {
+                "stage": "Physical Exam",
+                "q": "Which medication is the correct acute treatment for this migraine case?",
+                "options": [
+                    "Ibuprofen 800mg PO TID",
+                    "Sumatriptan 50mg PO at onset, may repeat ×1 after 2h",
+                    "Acetaminophen 1g PO TID",
+                    "Propranolol 40mg PO BID",
+                ],
+                "correct": 1,
+                "feedback": "Sumatriptan 50mg is the correct iHuman answer for this case. Remember: max 200mg/day, ≤10 days/month, hold if pregnant. Propranolol is for prophylaxis, not acute.",
+            },
+        ],
+    },
+    "kennedy": {
+        "title": "Kennedy Poole — ADHD, Predominantly Inattentive",
+        "meta": "10-year-old female · NR 602 Week 4 · Chamberlain",
+        "questions": [
+            {
+                "stage": "History",
+                "q": "Patient is a 10-year-old child. Who should receive the history questions?",
+                "options": [
+                    "The child directly — she can answer for herself",
+                    "Both child and parent equally",
+                    "The parent — history questions for pediatric cases go to the caregiver",
+                    "The school counselor",
+                ],
+                "correct": 2,
+                "feedback": "Correct. For pediatric iHuman cases, history questions are directed to the parent/caregiver. The opener is 'How can I help her today?' — not 'How can I help you?' This is the pivotal communication question for pediatric cases.",
+            },
+            {
+                "stage": "History",
+                "q": "To meet DSM-5 criteria for ADHD inattentive, symptoms must be present in how many settings?",
+                "options": [
+                    "Only at school",
+                    "At home only",
+                    "At least 2 settings (home + school minimum)",
+                    "All settings including social and recreational",
+                ],
+                "correct": 2,
+                "feedback": "DSM-5 requires symptoms in ≥2 settings. Asking about both home AND school behavior is scored on this case. Single-setting attention problems point to environmental issues, not ADHD.",
+            },
+            {
+                "stage": "Physical Exam",
+                "q": "Before starting stimulant medication for ADHD, which test is required as baseline?",
+                "options": [
+                    "CBC and metabolic panel",
+                    "Thyroid panel (TSH)",
+                    "Electrocardiogram (ECG)",
+                    "Brain MRI",
+                ],
+                "correct": 2,
+                "feedback": "Baseline ECG is required before stimulant initiation. This is a scored item on the Kennedy Poole case — missing it costs management plan points. Stimulants can cause cardiac events in undiagnosed structural heart disease.",
+            },
+            {
+                "stage": "Physical Exam",
+                "q": "What is the correct starting dose of Methylphenidate ER for this 10-year-old?",
+                "options": [
+                    "5mg PO daily",
+                    "18mg PO every morning",
+                    "36mg PO every morning",
+                    "10mg PO BID",
+                ],
+                "correct": 1,
+                "feedback": "Methylphenidate ER 18mg every morning is the correct iHuman starting dose for this case. It is a Schedule II controlled substance — 0 refills on the prescription, parent must obtain new written script monthly.",
+            },
+        ],
+    },
+}
+
 
 # ─── HTML helpers ─────────────────────────────────────────────────
 def esc(s):
@@ -1034,6 +1200,200 @@ def build_thankyou():
                page_class="thank-you")
 
 
+# ─── PAGE: Simulator ──────────────────────────────────────────────
+def build_simulator():
+    """Build the interactive case simulator page (free clinical reasoning practice)."""
+    import json as _json
+    sim_data_json = _json.dumps(SIMULATOR_DATA)
+
+    body = f'''
+<section class="simulator-hero">
+  <div class="container">
+    <span class="hero-eyebrow"><span class="dot"></span>Free · Take a minute</span>
+    <h1>Practice. Don't pay to learn.</h1>
+    <p class="hero-sub">
+      Three iHuman cases. Real scoring patterns. See which choices lose points
+      and why. No signup, no payment — this is what free clinical reasoning
+      education looks like.
+    </p>
+  </div>
+</section>
+
+<section class="simulator-section">
+  <div class="container">
+
+    <div class="sim-case-picker">
+      <span class="sim-case-picker-label">Pick a case:</span>
+      <button class="sim-case-btn is-active" data-case="harvey" onclick="loadCase('harvey', this)">Harvey Hoya — HTN</button>
+      <button class="sim-case-btn" data-case="bebe" onclick="loadCase('bebe', this)">Bebe Babbitt — Migraine</button>
+      <button class="sim-case-btn" data-case="kennedy" onclick="loadCase('kennedy', this)">Kennedy Poole — ADHD</button>
+    </div>
+
+    <div class="sim-container">
+      <div class="sim-header">
+        <div>
+          <div class="sim-case-title" id="sim-case-title">Harvey Hoya — Hypertension Stage 2</div>
+          <div class="sim-case-meta" id="sim-case-meta">57-year-old male · NR 509 / NR 511 Week 5 · Chamberlain</div>
+        </div>
+        <div class="sim-score-pill" id="sim-score-display">Score: 0%</div>
+      </div>
+
+      <div class="sim-progress">
+        <div class="sim-prog-step" id="prog-1"></div>
+        <div class="sim-prog-step" id="prog-2"></div>
+        <div class="sim-prog-step" id="prog-3"></div>
+        <div class="sim-prog-step" id="prog-4"></div>
+      </div>
+
+      <div class="sim-body" id="sim-body"></div>
+
+      <div class="sim-footer">
+        <span class="sim-stage-label" id="sim-stage-label">Stage 1 of 4 — History (free)</span>
+        <button class="btn btn-primary btn-sm" id="sim-next-btn" onclick="nextQuestion()" style="display:none">Next question →</button>
+      </div>
+    </div>
+
+    <div id="sim-unlock-section" style="display:none">
+      <div class="sim-unlock">
+        <h3>You've completed the free simulator.</h3>
+        <p>
+          The full reasoning map for any case — every history question, every PE
+          finding, every DDx ranking, every harmful-flag trap — ships in a
+          complete CPL guide. Same day, $150, or 15% off your first with code CPLFIRST15.
+        </p>
+        <div class="sim-unlock-ctas">
+          <a href="/cases/" class="btn btn-lime">Browse complete case guides</a>
+          <button class="btn btn-ghost" onclick="resetCurrentCase()">Try this case again</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const SIMULATOR_DATA = {sim_data_json};
+let currentCase = 'harvey';
+let currentQuestion = 0;
+let score = 0;
+let answered = [];
+
+function loadCase(caseId, btn) {{
+  currentCase = caseId;
+  currentQuestion = 0;
+  score = 0;
+  answered = [];
+  document.querySelectorAll('.sim-case-btn').forEach(b => b.classList.remove('is-active'));
+  if (btn) btn.classList.add('is-active');
+  const data = SIMULATOR_DATA[caseId];
+  document.getElementById('sim-case-title').textContent = data.title;
+  document.getElementById('sim-case-meta').textContent = data.meta;
+  document.getElementById('sim-unlock-section').style.display = 'none';
+  document.getElementById('sim-next-btn').style.display = 'none';
+  updateScore();
+  updateProgress();
+  renderQuestion();
+}}
+
+function renderQuestion() {{
+  const data = SIMULATOR_DATA[currentCase];
+  const q = data.questions[currentQuestion];
+  if (!q) {{ finishCase(); return; }}
+  const body = document.getElementById('sim-body');
+  body.innerHTML = `
+    <div class="sim-question-stage">${{q.stage}}</div>
+    <div class="sim-question">${{q.q}}</div>
+    <div class="sim-options" id="sim-options"></div>
+    <div class="sim-feedback" id="sim-feedback" style="display:none"></div>
+  `;
+  const opts = document.getElementById('sim-options');
+  q.options.forEach((opt, idx) => {{
+    const div = document.createElement('button');
+    div.className = 'sim-option';
+    div.textContent = opt;
+    div.onclick = () => selectOption(idx);
+    opts.appendChild(div);
+  }});
+  document.getElementById('sim-stage-label').textContent =
+    `Stage ${{currentQuestion + 1}} of ${{data.questions.length}} — ${{q.stage}} (free)`;
+  document.getElementById('sim-next-btn').style.display = 'none';
+}}
+
+function selectOption(idx) {{
+  if (answered.includes(currentQuestion)) return;
+  answered.push(currentQuestion);
+  const q = SIMULATOR_DATA[currentCase].questions[currentQuestion];
+  const correct = idx === q.correct;
+  if (correct) score++;
+  const opts = document.querySelectorAll('#sim-options .sim-option');
+  opts.forEach((el, i) => {{
+    el.classList.add('is-answered');
+    if (i === q.correct) el.classList.add('is-correct');
+    if (i === idx && !correct) el.classList.add('is-wrong');
+  }});
+  const fb = document.getElementById('sim-feedback');
+  fb.className = correct ? 'sim-feedback is-correct' : 'sim-feedback is-wrong';
+  fb.innerHTML = `<strong>${{correct ? '✓ Correct' : '✗ Not quite'}}</strong><br>${{q.feedback}}`;
+  fb.style.display = 'block';
+  updateScore();
+  document.getElementById('sim-next-btn').style.display = '';
+}}
+
+function nextQuestion() {{
+  currentQuestion++;
+  updateProgress();
+  renderQuestion();
+}}
+
+function updateScore() {{
+  const data = SIMULATOR_DATA[currentCase];
+  const pct = Math.round((score / data.questions.length) * 100);
+  document.getElementById('sim-score-display').textContent = `Score: ${{pct}}%`;
+}}
+
+function updateProgress() {{
+  for (let i = 1; i <= 4; i++) {{
+    const el = document.getElementById(`prog-${{i}}`);
+    if (!el) continue;
+    el.className = 'sim-prog-step';
+    if (i < currentQuestion + 1) el.classList.add('is-done');
+    if (i === currentQuestion + 1) el.classList.add('is-active');
+  }}
+}}
+
+function finishCase() {{
+  const data = SIMULATOR_DATA[currentCase];
+  const pct = Math.round((score / data.questions.length) * 100);
+  document.getElementById('sim-body').innerHTML = `
+    <div class="sim-finish">
+      <div class="sim-finish-score">${{pct}}%</div>
+      <div class="sim-finish-label">You got ${{score}} of ${{data.questions.length}} questions right.</div>
+      <p class="sim-finish-note">
+        That's just 4 of ~35 questions on this case. A complete CPL guide maps
+        every scored question, every PE finding, every DDx ranking, and every
+        management decision.
+      </p>
+    </div>
+  `;
+  document.getElementById('sim-next-btn').style.display = 'none';
+  document.getElementById('sim-stage-label').textContent = 'Complete';
+  document.getElementById('sim-unlock-section').style.display = '';
+}}
+
+function resetCurrentCase() {{
+  loadCase(currentCase, document.querySelector(`.sim-case-btn[data-case="${{currentCase}}"]`));
+}}
+
+loadCase('harvey', document.querySelector('.sim-case-btn[data-case="harvey"]'));
+</script>
+'''
+
+    write_page("simulator", body,
+               title="Case Simulator",
+               description="Practice clinical reasoning on real iHuman case patterns. Free simulator with three cases, scored feedback, no signup.",
+               page_class="simulator")
+
+
 # ─── PAGE: About ──────────────────────────────────────────────────
 def build_about():
     body = """
@@ -1243,6 +1603,8 @@ def build_all():
     print("  ✓ confirm/")
     build_thankyou()
     print("  ✓ thank-you/")
+    build_simulator()
+    print("  ✓ simulator/")
     build_about()
     print("  ✓ about/")
     build_faq()
