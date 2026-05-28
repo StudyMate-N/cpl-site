@@ -110,11 +110,11 @@ def nav_html():
       </span>
     </a>
     <ul class="nav-links">
+      <li><a href="/simulator/">Simulator</a></li>
       <li><a href="/free-resources/">Free Cheat Sheets</a></li>
       <li><a href="/cases/">Case Catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
-      <li><a href="/cases/" class="btn btn-primary btn-sm">Get a Guide</a></li>
     </ul>
   </div>
 </nav>
@@ -128,7 +128,7 @@ def footer_html():
   <div class="footer-inner">
     <div>
       <div class="footer-brand">Clinical Performance Lab</div>
-      <p class="footer-tagline">Submission-ready iHuman case guides built from verified student submissions. Used by NR509, NR511, NR602, NURS 6512, NRNP 6541 students.</p>
+      <p class="footer-tagline">Clinical reasoning platform for nursing students. Free simulator, free cheat sheets, complete iHuman case guides for purchase. Built on 200+ verified submissions across Chamberlain (NR509, NR511, NR602), Walden (NURS 6512, NRNP 6531, 6541, 6552, 6568), and other programs.</p>
       <p class="footer-tagline" style="margin-top:12px;">
         <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
       </p>
@@ -136,7 +136,9 @@ def footer_html():
     <div>
       <h4>Resources</h4>
       <ul>
+        <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
+        <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
         <li><a href="/faq/">FAQ</a></li>
       </ul>
@@ -269,9 +271,13 @@ def case_card_html(case):
 # ─── PAGE: Home ───────────────────────────────────────────────────
 def build_home():
     cheat_cards = "".join(cheat_sheet_card_html(cs) for cs in CHEAT_SHEETS)
-    # Homepage shows only same-day cases — the 9 with complete verified guides
+    # Homepage shows only same-day cases — the ones with complete verified guides
     featured = by_lead_time("same-day")
     case_cards = "".join(case_card_html(c) for c in featured)
+
+    total_cases = len(CASES)
+    same_day_count = len(featured)
+    build_count = total_cases - same_day_count
 
     pricing_html = ""
     for k, p in PRICING.items():
@@ -290,19 +296,61 @@ def build_home():
     body = f"""
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow" data-reveal><span class="dot"></span>iHuman case mastery</span>
-    <h1 data-reveal data-reveal-delay="80">Walk into your case with <span class="accent">the answer key.</span></h1>
+    <span class="hero-eyebrow" data-reveal><span class="dot"></span>Clinical Reasoning · Made Visible</span>
+    <h1 data-reveal data-reveal-delay="80">Learn to think like a clinician.<br><span class="accent">Master iHuman.</span></h1>
     <p class="hero-sub" data-reveal data-reveal-delay="160">
-      Submission-ready iHuman case guides built from verified student submissions across NR509, NR511, NR602, NURS 6512, and NRNP 6541. Every section walked through. Every scoring trap mapped. Word + PDF, delivered same day.
+      CPL teaches the clinical reasoning patterns iHuman scores — the question hierarchies, the must-not-miss diagnoses, the documentation language, the harmful-flag traps. Practice free with our simulator. Cheat sheets ship instant. Complete case guides delivered same day.
     </p>
     <div class="hero-ctas" data-reveal data-reveal-delay="240">
-      <a href="/cases/" class="btn btn-primary btn-lg">Browse case catalog</a>
-      <a href="#free-resources" class="btn btn-ghost btn-lg">Get free cheat sheets</a>
+      <a href="/simulator/" class="btn btn-primary btn-lg">Try the free simulator →</a>
+      <a href="/cases/" class="btn btn-ghost btn-lg">Browse {total_cases} cases</a>
     </div>
     <div class="hero-trust" data-reveal data-reveal-delay="320">
-      <span><strong data-counter="200" data-counter-suffix="+">0</strong> verified student submissions</span>
-      <span><strong data-counter="38">0</strong> cases in catalog</span>
+      <span><strong data-counter="200" data-counter-suffix="+">0</strong> verified submissions analyzed</span>
+      <span><strong data-counter="{total_cases}">0</strong> cases catalogued</span>
+      <span><strong data-counter="9">0</strong> courses supported</span>
       <span><strong>Same-day</strong> delivery</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-narrow">
+  <div class="container">
+    <div class="how-it-works-grid">
+
+      <div class="how-step" data-reveal>
+        <div class="how-step-num">01</div>
+        <h3>Practice free with our simulator</h3>
+        <p>
+          Click through realistic iHuman case stages — history, PE, DDx, plan.
+          See which choices score, which lose points, and why. Three cases
+          available for free practice right now.
+        </p>
+        <a href="/simulator/" class="link-arrow">Open the simulator →</a>
+      </div>
+
+      <div class="how-step" data-reveal data-reveal-delay="80">
+        <div class="how-step-num">02</div>
+        <h3>Master the patterns with cheat sheets</h3>
+        <p>
+          Four PDF guides covering history, physical exam, differential
+          diagnosis, and the management plan. The reasoning patterns that work
+          across every case template iHuman uses.
+        </p>
+        <a href="#free-resources" class="link-arrow">Get the cheat sheets →</a>
+      </div>
+
+      <div class="how-step" data-reveal data-reveal-delay="160">
+        <div class="how-step-num">03</div>
+        <h3>Get your case guide when it counts</h3>
+        <p>
+          For the cases that count toward your grade — submission-ready guides
+          with every history question, PE finding, DDx ranking, and management
+          decision mapped to iHuman's scoring rubric. Same-day delivery.
+        </p>
+        <a href="/cases/" class="link-arrow">Browse {total_cases} cases →</a>
+      </div>
+
     </div>
   </div>
 </section>
@@ -311,8 +359,8 @@ def build_home():
   <div class="container">
     <div class="section-title-block">
       <span class="eyebrow">Start free</span>
-      <h2>The CPL Cheat Sheet Library</h2>
-      <p>Four free PDFs covering the universal patterns that score on every iHuman case. Pick which to download.</p>
+      <h2>Free clinical reasoning frameworks</h2>
+      <p>Four PDFs covering the universal patterns CPL has identified across 200+ verified iHuman case submissions. The reasoning that transfers to every case template — yours and ours.</p>
     </div>
 
     <form id="leadMagnetForm" data-form="leadmagnet">
@@ -338,14 +386,14 @@ def build_home():
   <div class="container">
     <div class="section-title-block">
       <span class="eyebrow">Case Catalog</span>
-      <h2>Ready-to-submit case guides</h2>
-      <p>Each guide is the full answer key for one iHuman case — every history question, every PE finding, every test, every EHR phrase, every management decision.</p>
+      <h2>Case guides built from verified scoring data</h2>
+      <p>Every CPL guide maps the actual iHuman scoring rubric: which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions. {same_day_count} complete guides ship same day. {build_count} more available within 24–48h.</p>
     </div>
     <div class="case-grid">
       {case_cards}
     </div>
     <div class="text-center mt-4">
-      <a href="/cases/" class="btn btn-ghost">See all {len(CASES)} cases →</a>
+      <a href="/cases/" class="btn btn-ghost">See all {total_cases} cases →</a>
     </div>
   </div>
 </section>
@@ -354,8 +402,8 @@ def build_home():
   <div class="container">
     <div class="section-title-block">
       <span class="eyebrow">Pricing</span>
-      <h2>Pick a single case or a bundle.</h2>
-      <p>Bundles are mix-and-match. Use code <strong>CPLFIRST15</strong> for 15% off your first single case.</p>
+      <h2>When you need the complete guide.</h2>
+      <p>The simulator and cheat sheets are free forever. When a case counts toward your grade, our complete guides ship same day. Bundles are mix-and-match. New customer? Code <strong>CPLFIRST15</strong> takes 15% off your first single case.</p>
     </div>
     <div class="pricing-grid">
       {pricing_html}
@@ -366,7 +414,7 @@ def build_home():
 
     write_page("", body,
                title=None,
-               description="iHuman case guides built from verified student submissions. Walk into your case with the answer key.",
+               description="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.",
                page_class="home")
 
 
@@ -459,23 +507,28 @@ def build_catalog():
         for c in all_cases
     ])
 
+    total = len(all_cases)
+    same_day_n = sum(1 for c in all_cases if c.get("lead_time") == "same-day")
+    fast_n = sum(1 for c in all_cases if c.get("lead_time") == "fast-build")
+    request_n = sum(1 for c in all_cases if c.get("lead_time") == "on-request")
+
     body = f"""
 <section class="hero">
   <div class="container">
     <span class="hero-eyebrow"><span class="dot"></span>Case Catalog</span>
-    <h1><span data-counter="{len(all_cases)}" data-counter-suffix=" cases">0 cases</span>. <span class="accent">All orderable today.</span></h1>
+    <h1><span data-counter="{total}" data-counter-suffix=" cases">0 cases</span>. <span class="accent">All available today.</span></h1>
     <p class="hero-sub">
-      9 complete guides deliver same-day. 9 more build within 24–48h. 20 available on request across NR509, NR511, NR602, NURS 6512, NRNP 6531, 6541, 6542, 6552, and 6568. Use code <strong>CPLFIRST15</strong> for 15% off your first.
+      From verified scoring data across 200+ submissions. {same_day_n} ship same day. {total - same_day_n} more build within 24–48h on order. Across NR509, NR511, NR602, NURS 6512, NRNP 6531/6541/6552/6568, and Kaplan-platform programs.
     </p>
     <div class="hero-ctas">
       <button class="btn btn-primary btn-lg" onclick="document.getElementById('catalog-grid').scrollIntoView({{behavior:'smooth'}})">Browse cases ↓</button>
       <button class="btn btn-ghost btn-lg" onclick="document.getElementById('bundle-builder').scrollIntoView({{behavior:'smooth'}})">Build a bundle →</button>
     </div>
     <div class="hero-trust" style="margin-top:28px;">
-      <span><strong>9</strong> same-day guides</span>
-      <span><strong>9</strong> fast-build (24–48h)</span>
-      <span><strong>20</strong> on-request (48–72h)</span>
-      <span><strong>9</strong> courses covered</span>
+      <span><strong data-counter="{same_day_n}">0</strong> same-day guides</span>
+      <span><strong data-counter="{fast_n}">0</strong> fast-build (24–48h)</span>
+      <span><strong data-counter="{request_n}">0</strong> on-request</span>
+      <span><strong data-counter="9">0</strong> courses covered</span>
     </div>
   </div>
 </section>
@@ -980,41 +1033,50 @@ def build_about():
 <section class="hero">
   <div class="container container-narrow">
     <span class="hero-eyebrow"><span class="dot"></span>About</span>
-    <h1>Built by clinicians. <span class="accent">Verified by students.</span></h1>
+    <h1>Clinical reasoning is the skill <span class="accent">iHuman is actually testing.</span></h1>
     <p class="hero-sub">
-      CPL exists for one reason: nursing students deserve clinical reasoning resources that match the way iHuman actually scores them. Every guide is reverse-engineered from real student submissions, real platform feedback, real faculty markups.
+      iHuman simulates virtual patient encounters. It scores you on the exact same skills you'll be graded on as a practicing NP. The problem isn't that iHuman is hard — it's that the scoring logic is invisible. CPL makes it visible.
     </p>
   </div>
 </section>
 
 <section class="section">
   <div class="container container-narrow">
-    <h2>What CPL is.</h2>
-    <p>Clinical Performance Lab makes submission-ready iHuman case guides for nursing students. Each guide walks through every section a student must complete — history, physical exam, key findings, differential, tests, EHR documentation, management plan, SOAP note — and maps the specific scoring patterns that iHuman and faculty look for.</p>
+    <p>iHuman scores you on the same clinical judgment you'll use as a practicing NP:</p>
+    <ul>
+      <li>Which history questions to ask, in what order</li>
+      <li>Which physical exam items are pertinent to this presentation</li>
+      <li>How to rank differential diagnoses by probability and severity</li>
+      <li>Which tests to order — and which trigger "harmful to patient"</li>
+      <li>How to write documentation that matches clinical reality</li>
+    </ul>
+    <p>Most students never see <em>why</em> they lost 15 points on a case — only that they did.</p>
 
-    <h2 class="mt-4">What CPL is not.</h2>
-    <p>CPL is not a clinical reference. The medication dosing and management content in our guides reflects what the iHuman platform expects on those specific case templates. <strong>Verify all dosing with current Epocrates or UpToDate before any clinical application.</strong> We're explicit about this on every page that mentions a medication.</p>
+    <h2 class="mt-4">What CPL does</h2>
+    <p>We make iHuman's invisible scoring logic visible.</p>
+    <p><strong>For practice:</strong> Our case simulator walks you through real case patterns, scoring your choices and explaining the reasoning in real time. Free.</p>
+    <p><strong>For mastery:</strong> Our four cheat sheet PDFs codify the universal patterns that score on every case template — history hierarchies, PE checklists, DDx ranking logic, and the harmful-flag traps. Free, email-delivered.</p>
+    <p><strong>For graded submissions:</strong> Our complete case guides give you the verified scoring map for a specific case — every history question, every PE item, every DDx, every management decision, with the clinical reasoning behind each. $150 per case, same-day delivery, mix-and-match bundles.</p>
+
+    <h2 class="mt-4">Where the data comes from</h2>
+    <p>Every CPL guide is built from verified student submissions. We analyze 100% performance reports, client screenshots, and multi-submission pattern data to map what actually scores on the iHuman platform — not what should score in theory, what does score in practice.</p>
+    <p>We've analyzed 200+ submissions across NR509, NR511, NR602, NURS 6512, NRNP 6531, 6541, 6552, and 6568. The patterns we identify get codified into the cheat sheets and simulator. The case-specific scoring maps get codified into the guides.</p>
+
+    <h2 class="mt-4">Who we serve</h2>
+    <p>Primarily nursing students at Chamberlain University and Walden University. Increasingly: PMHNP students at South University, Regis College, and others using the Kaplan Clinical Canvas platform. The reasoning patterns transfer across institutions — the case-specific scoring maps are institution-specific.</p>
+
+    <h2 class="mt-4">What CPL is not</h2>
+    <p>CPL is not a clinical reference. The medication dosing and management content in our guides reflects what the iHuman platform expects on those specific case templates. <strong>Verify all dosing with current Epocrates or UpToDate before any clinical application.</strong></p>
     <p>CPL is also not affiliated with iHuman, Kaplan, Chamberlain University, Walden University, or any other institution. We're an independent educational resource.</p>
 
-    <h2 class="mt-4">How a guide is built.</h2>
-    <p>Each guide starts with an intake — patient name, school, course, and any screenshots the student has of their case so far. From there:</p>
-    <ol>
-      <li>We search verified student-submitted research across Docsity, Studocu, CourseHero, NursingHero, and several other platforms.</li>
-      <li>We cross-reference against iHuman performance reports (especially 100% submissions) to confirm scored item counts.</li>
-      <li>We layer in our own clinical knowledge base (200+ submissions across NR509, NR511, NR602, NURS 6512, NRNP 6541).</li>
-      <li>We build the guide in Word and convert to PDF, then validate via a pre-delivery checklist of 12 items.</li>
-      <li>We follow up post-delivery to log any platform discrepancies and refine the next iteration.</li>
-    </ol>
-
-    <h2 class="mt-4">The team.</h2>
-    <p>CPL is run by Nurb, an educator and former tutor who built the first iHuman case guide in 2024 after watching too many students lose points to the same handful of patterns.</p>
-    <p>Contact: <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a></p>
+    <h2 class="mt-4">Contact</h2>
+    <p><a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a> — for case orders, support, or partnership inquiries.</p>
   </div>
 </section>
 """
     write_page("about", body,
                title="About",
-               description="About Clinical Performance Lab — built by clinicians, verified by students.",
+               description="Clinical reasoning is the skill iHuman is actually testing. CPL makes the invisible scoring logic visible — free simulator, free cheat sheets, complete case guides.",
                page_class="about")
 
 
