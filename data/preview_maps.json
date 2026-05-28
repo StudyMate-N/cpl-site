@@ -1,0 +1,35 @@
+{
+  "harvey-hoya-htn": {
+    "total_pages": 24,
+    "clear": [1, 6, 9, 16],
+    "blurred": [2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24],
+    "section_labels": {
+      "1": "Cover & Case Overview",
+      "6": "History — verbatim question bank",
+      "9": "Physical Exam — complete checklist",
+      "16": "Diagnosis — Tests & Differentials"
+    }
+  },
+  "bebe-babbitt-migraine": {
+    "total_pages": 25,
+    "clear": [1, 6, 10, 17],
+    "blurred": [2, 3, 4, 5, 7, 8, 9, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25],
+    "section_labels": {
+      "1": "Cover & Case Overview",
+      "6": "History — verbatim question bank",
+      "10": "Physical Exam — complete checklist",
+      "17": "Diagnosis — Tests & Differentials"
+    }
+  },
+  "cynthia-francis-hyperlipidemia": {
+    "total_pages": 21,
+    "clear": [1, 5, 8, 15],
+    "blurred": [2, 3, 4, 6, 7, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21],
+    "section_labels": {
+      "1": "Cover & Case Overview",
+      "5": "History — verbatim question bank",
+      "8": "Physical Exam — complete checklist",
+      "15": "Diagnosis — Tests & Differentials"
+    }
+  }
+}

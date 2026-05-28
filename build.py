@@ -580,51 +580,171 @@ def build_catalog():
 # ─── PAGE: Individual case preview ────────────────────────────────
 def get_preview_data(slug):
     """
-    Check if a preview folder exists for the given slug.
-    Returns a dict with preview metadata, or None if no preview exists.
+    Read the preview meta.json for a case and return a normalized dict, or
+    None if no preview exists.
+
+    Real previews (is_sample=False) carry clear_pages (one per section),
+    section_labels, and stack_blurred (3 teaser pages for the locked stack).
+
+    Sample previews (is_sample=True) carry sample_source + source_title and
+    are rendered from watermarked source pages in /previews/_watermarked/.
     """
     import json as _json
-    import math as _math
     preview_dir = os.path.join(PUBLIC, 'previews', slug)
-    if not os.path.isdir(preview_dir):
-        return None
-    page_1 = os.path.join(preview_dir, 'page_1.png')
-    if not os.path.exists(page_1):
-        return None
-    # Count available page images
-    pages = sorted([
-        f for f in os.listdir(preview_dir)
-        if f.startswith('page_') and f.endswith('.png')
-    ])
-    if not pages:
-        return None
-    # Read meta.json
     meta_path = os.path.join(preview_dir, 'meta.json')
-    meta = {}
-    if os.path.exists(meta_path):
-        with open(meta_path) as f:
-            try:
-                meta = _json.load(f)
-            except Exception:
-                meta = {}
-    total_pages = meta.get('total_pages', 24)
+    if not os.path.isfile(meta_path):
+        return None
+    try:
+        with open(meta_path, encoding='utf-8') as f:
+            meta = _json.load(f)
+    except Exception:
+        return None
+
     is_sample = meta.get('is_sample', True)
-    sample_label = meta.get('sample_label', '')
-    # 15% rule: page 1 clear, pages 2 -> ceil(total*0.15) blurred
-    blurred_end = _math.ceil(total_pages * 0.15)
-    blurred_end = max(blurred_end, 2)  # always at least 1 blurred page
-    blurred_pages = [p for p in pages if p != 'page_1.png']
-    # Only use blurred pages up to 15% count
-    blurred_pages = blurred_pages[:blurred_end - 1]
+    total_pages = meta.get('total_pages', 24)
+
+    if not is_sample:
+        clear_pages = meta.get('clear_pages', [1])
+        return {
+            'slug': slug,
+            'is_sample': False,
+            'total_pages': total_pages,
+            'clear_pages': clear_pages,
+            'stack_blurred': meta.get('stack_blurred', []),
+            'section_labels': meta.get('section_labels', {}),
+            'clear_count': len(clear_pages),
+            'locked_count': max(total_pages - len(clear_pages), 0),
+        }
+
     return {
         'slug': slug,
-        'is_sample': is_sample,
-        'sample_label': sample_label,
+        'is_sample': True,
         'total_pages': total_pages,
-        'blurred_end': blurred_end,
-        'blurred_pages': blurred_pages,
-        'has_real_preview': not is_sample,
+        'sample_source': meta.get('sample_source'),
+        'source_title': meta.get('source_title', 'a completed CPL case'),
+        'sample_label': meta.get('sample_label', ''),
     }
+
+
+def _render_preview_section(case, preview):
+    """Render the PDF preview block. Two tracks: real (section pages + locked
+    stack) and sample (watermarked format excerpts + honest warning + CTA)."""
+    if not preview:
+        return ''
+
+    slug = case['slug']
+    total = preview['total_pages']
+    order_subject = esc(f"CPL Order - {case['title']}").replace(' ', '%20')
+    title = esc(case['title'])
+
+    # Counts for the value copy (fall back to generic phrasing)
+    q_count = case.get('preview_hpi_count')
+    pe_count = case.get('preview_pe_count')
+    dx_count = case.get('preview_dx_count')
+    if q_count and pe_count and dx_count:
+        value_line = (f"{q_count} scored history questions, {pe_count} physical "
+                      f"exam items, {dx_count} ranked differentials")
+    else:
+        value_line = ("the full history bank, scored PE checklist, ranked "
+                      "differentials")
+
+    # ── Real preview ───────────────────────────────────────────────
+    if not preview['is_sample']:
+        clear_pages = preview['clear_pages']
+        labels = preview['section_labels']
+        clear_count = preview['clear_count']
+        locked_count = preview['locked_count']
+
+        clear_html = ''
+        for n in clear_pages:
+            label = labels.get(str(n), f"Page {n}")
+            clear_html += f'''
+        <div class="pdf-page pdf-page-clear">
+          <div class="pdf-page-num">Page {n} of {total} &mdash; {esc(label)}</div>
+          <img src="/previews/{slug}/page_{n}.png"
+               alt="{title} guide &mdash; {esc(label)}"
+               loading="lazy" class="pdf-page-img">
+        </div>'''
+
+        stack_html = ''
+        for i, n in enumerate(preview['stack_blurred']):
+            stack_html += f'''
+          <div class="pdf-page pdf-page-blurred" style="z-index:{10-i}">
+            <div class="pdf-page-num">Page {n} of {total} &mdash; Locked</div>
+            <img src="/previews/{slug}/page_{n}_blurred.png"
+                 alt="Locked guide page" loading="lazy"
+                 class="pdf-page-img blurred-img">
+          </div>'''
+
+        return f'''
+<div class="pdf-preview-section" data-reveal>
+  <div class="pdf-preview-label">
+    <span class="pdf-real-badge">&#9889; Guide Preview</span>
+    <span class="pdf-real-note">{clear_count} sample pages from your actual {title} guide &mdash; one from each section</span>
+  </div>
+  {clear_html}
+  <div class="pdf-locked-stack">
+    {stack_html}
+    <div class="pdf-unlock-overlay">
+      <div class="pdf-lock-icon">&#128274;</div>
+      <div class="pdf-lock-title">{locked_count} more pages &mdash; locked</div>
+      <div class="pdf-lock-sub">
+        Full history bank ({value_line}), complete PE checklist, ranked DDx,
+        EHR documentation, SOAP note, and management plan with APA references.
+      </div>
+      <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}" class="btn btn-primary">
+        Get the complete {title} guide &mdash; $150
+      </a>
+      <div class="pdf-lock-note">
+        Word + PDF &middot; Same-day delivery &middot;
+        Use code <strong>CPLFIRST15</strong> for 15% off your first
+      </div>
+    </div>
+  </div>
+</div>'''
+
+    # ── Sample preview ─────────────────────────────────────────────
+    source = preview['sample_source']
+    source_title = esc(preview['source_title'])
+    return f'''
+<div class="pdf-preview-section is-sample" data-reveal>
+  <div class="pdf-sample-warning">
+    <div class="pdf-sample-warning-icon">&#9888;&#65039;</div>
+    <div class="pdf-sample-warning-text">
+      <strong>This isn't your case preview.</strong>
+      We haven't built {title} yet &mdash; these images are stamped excerpts
+      from one of our completed guides ({source_title}). They show our format.
+      Your guide will be written specifically for {title} and follow this same structure.
+    </div>
+  </div>
+
+  <div class="pdf-page pdf-page-sample">
+    <div class="pdf-page-num">Example &mdash; Cover &amp; case overview format</div>
+    <img src="/previews/_watermarked/{source}/sample_1.png"
+         alt="Example cover format" loading="lazy" class="pdf-page-img">
+  </div>
+
+  <div class="pdf-page pdf-page-sample">
+    <div class="pdf-page-num">Example &mdash; History section format</div>
+    <img src="/previews/_watermarked/{source}/sample_2.png"
+         alt="Example history section format" loading="lazy" class="pdf-page-img">
+  </div>
+
+  <div class="pdf-sample-cta">
+    <div class="pdf-sample-cta-title">Order {title} and get your own complete guide</div>
+    <div class="pdf-sample-cta-sub">
+      Word + PDF, built specifically for {title}. {total}+ pages of
+      patient-specific content covering {value_line}, EHR documentation,
+      SOAP note, and management plan.
+    </div>
+    <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}" class="btn btn-primary">
+      Order this guide &mdash; $150
+    </a>
+    <div class="pdf-sample-cta-note">
+      Use code <strong>CPLFIRST15</strong> for 15% off your first single case.
+    </div>
+  </div>
+</div>'''
 
 
 def build_case_preview(case):
@@ -683,74 +803,7 @@ def build_case_preview(case):
 
     # ── PDF Preview Section ──────────────────────────────────────
     preview = get_preview_data(case['slug'])
-    if preview:
-        slug = case['slug']
-        total = preview['total_pages']
-        blurred_end = preview['blurred_end']
-
-        if preview['is_sample']:
-            label_html = f'''
-              <span class="pdf-sample-badge">Sample Preview</span>
-              <span class="pdf-sample-note">{esc(preview["sample_label"])}</span>'''
-        else:
-            label_html = f'''
-              <span class="pdf-real-badge">Guide Preview</span>
-              <span class="pdf-real-note">First 15% of your actual guide &mdash; {blurred_end} of {total} pages shown</span>'''
-
-        # Clear page 1
-        clear_page_html = f'''
-        <div class="pdf-page pdf-page-clear">
-          <div class="pdf-page-num">Page 1 of {total} &mdash; Cover &amp; Contents</div>
-          <img src="/previews/{slug}/page_1.png"
-               alt="Guide cover page"
-               loading="lazy"
-               class="pdf-page-img">
-        </div>'''
-
-        # Blurred pages
-        blurred_html = ''
-        for i, fname in enumerate(preview['blurred_pages']):
-            page_num = i + 2
-            blurred_html += f'''
-          <div class="pdf-page pdf-page-blurred" style="z-index:{10-i}">
-            <div class="pdf-page-num">Page {page_num} of {total} &mdash; Locked</div>
-            <img src="/previews/{slug}/{fname}"
-                 alt="Guide page {page_num} - locked"
-                 loading="lazy"
-                 class="pdf-page-img blurred-img">
-          </div>'''
-
-        locked_count = total - blurred_end
-        order_subject = esc(f"CPL Order - {case['title']}")
-
-        pdf_preview_html = f'''
-<div class="pdf-preview-section" data-reveal>
-  <div class="pdf-preview-label">{label_html}
-  </div>
-  {clear_page_html}
-  <div class="pdf-locked-stack">
-    {blurred_html}
-    <div class="pdf-unlock-overlay">
-      <div class="pdf-lock-icon">&#128274;</div>
-      <div class="pdf-lock-title">Pages {blurred_end + 1}&ndash;{total} locked</div>
-      <div class="pdf-lock-sub">
-        Purchase the complete guide to unlock all {locked_count} remaining pages &mdash;
-        verbatim questions, scored PE items, DDx rankings, EHR documentation,
-        SOAP note, and management plan.
-      </div>
-      <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}"
-         class="btn btn-primary">
-        Get this guide &mdash; $150
-      </a>
-      <div class="pdf-lock-note">
-        Word + PDF &middot; Same-day delivery &middot;
-        Use code <strong>CPLFIRST15</strong> for 15% off your first
-      </div>
-    </div>
-  </div>
-</div>'''
-    else:
-        pdf_preview_html = ''
+    pdf_preview_html = _render_preview_section(case, preview)
 
     course_chip = f'<span class="case-tag">{esc(case.get("course",""))}</span>'
     school_chip = f'<span class="case-tag">{esc(case.get("school",""))}</span>'

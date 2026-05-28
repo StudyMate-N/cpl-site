@@ -2,5 +2,42 @@
   "is_sample": false,
   "sample_source": null,
   "total_pages": 21,
+  "clear_pages": [
+    1,
+    5,
+    8,
+    15
+  ],
+  "blurred_pages": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "stack_blurred": [
+    2,
+    3,
+    4
+  ],
+  "section_labels": {
+    "1": "Cover & Case Overview",
+    "5": "History \u2014 verbatim question bank",
+    "8": "Physical Exam \u2014 complete checklist",
+    "15": "Diagnosis \u2014 Tests & Differentials"
+  },
+  "watermarked": false,
   "sample_label": null
 }

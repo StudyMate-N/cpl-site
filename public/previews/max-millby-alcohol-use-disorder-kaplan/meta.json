@@ -1,6 +1,8 @@
 {
   "is_sample": true,
   "sample_source": "harvey-hoya-htn",
+  "source_title": "Harvey Hoya - Hypertension Stage 2",
   "total_pages": 24,
-  "sample_label": "Sample preview from a completed CPL guide. Your Max Millby \u2014 Alcohol Use Disorder guide follows this exact format and structure."
+  "watermarked": true,
+  "sample_label": "Sample - format only. These are stamped excerpts from a different completed case (Harvey Hoya - Hypertension Stage 2). Your guide will follow the same structure with its own case-specific content."
 }

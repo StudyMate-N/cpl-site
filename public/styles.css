@@ -1543,3 +1543,82 @@ a:hover { color: var(--teal-900); text-decoration: underline; }
     font-size: 13px;
   }
 }
+
+/* ── Sample preview treatment (watermarked format-only excerpts) ── */
+.pdf-preview-section.is-sample {
+  border: 2px dashed var(--warm-border);
+  background: var(--cream);
+}
+
+.pdf-sample-warning {
+  display: flex;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--warm-bg);
+  border-bottom: 1px solid var(--warm-border);
+}
+
+.pdf-sample-warning-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.pdf-sample-warning-text {
+  font-size: 13px;
+  color: var(--trap-amber);
+  line-height: 1.6;
+}
+
+.pdf-sample-warning-text strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.pdf-page-sample {
+  padding: 16px;
+  border-bottom: 1px dashed var(--warm-border);
+  background: #fff;
+}
+
+.pdf-sample-cta {
+  padding: 28px 24px;
+  background: var(--ink);
+  color: var(--cream);
+  text-align: center;
+}
+
+.pdf-sample-cta-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.pdf-sample-cta-sub {
+  font-size: 13px;
+  color: rgba(250, 247, 240, 0.75);
+  margin-bottom: 16px;
+  max-width: 48ch;
+  margin-inline: auto;
+  line-height: 1.7;
+}
+
+.pdf-sample-cta .btn {
+  background: var(--lime-500);
+  color: var(--ink);
+}
+
+.pdf-sample-cta .btn:hover {
+  background: var(--lime-400);
+}
+
+.pdf-sample-cta-note {
+  font-size: 12px;
+  color: rgba(250, 247, 240, 0.6);
+  margin-top: 12px;
+}
+
+.pdf-sample-cta-note strong {
+  color: var(--lime-500);
+}

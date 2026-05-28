@@ -1,6 +1,8 @@
 {
   "is_sample": true,
-  "sample_source": "harvey-hoya-htn",
-  "total_pages": 24,
-  "sample_label": "Sample preview from a completed CPL guide. Your Buddy Theodore \u2014 Preventive Care guide follows this exact format and structure."
+  "sample_source": "bebe-babbitt-migraine",
+  "source_title": "Bebe Babbitt - Migraine with Aura",
+  "total_pages": 25,
+  "watermarked": true,
+  "sample_label": "Sample - format only. These are stamped excerpts from a different completed case (Bebe Babbitt - Migraine with Aura). Your guide will follow the same structure with its own case-specific content."
 }

@@ -14,6 +14,9 @@ _new_updated/
 # Source guide PDFs (large binaries, not for repo)
 _guides_src/
 
+# Overhaul instruction package (extracted, not for repo)
+_overhaul_extract/
+
 # Node
 node_modules/
 

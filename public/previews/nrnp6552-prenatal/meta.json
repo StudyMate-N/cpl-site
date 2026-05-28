@@ -1,6 +1,8 @@
 {
   "is_sample": true,
-  "sample_source": "bebe-babbitt-migraine",
-  "total_pages": 25,
-  "sample_label": "Sample preview from a completed CPL guide. Your NRNP 6552 \u2014 Prenatal Visit guide follows this exact format and structure."
+  "sample_source": "cynthia-francis-hyperlipidemia",
+  "source_title": "Cynthia Francis - Hyperlipidemia",
+  "total_pages": 21,
+  "watermarked": true,
+  "sample_label": "Sample - format only. These are stamped excerpts from a different completed case (Cynthia Francis - Hyperlipidemia). Your guide will follow the same structure with its own case-specific content."
 }
