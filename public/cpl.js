@@ -126,7 +126,12 @@
             const el = entry.target;
             const target = parseInt(el.getAttribute('data-counter'), 10);
             const suffix = el.getAttribute('data-counter-suffix') || '';
-            if (!isNaN(target)) animate(el, target, suffix);
+            if (!isFinite(target) || target <= 0) {
+              // Invalid or zero target — render a static final value, no animation
+              el.textContent = (isFinite(target) ? target : 0) + suffix;
+            } else {
+              animate(el, target, suffix);
+            }
             io.unobserve(el);
           }
         });
