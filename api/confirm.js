@@ -15,7 +15,7 @@ const {
 const deliveryEmail = require('../emails/delivery');
 
 const FROM_ADDRESS = process.env.CPL_FROM_ADDRESS || 'CPL <onboarding@resend.dev>';
-const BASE_URL = process.env.CPL_BASE_URL || 'https://clinicalperformancelab.vercel.app';
+const BASE_URL = process.env.CPL_BASE_URL || 'https://cpl-site.vercel.app';
 
 module.exports = async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');

@@ -109,7 +109,7 @@ In the Vercel dashboard for your project:
 RESEND_API_KEY          = re_xxxxxxxxxxxxxxxx        (from https://resend.com/api-keys)
 CPL_TOKEN_SECRET        = <64-char hex>              (run: openssl rand -hex 32)
 CPL_FROM_ADDRESS        = CPL <onboarding@resend.dev>
-CPL_BASE_URL            = https://clinicalperformancelab.vercel.app
+CPL_BASE_URL            = https://cpl-site.vercel.app
 ```
 
 ### 2. Deploy
@@ -129,7 +129,7 @@ That's it. Vercel will:
 After first deploy, manually trigger the drip cron to confirm it works:
 
 ```bash
-curl https://clinicalperformancelab.vercel.app/api/cron/drip \
+curl https://cpl-site.vercel.app/api/cron/drip \
   -H "x-vercel-cron: 1"
 # Expected: {"ok":true,"processed":0}
 ```
@@ -268,7 +268,7 @@ keep their original `dueAt`.
 CRON_SECRET=somerandomstring
 
 # Then trigger:
-curl "https://clinicalperformancelab.vercel.app/api/cron/drip?secret=somerandomstring"
+curl "https://cpl-site.vercel.app/api/cron/drip?secret=somerandomstring"
 ```
 
 ### See current KV contents
@@ -302,7 +302,7 @@ One-time use per email. Bundles already discounted.
 ## Contact
 
 - **Operations:** Tutorspot98@gmail.com
-- **Brand domain:** clinicalperformancelab.vercel.app
+- **Brand domain:** cpl-site.vercel.app
 - **GitHub / Vercel project:** (configure via `vercel link`)
 
 ---

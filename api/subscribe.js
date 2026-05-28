@@ -13,7 +13,7 @@ const {
 const confirmationEmail = require('../emails/confirmation');
 
 const FROM_ADDRESS = process.env.CPL_FROM_ADDRESS || 'CPL <onboarding@resend.dev>';
-const BASE_URL = process.env.CPL_BASE_URL || 'https://clinicalperformancelab.vercel.app';
+const BASE_URL = process.env.CPL_BASE_URL || 'https://cpl-site.vercel.app';
 
 module.exports = async function handler(req, res) {
   // CORS — same-origin only (Vercel handles this automatically when API+site are on the same domain)

@@ -269,7 +269,7 @@ class BrandHeader(Flowable):
         # Right side: tiny tag
         self.canv.setFillColor(MUTED)
         self.canv.setFont(FONT_BODY, 8)
-        self.canv.drawRightString(self.width, self.height - 16, "clinicalperformancelab.vercel.app")
+        self.canv.drawRightString(self.width, self.height - 16, "cpl-site.vercel.app")
         # Thin underline
         self.canv.setStrokeColor(BORDER)
         self.canv.setLineWidth(0.5)
@@ -432,7 +432,7 @@ def draw_cover(canvas_obj, doc, volume):
     c.drawString(56, 70, "FREE RESOURCE")
     c.setFillColor(Color(0.85, 0.83, 0.74))
     c.setFont(FONT_BODY, 9.5)
-    c.drawString(56, 52, "clinicalperformancelab.vercel.app")
+    c.drawString(56, 52, "cpl-site.vercel.app")
     c.drawString(56, 36, "Built by clinicians. Verified against live platform data.")
     c.restoreState()
 
@@ -463,7 +463,7 @@ def make_page_template(volume):
         canvas_obj.setFillColor(MUTED)
         canvas_obj.setFont(FONT_BODY, 8)
         canvas_obj.drawCentredString(w / 2, 0.3 * inch, f"Page {doc.page}")
-        canvas_obj.drawString(0.6 * inch, 0.3 * inch, "clinicalperformancelab.vercel.app")
+        canvas_obj.drawString(0.6 * inch, 0.3 * inch, "cpl-site.vercel.app")
         canvas_obj.setFont(FONT_BODY, 7.5)
         canvas_obj.drawRightString(w - 0.6 * inch, 0.3 * inch, "© 2026 CPL  •  For personal study use")
         canvas_obj.restoreState()
@@ -658,7 +658,7 @@ def build_volume_pdf(volume, meta):
         f'<font name="{FONT_BODY_SEMI}" color="#0F7A6B">CLINICAL PERFORMANCE LAB</font>  '
         '<font color="#5C6E69">·  Submission-ready clinical reasoning resources</font><br/>'
         '<font color="#5C6E69" size="8">Built from 200+ verified student submissions across NR509, NR511, NR602, NURS 6512, NRNP 6541.<br/>'
-        'clinicalperformancelab.vercel.app  ·  Tutorspot98@gmail.com</font>',
+        'cpl-site.vercel.app  ·  Tutorspot98@gmail.com</font>',
         styles["body"]
     )
     story.append(brand_strip)

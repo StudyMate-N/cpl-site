@@ -73,7 +73,7 @@ function shell({ preheader, bodyHtml, unsubscribeUrl }) {
             </p>
             <p style="margin:0; font-size:11px; color:#5C6E69; line-height:1.5;">
               You're receiving this because you requested resources from
-              <a href="https://clinicalperformancelab.vercel.app" style="color:#0F7A6B; text-decoration:none;">clinicalperformancelab.vercel.app</a>.<br>
+              <a href="https://cpl-site.vercel.app" style="color:#0F7A6B; text-decoration:none;">cpl-site.vercel.app</a>.<br>
               <a href="${escapeHtml(unsubscribeUrl)}" style="color:#5C6E69; text-decoration:underline;">Unsubscribe</a>
               · Contact: <a href="mailto:Tutorspot98@gmail.com" style="color:#5C6E69;">Tutorspot98@gmail.com</a>
             </p>

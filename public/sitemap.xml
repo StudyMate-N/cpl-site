@@ -1,892 +1,902 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/</loc>
+    <loc>https://cpl-site.vercel.app/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/free-resources/</loc>
+    <loc>https://cpl-site.vercel.app/simulator/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/cases/</loc>
+    <loc>https://cpl-site.vercel.app/sample-guide/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/free-resources/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cpl-site.vercel.app/cases/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/faq/</loc>
+    <loc>https://cpl-site.vercel.app/faq/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/about/</loc>
+    <loc>https://cpl-site.vercel.app/about/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/terms/</loc>
+    <loc>https://cpl-site.vercel.app/terms/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/privacy/</loc>
+    <loc>https://cpl-site.vercel.app/privacy/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/harvey-hoya-htn/</loc>
+    <loc>https://cpl-site.vercel.app/case/harvey-hoya-htn/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/bebe-babbitt-migraine/</loc>
+    <loc>https://cpl-site.vercel.app/case/bebe-babbitt-migraine/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/cynthia-francis-hyperlipidemia/</loc>
+    <loc>https://cpl-site.vercel.app/case/cynthia-francis-hyperlipidemia/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/samantha-graves-gastroenteritis/</loc>
+    <loc>https://cpl-site.vercel.app/case/samantha-graves-gastroenteritis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/kennedy-poole-adhd/</loc>
+    <loc>https://cpl-site.vercel.app/case/kennedy-poole-adhd/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/victoria-lewis-rash/</loc>
+    <loc>https://cpl-site.vercel.app/case/victoria-lewis-rash/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/betty-burns-pt1/</loc>
+    <loc>https://cpl-site.vercel.app/case/betty-burns-pt1/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/betty-burns-pt2/</loc>
+    <loc>https://cpl-site.vercel.app/case/betty-burns-pt2/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/christine-smith-pyelonephritis/</loc>
+    <loc>https://cpl-site.vercel.app/case/christine-smith-pyelonephritis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/amanda-wheaton-pharyngitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/amanda-wheaton-pharyngitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/marvin-webber-cardiovascular/</loc>
+    <loc>https://cpl-site.vercel.app/case/marvin-webber-cardiovascular/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6531-wk7-pneumonia/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6531-wk7-pneumonia/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/caleb-metz-adolescent/</loc>
+    <loc>https://cpl-site.vercel.app/case/caleb-metz-adolescent/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/emma-ryan-pediatric-uri/</loc>
+    <loc>https://cpl-site.vercel.app/case/emma-ryan-pediatric-uri/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/benjamin-cavill-low-back/</loc>
+    <loc>https://cpl-site.vercel.app/case/benjamin-cavill-low-back/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/kathleen-parks-nr509/</loc>
+    <loc>https://cpl-site.vercel.app/case/kathleen-parks-nr509/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6541-encopresis/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6541-encopresis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tina-jones-shadow-health/</loc>
+    <loc>https://cpl-site.vercel.app/case/tina-jones-shadow-health/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6531-wk2-gi/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6531-wk2-gi/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6531-wk4-cardiovascular/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6531-wk4-cardiovascular/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/adam-barnes-5yo/</loc>
+    <loc>https://cpl-site.vercel.app/case/adam-barnes-5yo/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/peds-18mo-vomiting/</loc>
+    <loc>https://cpl-site.vercel.app/case/peds-18mo-vomiting/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nurs6512-nr509-wk1-uri/</loc>
+    <loc>https://cpl-site.vercel.app/case/nurs6512-nr509-wk1-uri/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6552-prenatal/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6552-prenatal/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6552-abnormal-uterine-bleeding/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6552-abnormal-uterine-bleeding/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6552-contraception/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6552-contraception/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6568-mdd/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-mdd/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6568-anxiety-gad/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-anxiety-gad/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6568-bipolar/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-bipolar/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nrnp6568-psychosis/</loc>
+    <loc>https://cpl-site.vercel.app/case/nrnp6568-psychosis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tanner-bell-uri/</loc>
+    <loc>https://cpl-site.vercel.app/case/tanner-bell-uri/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/lori-jacobs-uti/</loc>
+    <loc>https://cpl-site.vercel.app/case/lori-jacobs-uti/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/geriatric-fall-risk/</loc>
+    <loc>https://cpl-site.vercel.app/case/geriatric-fall-risk/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/adult-depression-screen/</loc>
+    <loc>https://cpl-site.vercel.app/case/adult-depression-screen/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/type-2-diabetes-new/</loc>
+    <loc>https://cpl-site.vercel.app/case/type-2-diabetes-new/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/copd-exacerbation/</loc>
+    <loc>https://cpl-site.vercel.app/case/copd-exacerbation/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/heart-failure-management/</loc>
+    <loc>https://cpl-site.vercel.app/case/heart-failure-management/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/hypothyroidism-adult/</loc>
+    <loc>https://cpl-site.vercel.app/case/hypothyroidism-adult/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/dorothy-jones-small-bowel-obstruction/</loc>
+    <loc>https://cpl-site.vercel.app/case/dorothy-jones-small-bowel-obstruction/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/john-quimby-stemi/</loc>
+    <loc>https://cpl-site.vercel.app/case/john-quimby-stemi/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/deborah-arnaudin-small-bowel-obstruction/</loc>
+    <loc>https://cpl-site.vercel.app/case/deborah-arnaudin-small-bowel-obstruction/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/kaylee-hales-contact-dermatitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/kaylee-hales-contact-dermatitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jacqueline-russell-major-depressive-disorder/</loc>
+    <loc>https://cpl-site.vercel.app/case/jacqueline-russell-major-depressive-disorder/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/janet-riley-alzheimers-disease/</loc>
+    <loc>https://cpl-site.vercel.app/case/janet-riley-alzheimers-disease/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ben-bundy-copd-exacerbation/</loc>
+    <loc>https://cpl-site.vercel.app/case/ben-bundy-copd-exacerbation/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tod-gosseau-gout/</loc>
+    <loc>https://cpl-site.vercel.app/case/tod-gosseau-gout/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/adele-spencer-nina-adams-multiple-sclerosis/</loc>
+    <loc>https://cpl-site.vercel.app/case/adele-spencer-nina-adams-multiple-sclerosis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/gemma-jones-roseola/</loc>
+    <loc>https://cpl-site.vercel.app/case/gemma-jones-roseola/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/olive-chaney-roseola/</loc>
+    <loc>https://cpl-site.vercel.app/case/olive-chaney-roseola/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/florence-blackman-coronary-artery-disease/</loc>
+    <loc>https://cpl-site.vercel.app/case/florence-blackman-coronary-artery-disease/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/bodhi-brown-heat-exhaustion/</loc>
+    <loc>https://cpl-site.vercel.app/case/bodhi-brown-heat-exhaustion/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/hordeolum-stye/</loc>
+    <loc>https://cpl-site.vercel.app/case/hordeolum-stye/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ken-fowler-acute-kidney-injury/</loc>
+    <loc>https://cpl-site.vercel.app/case/ken-fowler-acute-kidney-injury/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/stable-angina-acs-ddx/</loc>
+    <loc>https://cpl-site.vercel.app/case/stable-angina-acs-ddx/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jimmy-duran-preventive-care/</loc>
+    <loc>https://cpl-site.vercel.app/case/jimmy-duran-preventive-care/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/rosa-perez-atopic-dermatitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/rosa-perez-atopic-dermatitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nick-roberts-acute-otitis-media/</loc>
+    <loc>https://cpl-site.vercel.app/case/nick-roberts-acute-otitis-media/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/rachael-hardy-invasive-ductal-carcinoma/</loc>
+    <loc>https://cpl-site.vercel.app/case/rachael-hardy-invasive-ductal-carcinoma/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/angela-cortez-developmental-disorder/</loc>
+    <loc>https://cpl-site.vercel.app/case/angela-cortez-developmental-disorder/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/erin-wilson-unspecified-psychiatric-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/erin-wilson-unspecified-psychiatric-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/alexandra-katsaros-adjustment-disorder/</loc>
+    <loc>https://cpl-site.vercel.app/case/alexandra-katsaros-adjustment-disorder/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/steven-van-dyke-panic-disorder/</loc>
+    <loc>https://cpl-site.vercel.app/case/steven-van-dyke-panic-disorder/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/sarah-oneil-bipolar-disorder/</loc>
+    <loc>https://cpl-site.vercel.app/case/sarah-oneil-bipolar-disorder/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/joan-duffy-syndrome-of-inappropriate-antidiuretic-hormone/</loc>
+    <loc>https://cpl-site.vercel.app/case/joan-duffy-syndrome-of-inappropriate-antidiuretic-hormone/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/billy-johnson-attention-deficit-hyperactivity-disorder/</loc>
+    <loc>https://cpl-site.vercel.app/case/billy-johnson-attention-deficit-hyperactivity-disorder/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/rachael-mcquilkin-congestive-heart-failure/</loc>
+    <loc>https://cpl-site.vercel.app/case/rachael-mcquilkin-congestive-heart-failure/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/karen-barnes-stable-angina/</loc>
+    <loc>https://cpl-site.vercel.app/case/karen-barnes-stable-angina/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ben-kapinsky-communityacquired-pneumonia/</loc>
+    <loc>https://cpl-site.vercel.app/case/ben-kapinsky-communityacquired-pneumonia/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/aortic-stenosis/</loc>
+    <loc>https://cpl-site.vercel.app/case/aortic-stenosis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ray-williams-type-2-diabetes-mellitus/</loc>
+    <loc>https://cpl-site.vercel.app/case/ray-williams-type-2-diabetes-mellitus/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/george-bailey-peptic-ulcer-disease-with-h-pylori/</loc>
+    <loc>https://cpl-site.vercel.app/case/george-bailey-peptic-ulcer-disease-with-h-pylori/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/william-garrett-undisclosed-gi-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/william-garrett-undisclosed-gi-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tamika-brayton-undisclosed-gu-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/tamika-brayton-undisclosed-gu-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jennifer-albertson-insomnia/</loc>
+    <loc>https://cpl-site.vercel.app/case/jennifer-albertson-insomnia/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/joseph-camella-copd-exacerbation/</loc>
+    <loc>https://cpl-site.vercel.app/case/joseph-camella-copd-exacerbation/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/william-fredericks-meningitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/william-fredericks-meningitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/carolyn-cross-preventive-care/</loc>
+    <loc>https://cpl-site.vercel.app/case/carolyn-cross-preventive-care/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/kathleen-parks-migraine-headache/</loc>
+    <loc>https://cpl-site.vercel.app/case/kathleen-parks-migraine-headache/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/kevin-mcgee-testicular-torsion/</loc>
+    <loc>https://cpl-site.vercel.app/case/kevin-mcgee-testicular-torsion/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/juliana-mirabelles-urinary-tract-infection/</loc>
+    <loc>https://cpl-site.vercel.app/case/juliana-mirabelles-urinary-tract-infection/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/atypical-nevus-melanoma-evaluation/</loc>
+    <loc>https://cpl-site.vercel.app/case/atypical-nevus-melanoma-evaluation/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nephrolithiasis-pyelonephritis-ddx/</loc>
+    <loc>https://cpl-site.vercel.app/case/nephrolithiasis-pyelonephritis-ddx/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ramona-frankel-bacterial-conjunctivitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/ramona-frankel-bacterial-conjunctivitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/upper-respiratory-infection-bronchiolitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/upper-respiratory-infection-bronchiolitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/multiple-comprehensive-exam/</loc>
+    <loc>https://cpl-site.vercel.app/case/multiple-comprehensive-exam/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/maria-ash-hypothyroidism-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/maria-ash-hypothyroidism-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/benjamin-cavill-diabetes-mellitus-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/benjamin-cavill-diabetes-mellitus-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/patricia-doyle-systemic-lupus-erythematosus-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/patricia-doyle-systemic-lupus-erythematosus-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/melissa-steward-diabetic-ketoacidosis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/melissa-steward-diabetic-ketoacidosis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jamie-feldman-unstable-angina-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jamie-feldman-unstable-angina-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jeffrey-miller-hypertrophic-obstructive-cardiomyopathy-kapla/</loc>
+    <loc>https://cpl-site.vercel.app/case/jeffrey-miller-hypertrophic-obstructive-cardiomyopathy-kapla/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/stephen-nelson-congestive-heart-failure-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/stephen-nelson-congestive-heart-failure-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/joseph-martinez-atrial-fibrillation-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/joseph-martinez-atrial-fibrillation-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/paisley-ward-acute-asthma-exacerbation-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/paisley-ward-acute-asthma-exacerbation-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/lawrence-lee-acute-copd-exacerbation-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/lawrence-lee-acute-copd-exacerbation-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/karen-simpson-pulmonary-embolism-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/karen-simpson-pulmonary-embolism-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/charlie-harris-pneumocystis-jirovecii-pneumonia-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/charlie-harris-pneumocystis-jirovecii-pneumonia-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/michael-martinez-bronchiolitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/michael-martinez-bronchiolitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ava-pilar-iron-deficiency-anemia-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/ava-pilar-iron-deficiency-anemia-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/miah-zavarro-sickle-cell-anemia-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/miah-zavarro-sickle-cell-anemia-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/evita-alonso-ascending-cholangitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/evita-alonso-ascending-cholangitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/vijay-rao-peptic-ulcer-disease-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/vijay-rao-peptic-ulcer-disease-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jacob-abraham-gerd-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jacob-abraham-gerd-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/roger-miller-infectious-colitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/roger-miller-infectious-colitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/esteban-soto-encopresis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/esteban-soto-encopresis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/adam-barnes-pinworm-infection-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/adam-barnes-pinworm-infection-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/dalisay-edwards-menopause-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/dalisay-edwards-menopause-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nancy-campbell-cervicitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/nancy-campbell-cervicitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/kristina-hart-cervicitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/kristina-hart-cervicitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jenny-regliado-vulvovaginitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jenny-regliado-vulvovaginitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/cathy-oliver-cystitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/cathy-oliver-cystitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/brad-banerjee-ischemic-stroke-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/brad-banerjee-ischemic-stroke-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/lexie-newman-concussion-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/lexie-newman-concussion-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ella-west-alzheimers-disease-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/ella-west-alzheimers-disease-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/krista-hampton-contact-dermatitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/krista-hampton-contact-dermatitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/thomas-ackerly-unspecified-dermatological-condition-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/thomas-ackerly-unspecified-dermatological-condition-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/chester-wilson-gout-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/chester-wilson-gout-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/carlotta-russe-herniated-disc-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/carlotta-russe-herniated-disc-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/mabel-johnson-osteoarthritis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/mabel-johnson-osteoarthritis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/andrew-chen-ankle-fracture/</loc>
+    <loc>https://cpl-site.vercel.app/case/andrew-chen-ankle-fracture/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/gloria-jenkins-herniated-disc-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/gloria-jenkins-herniated-disc-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ri-chu-posttraumatic-stress-disorder-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/ri-chu-posttraumatic-stress-disorder-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jack-johnson-schizophrenia-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jack-johnson-schizophrenia-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/elisa-hendrick-anorexia-nervosa-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/elisa-hendrick-anorexia-nervosa-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/allison-gray-generalized-anxiety-disorder-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/allison-gray-generalized-anxiety-disorder-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/rose-cooke-major-depressive-disorder-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/rose-cooke-major-depressive-disorder-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/sarah-jamieson-bipolar-disorder-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/sarah-jamieson-bipolar-disorder-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/max-millby-alcohol-use-disorder-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/max-millby-alcohol-use-disorder-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jackson-marshall-ptsd-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jackson-marshall-ptsd-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/samantha-higgins-subarachnoid-hemorrhage-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/samantha-higgins-subarachnoid-hemorrhage-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jack-baldwin-inguinal-hernia-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jack-baldwin-inguinal-hernia-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/chris-rich-pneumothorax-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/chris-rich-pneumothorax-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/steve-morris-diverticular-hemorrhage-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/steve-morris-diverticular-hemorrhage-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jerome-cauthen-acute-appendicitis-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/jerome-cauthen-acute-appendicitis-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/caleb-metz-testicular-torsion-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/caleb-metz-testicular-torsion-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/chloe-martin-uterine-atony-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/chloe-martin-uterine-atony-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/nancy-penn-ectopic-pregnancy-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/nancy-penn-ectopic-pregnancy-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tina-sandler-part-1-normal-pregnancy-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/tina-sandler-part-1-normal-pregnancy-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tina-sandler-part-2-intimate-partner-violence-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/tina-sandler-part-2-intimate-partner-violence-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tina-sandler-part-3-preeclampsia-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/tina-sandler-part-3-preeclampsia-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/shawn-henderson-preventive-care-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/shawn-henderson-preventive-care-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/buddy-theodore-preventive-care-kaplan/</loc>
+    <loc>https://cpl-site.vercel.app/case/buddy-theodore-preventive-care-kaplan/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/tim-davis-infectious-colitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/tim-davis-infectious-colitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/annie-chambers-dermatitis/</loc>
+    <loc>https://cpl-site.vercel.app/case/annie-chambers-dermatitis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/sally-smith-pyelonephritis/</loc>
+    <loc>https://cpl-site.vercel.app/case/sally-smith-pyelonephritis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jose-garcia-patellar-fracture/</loc>
+    <loc>https://cpl-site.vercel.app/case/jose-garcia-patellar-fracture/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/william-montgomery-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/william-montgomery-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/karen-floyd-gi-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/karen-floyd-gi-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/herpes-zoster-shingles/</loc>
+    <loc>https://cpl-site.vercel.app/case/herpes-zoster-shingles/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/danny-rivera-pediatric-respiratory-infection/</loc>
+    <loc>https://cpl-site.vercel.app/case/danny-rivera-pediatric-respiratory-infection/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/sexually-transmitted-infection/</loc>
+    <loc>https://cpl-site.vercel.app/case/sexually-transmitted-infection/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/dylan-scott-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/dylan-scott-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/constance-barn-respiratory-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/constance-barn-respiratory-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/larry-orlander-gi-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/larry-orlander-gi-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/laia-nunez-respiratory-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/laia-nunez-respiratory-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/evan-tyson-diabetes-mellitus/</loc>
+    <loc>https://cpl-site.vercel.app/case/evan-tyson-diabetes-mellitus/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/grady-harris-pediatric-gi-condition/</loc>
+    <loc>https://cpl-site.vercel.app/case/grady-harris-pediatric-gi-condition/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/elias-leon-hypertension/</loc>
+    <loc>https://cpl-site.vercel.app/case/elias-leon-hypertension/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/daisie-blankenship-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/daisie-blankenship-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/archer-cohen-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/archer-cohen-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/beth-brown-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/beth-brown-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/camilla-franklin-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/camilla-franklin-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/henry-parker-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/henry-parker-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/aidan-patterson-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/aidan-patterson-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ashley-baker-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/ashley-baker-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/ariel-marsh-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/ariel-marsh-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/jonathan-reyes-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/jonathan-reyes-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/anthony-washington-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/anthony-washington-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/erin-davis-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/erin-davis-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/regina-ricardo-undisclosed/</loc>
+    <loc>https://cpl-site.vercel.app/case/regina-ricardo-undisclosed/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://clinicalperformancelab.vercel.app/case/max-king-encopresis/</loc>
+    <loc>https://cpl-site.vercel.app/case/max-king-encopresis/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
   </url>

@@ -926,7 +926,7 @@ class FinalCTACard(Flowable):
         # URL footer (above banner, in the dark area)
         c.setFillColor(MUTED)
         c.setFont(self.font_body, 8)
-        c.drawString(28, banner_y + banner_h + 8, "clinicalperformancelab.vercel.app")
+        c.drawString(28, banner_y + banner_h + 8, "cpl-site.vercel.app")
 
         c.restoreState()
 

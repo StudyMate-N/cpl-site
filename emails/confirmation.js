@@ -50,7 +50,7 @@ function confirmationEmail({ email, volumes, confirmUrl, unsubscribeUrl }) {
   `;
 
   const html = shell({ preheader, bodyHtml, unsubscribeUrl });
-  const text = `Confirm to get your CPL cheat sheets.\n\nThanks for requesting the CPL Cheat Sheet Library. Click this link to confirm and we'll send your PDFs immediately:\n\n${confirmUrl}\n\nYou requested:\n${(volumes || []).map(v => '- ' + (VOLUME_LABELS[v] || v)).join('\n')}\n\nThe link expires in 24 hours. Didn't sign up? Ignore this email.\n\nClinical Performance Lab\nclinicalperformancelab.vercel.app`;
+  const text = `Confirm to get your CPL cheat sheets.\n\nThanks for requesting the CPL Cheat Sheet Library. Click this link to confirm and we'll send your PDFs immediately:\n\n${confirmUrl}\n\nYou requested:\n${(volumes || []).map(v => '- ' + (VOLUME_LABELS[v] || v)).join('\n')}\n\nThe link expires in 24 hours. Didn't sign up? Ignore this email.\n\nClinical Performance Lab\ncpl-site.vercel.app`;
 
   return { subject, html, text };
 }

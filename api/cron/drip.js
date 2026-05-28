@@ -20,7 +20,7 @@ const introEmail   = require('../../emails/intro');
 const offerEmail   = require('../../emails/offer');
 
 const FROM_ADDRESS = process.env.CPL_FROM_ADDRESS || 'CPL <onboarding@resend.dev>';
-const BASE_URL = process.env.CPL_BASE_URL || 'https://clinicalperformancelab.vercel.app';
+const BASE_URL = process.env.CPL_BASE_URL || 'https://cpl-site.vercel.app';
 
 const EMAIL_BUILDERS = {
   insight: insightEmail,

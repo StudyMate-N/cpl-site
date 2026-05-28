@@ -30,9 +30,11 @@ from datetime import datetime, timezone
 from cases_data import CASES, PRICING, by_lead_time, by_slug, COURSES
 
 # ─── Configuration ────────────────────────────────────────────────
-BASE_URL = "https://clinicalperformancelab.vercel.app"
+# Single source of truth for the live domain. Update here only.
+SITE_URL = "https://cpl-site.vercel.app"
+BASE_URL = SITE_URL  # backwards-compatible alias used across this module
 SITE_NAME = "Clinical Performance Lab"
-SITE_TAG = "Submission-ready clinical reasoning for nursing students"
+SITE_TAG = "Clinical reasoning platform for nursing students — master iHuman"
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PUBLIC = os.path.join(ROOT, "public")
@@ -72,7 +74,12 @@ def write_page(rel_path, body, title=None, description=None, page_class=""):
 <meta property="og:url" content="{esc(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{esc(SITE_NAME)}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{esc(SITE_URL)}/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(full_title)}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta name="twitter:url" content="{esc(canonical)}">
+<meta name="twitter:image" content="{esc(SITE_URL)}/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -160,7 +167,7 @@ def footer_html():
   </div>
   <div class="footer-bottom">
     <span>© {year} Clinical Performance Lab. For personal study use only.</span>
-    <span>clinicalperformancelab.vercel.app</span>
+    <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
   </div>
 </footer>
 """
@@ -1167,7 +1174,7 @@ def build_legal():
 # ─── Sitemap + robots ─────────────────────────────────────────────
 def build_sitemap():
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    urls = ["", "free-resources", "cases", "faq", "about", "terms", "privacy"]
+    urls = ["", "simulator", "sample-guide", "free-resources", "cases", "faq", "about", "terms", "privacy"]
     urls += [f"case/{c['slug']}" for c in CASES]
 
     entries = "\n".join(

@@ -39,7 +39,7 @@ module.exports = async function handler(req, res) {
 
   return sendHtml(res, 200, htmlPage(
     "You're unsubscribed.",
-    `We won't email ${escapeHtml(verified.email)} again. If you change your mind, you can resubscribe any time at <a href="https://clinicalperformancelab.vercel.app/free-resources/" style="color:#0F7A6B;">clinicalperformancelab.vercel.app/free-resources/</a>.`
+    `We won't email ${escapeHtml(verified.email)} again. If you change your mind, you can resubscribe any time at <a href="https://cpl-site.vercel.app/free-resources/" style="color:#0F7A6B;">cpl-site.vercel.app/free-resources/</a>.`
   ));
 };
 
@@ -80,7 +80,7 @@ function htmlPage(title, body) {
   </div>
   <h1>${escapeHtml(title)}</h1>
   <p>${body}</p>
-  <a class="home" href="https://clinicalperformancelab.vercel.app">Back to clinicalperformancelab.vercel.app →</a>
+  <a class="home" href="https://cpl-site.vercel.app">Back to cpl-site.vercel.app →</a>
 </div>
 </body>
 </html>`;
