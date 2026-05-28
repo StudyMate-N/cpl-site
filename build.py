@@ -478,6 +478,9 @@ def build_home():
       <a href="/simulator/" class="btn btn-primary btn-lg">Try the free simulator →</a>
       <a href="/cases/" class="btn btn-ghost btn-lg">Browse {total_cases} cases</a>
     </div>
+    <p class="hero-tertiary" data-reveal data-reveal-delay="280">
+      Or <a href="/sample-guide/">see a sample case guide →</a>
+    </p>
     <div class="hero-trust" data-reveal data-reveal-delay="320">
       <span><strong data-counter="200" data-counter-suffix="+">0</strong> verified submissions analyzed</span>
       <span><strong data-counter="{total_cases}">0</strong> cases catalogued</span>
@@ -925,6 +928,9 @@ def _render_preview_section(case, preview):
         Word + PDF &middot; Same-day delivery &middot;
         Use code <strong>CPLFIRST15</strong> for 15% off your first
       </div>
+      <div class="pdf-lock-note">
+        Want to see a full sample first? <a href="/sample-guide/">View a complete sample guide &rarr;</a>
+      </div>
     </div>
   </div>
 </div>'''
@@ -968,6 +974,7 @@ def _render_preview_section(case, preview):
     </a>
     <div class="pdf-sample-cta-note">
       Use code <strong>CPLFIRST15</strong> for 15% off your first single case.
+      &middot; <a href="/sample-guide/">See a complete sample guide &rarr;</a>
     </div>
   </div>
 </div>'''
@@ -1394,6 +1401,136 @@ loadCase('harvey', document.querySelector('.sim-case-btn[data-case="harvey"]'));
                page_class="simulator")
 
 
+# ─── PAGE: Sample guide (marketing demo of a full guide) ──────────
+def build_sample_guide():
+    """Build the /sample-guide/ page showing one full guide's anatomy."""
+    total = len(CASES)
+    same_day_n = sum(1 for c in CASES if c.get("lead_time") == "same-day")
+    body = f'''
+<section class="sample-hero">
+  <div class="container">
+    <span class="hero-eyebrow"><span class="dot"></span>Anatomy of a CPL guide</span>
+    <h1>See exactly what you get.</h1>
+    <p class="hero-sub">
+      Below is the complete structure of a CPL case guide, with real pages from
+      the Harvey Hoya HTN guide. Every CPL guide follows this same format with
+      case-specific content.
+    </p>
+  </div>
+</section>
+
+<section class="sample-section">
+  <div class="container sample-container">
+
+    <div class="sample-page-block">
+      <div class="sample-page-meta">
+        <div class="sample-page-num">Page 1 · Cover &amp; Case Overview</div>
+        <h2>Every guide opens with the case identity</h2>
+        <p>
+          Patient demographics, chief complaint, presenting context, and the
+          verified diagnosis with associated must-not-miss conditions. This is
+          the orientation page — you know exactly which case you're working on
+          and what you're aiming for.
+        </p>
+      </div>
+      <div class="sample-page-image">
+        <img src="/sample-guide/page_1_cover.png" alt="Cover page of a CPL guide" loading="lazy">
+      </div>
+    </div>
+
+    <div class="sample-page-block reversed">
+      <div class="sample-page-meta">
+        <div class="sample-page-num">Pages 2–8 · History Bank</div>
+        <h2>Every scored history question, in iHuman order</h2>
+        <p>
+          The complete history bank with verbatim patient responses, organized
+          into the OLDCARTS framework, past medical history, family history,
+          social history, and review of systems. Each question is marked with
+          its scoring weight and the pivotal communication questions are highlighted.
+        </p>
+        <p class="sample-fact">
+          <strong>What this saves you:</strong> 30–45 minutes of fumbling through
+          unhelpful "How are you today?" questions. You walk in knowing exactly
+          which 35 questions iHuman counts.
+        </p>
+      </div>
+      <div class="sample-page-image">
+        <img src="/sample-guide/page_2_history.png" alt="History section page from a CPL guide" loading="lazy">
+      </div>
+    </div>
+
+    <div class="sample-page-block">
+      <div class="sample-page-meta">
+        <div class="sample-page-num">Pages 9–14 · Physical Exam</div>
+        <h2>Every scored PE item with documentation language</h2>
+        <p>
+          Each PE finding paired with the exact documentation phrase iHuman
+          expects. Cardiac auscultation points, lung field locations, abdominal
+          quadrant findings — all with the clinical language that scores instead
+          of the lay language that loses points.
+        </p>
+        <p class="sample-fact">
+          <strong>What this saves you:</strong> Knowing the difference between
+          writing "AV nicking" (full credit) vs. "narrowing where the veins
+          cross" (partial credit). Documentation language is 20% of the case score.
+        </p>
+      </div>
+      <div class="sample-page-image">
+        <img src="/sample-guide/page_3_pe.png" alt="Physical exam page from a CPL guide" loading="lazy">
+      </div>
+    </div>
+
+    <div class="sample-page-block reversed">
+      <div class="sample-page-meta">
+        <div class="sample-page-num">Pages 15–24 · DDx, Tests, Management Plan, SOAP Note</div>
+        <h2>The reasoning behind every grade-impacting decision</h2>
+        <p>
+          The ranked differential diagnosis list with the platform-verified order,
+          the tests to order (and the harmful-flag tests to avoid), and the
+          complete 6-part management plan with APA-formatted references. Plus a
+          ready-to-submit SOAP note.
+        </p>
+        <p class="sample-fact">
+          <strong>What this saves you:</strong> The harmful-flag traps alone can
+          zero your Tests score. The DDx ranking can swing 15 points. We map
+          every one — you don't guess.
+        </p>
+      </div>
+      <div class="sample-page-image">
+        <img src="/sample-guide/page_4_plan.png" alt="Management plan page from a CPL guide" loading="lazy">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="sample-cta-section">
+  <div class="container">
+    <div class="sample-cta-card">
+      <h2>Your case follows this exact format.</h2>
+      <p>
+        {total} cases catalogued across NR509, NR511, NR602, NURS 6512,
+        NRNP 6531, 6541, 6552, 6568 and Kaplan-platform programs.
+        {same_day_n} ship same day. The rest build within 24–48h on order.
+      </p>
+      <div class="sample-cta-row">
+        <a href="/cases/" class="btn btn-primary">Browse {total} case guides</a>
+        <a href="mailto:Tutorspot98@gmail.com?subject=CPL%20Question" class="btn btn-ghost">Ask a question</a>
+      </div>
+      <p class="muted-small">
+        Use code <strong>CPLFIRST15</strong> for 15% off your first single case.
+        Bundles save up to $210.
+      </p>
+    </div>
+  </div>
+</section>
+'''
+    write_page("sample-guide", body,
+               title="See a Sample CPL Case Guide",
+               description="See exactly what a CPL iHuman case guide contains — full pages from the Harvey Hoya HTN guide, including history bank, physical exam, and management plan.",
+               page_class="sample-guide")
+
+
 # ─── PAGE: About ──────────────────────────────────────────────────
 def build_about():
     body = """
@@ -1480,6 +1617,10 @@ def build_faq():
     <div class="faq-list">
       {faq_html}
     </div>
+    <p class="text-center mt-4 muted">
+      Want to see exactly what's inside a guide?
+      <a href="/sample-guide/">View a complete sample guide →</a>
+    </p>
   </div>
 </section>
 """
@@ -1605,6 +1746,8 @@ def build_all():
     print("  ✓ thank-you/")
     build_simulator()
     print("  ✓ simulator/")
+    build_sample_guide()
+    print("  ✓ sample-guide/")
     build_about()
     print("  ✓ about/")
     build_faq()
