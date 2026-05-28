@@ -578,47 +578,53 @@ def build_catalog():
 
 
 # ─── PAGE: Individual case preview ────────────────────────────────
-def _preview_gallery_html(slug):
-    """Build blurred-PDF preview gallery if images exist for this case."""
-    preview_dir = os.path.join(PUBLIC, "previews", slug)
+def get_preview_data(slug):
+    """
+    Check if a preview folder exists for the given slug.
+    Returns a dict with preview metadata, or None if no preview exists.
+    """
+    import json as _json
+    import math as _math
+    preview_dir = os.path.join(PUBLIC, 'previews', slug)
     if not os.path.isdir(preview_dir):
-        return ""
-    pages = sorted(
-        f for f in os.listdir(preview_dir) if f.startswith("page_") and f.endswith(".png")
-    )
+        return None
+    page_1 = os.path.join(preview_dir, 'page_1.png')
+    if not os.path.exists(page_1):
+        return None
+    # Count available page images
+    pages = sorted([
+        f for f in os.listdir(preview_dir)
+        if f.startswith('page_') and f.endswith('.png')
+    ])
     if not pages:
-        return ""
-    thumbs = []
-    for p in pages:
-        num = p.replace("page_", "").replace(".png", "")
-        is_blurred = num != "1"
-        cls = "pg-thumb pg-blurred" if is_blurred else "pg-thumb"
-        label = f"Page {num}" if not is_blurred else f"Page {num}"
-        thumbs.append(
-            f'<div class="{cls}" onclick="openPgLightbox(this)">'
-            f'<img src="/previews/{slug}/{p}" alt="Guide preview page {num}" loading="lazy">'
-            f'<span class="pg-label">{label}</span>'
-            f'</div>'
-        )
-    return f"""
-<div class="preview-gallery" data-reveal>
-  <h3>Guide preview</h3>
-  <p class="gallery-sub">Page 1 is fully readable. Remaining pages are blurred &mdash; order the full guide for complete access.</p>
-  <div class="preview-gallery-grid">
-    {"".join(thumbs)}
-  </div>
-</div>
-
-<div class="pg-lightbox" id="pgLightbox" onclick="closePgLightbox()">
-  <button class="pg-lightbox-close" aria-label="Close">&times;</button>
-  <img src="" alt="Preview page enlarged" id="pgLightboxImg">
-</div>
-<script>
-function openPgLightbox(el){{var s=el.querySelector('img').src;document.getElementById('pgLightboxImg').src=s;document.getElementById('pgLightbox').classList.add('active');}}
-function closePgLightbox(){{document.getElementById('pgLightbox').classList.remove('active');}}
-document.addEventListener('keydown',function(e){{if(e.key==='Escape')closePgLightbox();}});
-</script>
-"""
+        return None
+    # Read meta.json
+    meta_path = os.path.join(preview_dir, 'meta.json')
+    meta = {}
+    if os.path.exists(meta_path):
+        with open(meta_path) as f:
+            try:
+                meta = _json.load(f)
+            except Exception:
+                meta = {}
+    total_pages = meta.get('total_pages', 24)
+    is_sample = meta.get('is_sample', True)
+    sample_label = meta.get('sample_label', '')
+    # 15% rule: page 1 clear, pages 2 -> ceil(total*0.15) blurred
+    blurred_end = _math.ceil(total_pages * 0.15)
+    blurred_end = max(blurred_end, 2)  # always at least 1 blurred page
+    blurred_pages = [p for p in pages if p != 'page_1.png']
+    # Only use blurred pages up to 15% count
+    blurred_pages = blurred_pages[:blurred_end - 1]
+    return {
+        'slug': slug,
+        'is_sample': is_sample,
+        'sample_label': sample_label,
+        'total_pages': total_pages,
+        'blurred_end': blurred_end,
+        'blurred_pages': blurred_pages,
+        'has_real_preview': not is_sample,
+    }
 
 
 def build_case_preview(case):
@@ -675,6 +681,77 @@ def build_case_preview(case):
 </div>
 """
 
+    # ── PDF Preview Section ──────────────────────────────────────
+    preview = get_preview_data(case['slug'])
+    if preview:
+        slug = case['slug']
+        total = preview['total_pages']
+        blurred_end = preview['blurred_end']
+
+        if preview['is_sample']:
+            label_html = f'''
+              <span class="pdf-sample-badge">Sample Preview</span>
+              <span class="pdf-sample-note">{esc(preview["sample_label"])}</span>'''
+        else:
+            label_html = f'''
+              <span class="pdf-real-badge">Guide Preview</span>
+              <span class="pdf-real-note">First 15% of your actual guide &mdash; {blurred_end} of {total} pages shown</span>'''
+
+        # Clear page 1
+        clear_page_html = f'''
+        <div class="pdf-page pdf-page-clear">
+          <div class="pdf-page-num">Page 1 of {total} &mdash; Cover &amp; Contents</div>
+          <img src="/previews/{slug}/page_1.png"
+               alt="Guide cover page"
+               loading="lazy"
+               class="pdf-page-img">
+        </div>'''
+
+        # Blurred pages
+        blurred_html = ''
+        for i, fname in enumerate(preview['blurred_pages']):
+            page_num = i + 2
+            blurred_html += f'''
+          <div class="pdf-page pdf-page-blurred" style="z-index:{10-i}">
+            <div class="pdf-page-num">Page {page_num} of {total} &mdash; Locked</div>
+            <img src="/previews/{slug}/{fname}"
+                 alt="Guide page {page_num} - locked"
+                 loading="lazy"
+                 class="pdf-page-img blurred-img">
+          </div>'''
+
+        locked_count = total - blurred_end
+        order_subject = esc(f"CPL Order - {case['title']}")
+
+        pdf_preview_html = f'''
+<div class="pdf-preview-section" data-reveal>
+  <div class="pdf-preview-label">{label_html}
+  </div>
+  {clear_page_html}
+  <div class="pdf-locked-stack">
+    {blurred_html}
+    <div class="pdf-unlock-overlay">
+      <div class="pdf-lock-icon">&#128274;</div>
+      <div class="pdf-lock-title">Pages {blurred_end + 1}&ndash;{total} locked</div>
+      <div class="pdf-lock-sub">
+        Purchase the complete guide to unlock all {locked_count} remaining pages &mdash;
+        verbatim questions, scored PE items, DDx rankings, EHR documentation,
+        SOAP note, and management plan.
+      </div>
+      <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}"
+         class="btn btn-primary">
+        Get this guide &mdash; $150
+      </a>
+      <div class="pdf-lock-note">
+        Word + PDF &middot; Same-day delivery &middot;
+        Use code <strong>CPLFIRST15</strong> for 15% off your first
+      </div>
+    </div>
+  </div>
+</div>'''
+    else:
+        pdf_preview_html = ''
+
     course_chip = f'<span class="case-tag">{esc(case.get("course",""))}</span>'
     school_chip = f'<span class="case-tag">{esc(case.get("school",""))}</span>'
     tag_chips = "".join(f'<span class="case-tag">{esc(t)}</span>' for t in case.get("tags", []))
@@ -714,7 +791,7 @@ def build_case_preview(case):
           {counts}
         </div>
 
-        {_preview_gallery_html(case['slug'])}
+        {pdf_preview_html}
 
         <div class="preview-section">
           <h3>Scoring traps this case</h3>

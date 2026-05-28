@@ -87,24 +87,61 @@
         </div>
 
         
-<div class="preview-gallery" data-reveal>
-  <h3>Guide preview</h3>
-  <p class="gallery-sub">Page 1 is fully readable. Remaining pages are blurred &mdash; order the full guide for complete access.</p>
-  <div class="preview-gallery-grid">
-    <div class="pg-thumb" onclick="openPgLightbox(this)"><img src="/previews/harvey-hoya-htn/page_1.png" alt="Guide preview page 1" loading="lazy"><span class="pg-label">Page 1</span></div><div class="pg-thumb pg-blurred" onclick="openPgLightbox(this)"><img src="/previews/harvey-hoya-htn/page_2.png" alt="Guide preview page 2" loading="lazy"><span class="pg-label">Page 2</span></div><div class="pg-thumb pg-blurred" onclick="openPgLightbox(this)"><img src="/previews/harvey-hoya-htn/page_3.png" alt="Guide preview page 3" loading="lazy"><span class="pg-label">Page 3</span></div><div class="pg-thumb pg-blurred" onclick="openPgLightbox(this)"><img src="/previews/harvey-hoya-htn/page_4.png" alt="Guide preview page 4" loading="lazy"><span class="pg-label">Page 4</span></div>
+<div class="pdf-preview-section" data-reveal>
+  <div class="pdf-preview-label">
+              <span class="pdf-real-badge">Guide Preview</span>
+              <span class="pdf-real-note">First 15% of your actual guide &mdash; 4 of 24 pages shown</span>
+  </div>
+  
+        <div class="pdf-page pdf-page-clear">
+          <div class="pdf-page-num">Page 1 of 24 &mdash; Cover &amp; Contents</div>
+          <img src="/previews/harvey-hoya-htn/page_1.png"
+               alt="Guide cover page"
+               loading="lazy"
+               class="pdf-page-img">
+        </div>
+  <div class="pdf-locked-stack">
+    
+          <div class="pdf-page pdf-page-blurred" style="z-index:10">
+            <div class="pdf-page-num">Page 2 of 24 &mdash; Locked</div>
+            <img src="/previews/harvey-hoya-htn/page_2.png"
+                 alt="Guide page 2 - locked"
+                 loading="lazy"
+                 class="pdf-page-img blurred-img">
+          </div>
+          <div class="pdf-page pdf-page-blurred" style="z-index:9">
+            <div class="pdf-page-num">Page 3 of 24 &mdash; Locked</div>
+            <img src="/previews/harvey-hoya-htn/page_3.png"
+                 alt="Guide page 3 - locked"
+                 loading="lazy"
+                 class="pdf-page-img blurred-img">
+          </div>
+          <div class="pdf-page pdf-page-blurred" style="z-index:8">
+            <div class="pdf-page-num">Page 4 of 24 &mdash; Locked</div>
+            <img src="/previews/harvey-hoya-htn/page_4.png"
+                 alt="Guide page 4 - locked"
+                 loading="lazy"
+                 class="pdf-page-img blurred-img">
+          </div>
+    <div class="pdf-unlock-overlay">
+      <div class="pdf-lock-icon">&#128274;</div>
+      <div class="pdf-lock-title">Pages 5&ndash;24 locked</div>
+      <div class="pdf-lock-sub">
+        Purchase the complete guide to unlock all 20 remaining pages &mdash;
+        verbatim questions, scored PE items, DDx rankings, EHR documentation,
+        SOAP note, and management plan.
+      </div>
+      <a href="mailto:Tutorspot98@gmail.com?subject=CPL Order - Harvey Hoya — Hypertension Stage 2"
+         class="btn btn-primary">
+        Get this guide &mdash; $150
+      </a>
+      <div class="pdf-lock-note">
+        Word + PDF &middot; Same-day delivery &middot;
+        Use code <strong>CPLFIRST15</strong> for 15% off your first
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="pg-lightbox" id="pgLightbox" onclick="closePgLightbox()">
-  <button class="pg-lightbox-close" aria-label="Close">&times;</button>
-  <img src="" alt="Preview page enlarged" id="pgLightboxImg">
-</div>
-<script>
-function openPgLightbox(el){var s=el.querySelector('img').src;document.getElementById('pgLightboxImg').src=s;document.getElementById('pgLightbox').classList.add('active');}
-function closePgLightbox(){document.getElementById('pgLightbox').classList.remove('active');}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closePgLightbox();});
-</script>
-
 
         <div class="preview-section">
           <h3>Scoring traps this case</h3>
