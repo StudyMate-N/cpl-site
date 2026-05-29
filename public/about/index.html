@@ -4,24 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About · Clinical Performance Lab</title>
-<meta name="description" content="Clinical reasoning is the skill iHuman is actually testing. CPL makes the invisible scoring logic visible — free simulator, free cheat sheets, complete case guides.">
+<meta name="description" content="iHuman scores students against a rubric they never see. CPL makes the invisible visible — a clinical reasoning platform with a free simulator, free cheat sheets, and complete case guides.">
 <link rel="canonical" href="https://cpl-site.vercel.app/about/">
 <meta property="og:title" content="About · Clinical Performance Lab">
-<meta property="og:description" content="Clinical reasoning is the skill iHuman is actually testing. CPL makes the invisible scoring logic visible — free simulator, free cheat sheets, complete case guides.">
+<meta property="og:description" content="iHuman scores students against a rubric they never see. CPL makes the invisible visible — a clinical reasoning platform with a free simulator, free cheat sheets, and complete case guides.">
 <meta property="og:url" content="https://cpl-site.vercel.app/about/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Clinical Performance Lab">
 <meta property="og:image" content="https://cpl-site.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About · Clinical Performance Lab">
-<meta name="twitter:description" content="Clinical reasoning is the skill iHuman is actually testing. CPL makes the invisible scoring logic visible — free simulator, free cheat sheets, complete case guides.">
+<meta name="twitter:description" content="iHuman scores students against a rubric they never see. CPL makes the invisible visible — a clinical reasoning platform with a free simulator, free cheat sheets, and complete case guides.">
 <meta name="twitter:url" content="https://cpl-site.vercel.app/about/">
 <meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 </head>
 <body class="about">
 
@@ -30,63 +31,112 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab
-        <small>iHuman case mastery</small>
-      </span>
+      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="/cases/">Case catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
+
+<div class="menu-backdrop"></div>
+<div class="mobile-menu">
+  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
+  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="/cases/" data-menu-close>Case catalog</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+</div>
 
 
 
 <section class="hero">
-  <div class="container container-narrow">
-    <span class="hero-eyebrow"><span class="dot"></span>About</span>
-    <h1>Clinical reasoning is the skill <span class="accent">iHuman is actually testing.</span></h1>
-    <p class="hero-sub">
-      iHuman simulates virtual patient encounters. It scores you on the exact same skills you'll be graded on as a practicing NP. The problem isn't that iHuman is hard — it's that the scoring logic is invisible. CPL makes it visible.
-    </p>
+  <div class="container">
+    <div class="hero-panel" style="grid-template-columns:1fr;">
+      <div class="hero-content" style="max-width:none;">
+        <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Our mission</span>
+        <h1 data-reveal data-reveal-delay="60" style="max-width:20ch;">Make the invisible <span class="italic-accent">visible.</span></h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="120" style="max-width:60ch;">iHuman scores nursing students against a rubric they never see. That opacity breeds anxiety and rewards memorization over reasoning. CPL exists to change that — to turn a black-box assessment into something you can actually learn from.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:56px;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;" class="about-split">
+      <div data-reveal>
+        <p class="mission-quote">A grade shouldn't depend on <span class="hl">guessing</span> what the software wants.</p>
+      </div>
+      <div data-reveal data-reveal-delay="90">
+        <p style="font-size:1.05rem; color:var(--ink-2); line-height:1.65;">Nursing and NP students spend hours on iHuman cases with little feedback on <em>why</em> they lost points. The scoring logic — which questions are pivotal, which exam items count, which management choices trigger harmful-flag deductions — stays hidden.</p>
+        <p style="font-size:1.05rem; color:var(--ink-2); line-height:1.65;">We analyzed 200+ verified submissions to reconstruct that logic, then turned it into something teachable: a free simulator and free cheat sheets to learn the patterns, and complete case guides for the submissions that count.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="statband" data-reveal>
+      <div class="sb"><b><span data-counter="200" data-counter-suffix="+">0</span></b><span>Verified submissions analyzed</span></div>
+      <div class="sb"><b><span data-counter="171">0</span></b><span>Cases catalogued</span></div>
+      <div class="sb"><b><span data-counter="9">0</span></b><span>Courses supported</span></div>
+      <div class="sb"><b>Same-day</b><span>Guide delivery</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-cream2">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>The model</span>
+      <h2>Lead with education. Monetize the moments that matter.</h2>
+      <p>The vast majority of what CPL offers is free — because the mission is learning. Revenue comes from the high-stakes, time-pressured graded submissions, where a complete, rubric-mapped guide is worth real money to a stressed student.</p>
+    </div>
+    <div class="steps" data-reveal>
+      <div class="step"><span class="step-free">Free</span><h3>The simulator</h3><p>Interactive, scored clinical-reasoning practice. The top of the funnel and the heart of the mission.</p></div>
+      <div class="step"><span class="step-free">Free</span><h3>The cheat sheets</h3><p>Four frameworks that transfer to every case — and an email relationship built on genuine value.</p></div>
+      <div class="step"><span class="step-paid">Premium</span><h3>The case guides</h3><p>$150 each, bundles to $540. Same-day, rubric-mapped, built from verified data. Where CPL earns.</p></div>
+    </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="container container-narrow">
-    <p>iHuman scores you on the same clinical judgment you'll use as a practicing NP:</p>
-    <ul>
-      <li>Which history questions to ask, in what order</li>
-      <li>Which physical exam items are pertinent to this presentation</li>
-      <li>How to rank differential diagnoses by probability and severity</li>
-      <li>Which tests to order — and which trigger "harmful to patient"</li>
-      <li>How to write documentation that matches clinical reality</li>
-    </ul>
-    <p>Most students never see <em>why</em> they lost 15 points on a case — only that they did.</p>
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>What we stand for</span>
+      <h2>Principles that keep us honest</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 48px;" class="about-principles" data-reveal>
+      <div class="principle"><div class="pi">📘</div><div><h4>Education first</h4><p>Everything that teaches the reasoning is free. We gate convenience, never understanding.</p></div></div>
+      <div class="principle"><div class="pi">🔍</div><div><h4>Verified, not invented</h4><p>Our frameworks and guides come from real, verified submissions — not guesswork or scraping.</p></div></div>
+      <div class="principle"><div class="pi">🤍</div><div><h4>Calm over pressure</h4><p>Our audience is anxious and time-poor. We design to reduce stress, never manufacture it.</p></div></div>
+      <div class="principle"><div class="pi">⚖️</div><div><h4>Integrity-aware</h4><p>CPL is a study resource. We're independent of iHuman and any school, and we point students to their own academic policies.</p></div></div>
+    </div>
+  </div>
+</section>
 
-    <h2 class="mt-4">What CPL does</h2>
-    <p>We make iHuman's invisible scoring logic visible.</p>
-    <p><strong>For practice:</strong> Our case simulator walks you through real case patterns, scoring your choices and explaining the reasoning in real time. Free.</p>
-    <p><strong>For mastery:</strong> Our four cheat sheet PDFs codify the universal patterns that score on every case template — history hierarchies, PE checklists, DDx ranking logic, and the harmful-flag traps. Free, email-delivered.</p>
-    <p><strong>For graded submissions:</strong> Our complete case guides give you the verified scoring map for a specific case — every history question, every PE item, every DDx, every management decision, with the clinical reasoning behind each. $150 per case, same-day delivery, mix-and-match bundles.</p>
-
-    <h2 class="mt-4">Where the data comes from</h2>
-    <p>Every CPL guide is built from verified student submissions. We analyze 100% performance reports, client screenshots, and multi-submission pattern data to map what actually scores on the iHuman platform — not what should score in theory, what does score in practice.</p>
-    <p>We've analyzed 200+ submissions across NR509, NR511, NR602, NURS 6512, NRNP 6531, 6541, 6552, and 6568. The patterns we identify get codified into the cheat sheets and simulator. The case-specific scoring maps get codified into the guides.</p>
-
-    <h2 class="mt-4">Who we serve</h2>
-    <p>Primarily nursing students at Chamberlain University and Walden University. Increasingly: PMHNP students at South University, Regis College, and others using the Kaplan Clinical Canvas platform. The reasoning patterns transfer across institutions — the case-specific scoring maps are institution-specific.</p>
-
-    <h2 class="mt-4">What CPL is not</h2>
-    <p>CPL is not a clinical reference. The medication dosing and management content in our guides reflects what the iHuman platform expects on those specific case templates. <strong>Verify all dosing with current Epocrates or UpToDate before any clinical application.</strong></p>
-    <p>CPL is also not affiliated with iHuman, Kaplan, Chamberlain University, Walden University, or any other institution. We're an independent educational resource.</p>
-
-    <h2 class="mt-4">Contact</h2>
-    <p><a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a> — for case orders, support, or partnership inquiries.</p>
+<section class="section-tight" style="padding-bottom:80px;">
+  <div class="container">
+    <div class="capture" data-reveal style="text-align:center;">
+      <div class="capture-inner">
+        <div class="capture-eyebrow">Get in touch</div>
+        <h3>Questions, partnerships, or press?</h3>
+        <p style="max-width:50ch; margin-left:auto; margin-right:auto;">We're a small team building calmly and deliberately. We'd love to hear from you.</p>
+        <a class="btn btn-lime btn-lg" href="mailto:Tutorspot98@gmail.com">Email the team →</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -102,19 +152,19 @@
       </p>
     </div>
     <div>
-      <h4>Resources</h4>
+      <h4>Learn</h4>
       <ul>
         <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
         <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About CPL</a></li>
+        <li><a href="/faq/">FAQ</a></li>
         <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
       </ul>
     </div>
@@ -126,6 +176,7 @@
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
@@ -133,23 +184,9 @@
 </footer>
 
 
-
-<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup">
-    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
-    <span class="resource-stage">Free · Take a minute</span>
-    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
-    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
-    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
-      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
-    </form>
-    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
-  </div>
-</div>
-
-
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
+<script src="/cpl-support.js" defer></script>
 
 </body>
 </html>

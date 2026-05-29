@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 </head>
 <body class="confirm">
 
@@ -30,30 +31,43 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab
-        <small>iHuman case mastery</small>
-      </span>
+      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="/cases/">Case catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
 
+<div class="menu-backdrop"></div>
+<div class="mobile-menu">
+  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
+  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="/cases/" data-menu-close>Case catalog</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+</div>
 
 
-<section class="hero">
-  <div class="container container-narrow text-center">
-    <span class="hero-eyebrow"><span class="dot"></span>Almost there</span>
-    <h1 id="confirmTitle">Confirming your email…</h1>
-    <p class="hero-sub" id="confirmSub">
-      Validating your confirmation link. This takes a few seconds.
-    </p>
-    <div id="confirmResult"></div>
+
+<section class="status-page">
+  <div class="container">
+    <div class="status-card" data-reveal>
+      <div class="status-badge" id="confirmBadge">…</div>
+      <h1 id="confirmTitle">Confirming your email…</h1>
+      <p id="confirmSub">Validating your confirmation link. This takes a few seconds.</p>
+      <div id="confirmResult" class="status-ctas"></div>
+    </div>
   </div>
 </section>
 
@@ -75,9 +89,11 @@
     const res = await fetch('/api/confirm?t=' + encodeURIComponent(token));
     const data = await res.json();
     if (res.ok && data.ok) {
+      var badge = document.getElementById('confirmBadge');
+      if (badge) badge.textContent = '✓';
       titleEl.textContent = "Your PDFs are on the way!";
       subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
-      resultEl.innerHTML = '<div class="form-success">Email confirmed: ' + data.email + '. Volumes: ' + (data.volumes || []).join(', ') + '</div><div style="margin-top:24px;"><a href="/cases/" class="btn btn-primary btn-lg">Browse case catalog →</a></div>';
+      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Open the simulator</a>';
     } else {
       titleEl.textContent = "Couldn't confirm";
       subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
@@ -102,19 +118,19 @@
       </p>
     </div>
     <div>
-      <h4>Resources</h4>
+      <h4>Learn</h4>
       <ul>
         <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
         <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About CPL</a></li>
+        <li><a href="/faq/">FAQ</a></li>
         <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
       </ul>
     </div>
@@ -126,6 +142,7 @@
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
@@ -133,23 +150,9 @@
 </footer>
 
 
-
-<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup">
-    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
-    <span class="resource-stage">Free · Take a minute</span>
-    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
-    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
-    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
-      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
-    </form>
-    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
-  </div>
-</div>
-
-
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
+<script src="/cpl-support.js" defer></script>
 
 </body>
 </html>

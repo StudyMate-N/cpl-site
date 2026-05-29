@@ -19,9 +19,10 @@
 <meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 </head>
 <body class="legal">
 
@@ -30,26 +31,39 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab
-        <small>iHuman case mastery</small>
-      </span>
+      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="/cases/">Case catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
+
+<div class="menu-backdrop"></div>
+<div class="mobile-menu">
+  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
+  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="/cases/" data-menu-close>Case catalog</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+</div>
 
 
 
 <section class="section">
-  <div class="container container-narrow">
+  <div class="container container-narrow"><div class="prose">
     <h1>Terms of Use</h1>
-    <p class="muted">Last updated: May 2026</p>
+    <p class="updated">Last updated: May 2026</p>
     <h3>1. Educational use only</h3>
     <p>CPL materials are sold for personal study and academic preparation use. They are not clinical references. Medication dosing and management content reflect what specific iHuman case templates expect — not what should be prescribed in real clinical practice.</p>
     <h3>2. No clinical authority</h3>
@@ -60,7 +74,7 @@
     <p>Refunds available within 7 days of purchase for the wrong case delivered or substantive uncorrectable error. Contact Tutorspot98@gmail.com.</p>
     <h3>5. Email use</h3>
     <p>We use your email address solely to deliver requested resources and a short clinical-insight follow-up sequence. We do not sell, rent, or share email addresses. Unsubscribe at any time via the link in every email.</p>
-  </div>
+  </div></div>
 </section>
 
 
@@ -75,19 +89,19 @@
       </p>
     </div>
     <div>
-      <h4>Resources</h4>
+      <h4>Learn</h4>
       <ul>
         <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
         <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About CPL</a></li>
+        <li><a href="/faq/">FAQ</a></li>
         <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
       </ul>
     </div>
@@ -99,6 +113,7 @@
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
@@ -106,23 +121,9 @@
 </footer>
 
 
-
-<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup">
-    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
-    <span class="resource-stage">Free · Take a minute</span>
-    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
-    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
-    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
-      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
-    </form>
-    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
-  </div>
-</div>
-
-
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
+<script src="/cpl-support.js" defer></script>
 
 </body>
 </html>

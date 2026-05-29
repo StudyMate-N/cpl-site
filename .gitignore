@@ -17,6 +17,9 @@ _guides_src/
 # Overhaul instruction package (extracted, not for repo)
 _overhaul_extract/
 
+# Redesign package (extracted reference, not for repo)
+_newdesign_extract/
+
 # Node
 node_modules/
 

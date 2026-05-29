@@ -218,9 +218,14 @@ def esc(s):
     return html.escape("" if s is None else str(s), quote=True)
 
 
-def write_page(rel_path, body, title=None, description=None, page_class=""):
-    """Write a page to public/{rel_path}/index.html with the base shell."""
-    full_title = f"{title} · {SITE_NAME}" if title else SITE_NAME
+def write_page(rel_path, body, title=None, description=None, page_class="", head_extra="", body_scripts=""):
+    """Write a page to public/{rel_path}/index.html with the redesign shell.
+
+    head_extra    — extra tags injected into <head> (e.g. page-specific data).
+    body_scripts  — extra <script> tags injected before the core scripts
+                    (e.g. React/Babel + the simulator .jsx on the sim page).
+    """
+    full_title = f"{title} · {SITE_NAME}" if title else f"{SITE_NAME} — Learn to think like a clinician"
     desc = description or SITE_TAG
     full_path = os.path.join(PUBLIC, rel_path, "index.html") if rel_path else os.path.join(PUBLIC, "index.html")
     os.makedirs(os.path.dirname(full_path), exist_ok=True)
@@ -248,9 +253,10 @@ def write_page(rel_path, body, title=None, description=None, page_class=""):
 <meta name="twitter:image" content="{esc(SITE_URL)}/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+{head_extra}
 </head>
 <body class="{esc(page_class)}">
 
@@ -259,10 +265,10 @@ def write_page(rel_path, body, title=None, description=None, page_class=""):
 {body}
 
 {footer_html()}
-
-{popup_html()}
-
+{body_scripts}
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
+<script src="/cpl-support.js" defer></script>
 
 </body>
 </html>
@@ -278,19 +284,32 @@ def nav_html():
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab
-        <small>iHuman case mastery</small>
-      </span>
+      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="/cases/">Case catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
+
+<div class="menu-backdrop"></div>
+<div class="mobile-menu">
+  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
+  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="/cases/" data-menu-close>Case catalog</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+</div>
 """
 
 
@@ -307,19 +326,19 @@ def footer_html():
       </p>
     </div>
     <div>
-      <h4>Resources</h4>
+      <h4>Learn</h4>
       <ul>
         <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
         <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About CPL</a></li>
+        <li><a href="/faq/">FAQ</a></li>
         <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
       </ul>
     </div>
@@ -331,6 +350,7 @@ def footer_html():
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© {year} Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
@@ -385,58 +405,31 @@ def volume_description(vol_id):
     }.get(vol_id, "")
 
 
+def _lead_chip(lead_time):
+    if lead_time == "same-day":
+        return '<span class="case-tag lead-fast">⚡ Same-day</span>'
+    if lead_time == "fast-build":
+        return '<span class="case-tag">⌛ 24–48h</span>'
+    return '<span class="case-tag">📋 On request</span>'
+
+
 def case_card_html(case):
-    """Render a case card with data attributes the filter JS reads."""
+    """Render a case card (redesign markup) linking to the pretty case URL."""
     href = f"/case/{case['slug']}/"
     course = esc(case.get("course", ""))
     school = esc(case.get("school", ""))
     lead_time = case.get("lead_time", "same-day")
-
-    # Filter data attributes (lowercase, no spaces, comma-separated for multi-value)
-    tag_slugs = ",".join(t.lower().replace(" ", "-") for t in case.get("tags", []))
-    school_slug = school.lower().replace(" ", "-").replace("university", "u").strip("-")
-    # Course code extraction (e.g. "NR 509 / NR 511 Week 5" → "nr-509,nr-511")
-    course_codes = []
-    import re as _re
-    for m in _re.findall(r'(NR|NRNP|NURS)\s*(\d+)', case.get("course", "")):
-        course_codes.append(f"{m[0].lower()}-{m[1]}")
-    course_slug = ",".join(course_codes)
-
-    # Searchable string for the JS search box
-    search_blob = " ".join([
-        case.get("title", ""), case.get("chief_complaint", ""), case.get("diagnosis", ""),
-        case.get("course", ""), case.get("school", ""),
-        " ".join(case.get("tags", [])),
-        " ".join(case.get("aliases", [])),
-    ]).lower()
-
-    # Tag chips
-    tag_chips = "".join(f'<span class="case-tag">{esc(t)}</span>' for t in case.get("tags", []))
-
-    # Lead-time chip
-    if lead_time == "same-day":
-        lead_chip = '<span class="case-tag lead-fast">⚡ Same-day</span>'
-    elif lead_time == "fast-build":
-        lead_chip = '<span class="case-tag lead-build">⌛ 24–48h</span>'
-    else:
-        lead_chip = '<span class="case-tag lead-request">📋 On request</span>'
-
+    # show up to two system tags, then the lead-time chip
+    sys_tags = [t for t in case.get("tags", []) if t not in ("Adult",)][:2] or case.get("tags", [])[:2]
+    tag_chips = "".join(f'<span class="case-tag">{esc(t)}</span>' for t in sys_tags)
+    sub = " · ".join(p for p in [school, course] if p)
     return f"""
-<a class="case-card" href="{href}"
-   data-slug="{esc(case['slug'])}"
-   data-tags="{esc(tag_slugs)}"
-   data-school="{esc(school_slug)}"
-   data-courses="{esc(course_slug)}"
-   data-lead-time="{esc(lead_time)}"
-   data-search="{esc(search_blob)}">
+<a class="case-card" href="{href}" data-reveal>
   <h3>{esc(case['title'])}</h3>
   <p class="case-cc">{esc(case['chief_complaint'])}</p>
-  <div class="case-meta">{tag_chips}{lead_chip}</div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">{course}</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <div class="case-meta">{tag_chips}{_lead_chip(lead_time)}</div>
+  <p class="case-sub">{sub}</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 """
 
@@ -452,137 +445,141 @@ def build_home():
     same_day_count = len(featured)
     build_count = total_cases - same_day_count
 
+    # Pricing tiers shown on home (single / 3-bundle featured / 5-bundle)
+    home_tiers = [
+        ("Single guide", 150, "", "One complete case, delivered same day."),
+        ("3-case bundle", 390, "Save $60", "Mix any 3 cases. Great for a busy mid-term."),
+        ("5-case bundle", 540, "Save $210", "Best value for a full term of submissions."),
+    ]
     pricing_html = ""
-    for k, p in PRICING.items():
-        featured_class = " featured" if k == "bundle3" else ""
-        saves = f"Save ${p['saves']}" if p['saves'] else "&nbsp;"
+    for i, (label, price, saves, blurb) in enumerate(home_tiers):
+        feat = " featured" if i == 1 else ""
+        delay = f' data-reveal-delay="{i*90}"' if i else ""
         pricing_html += f"""
-<div class="tier{featured_class}">
-  <div class="tier-label">{esc(p['label'])}</div>
-  <div class="tier-price"><span class="currency">$</span>{p['price']}</div>
-  <div class="tier-saves">{saves}</div>
-  <p class="tier-blurb">{esc(p['blurb'])}</p>
-  <a href="/cases/" class="btn btn-primary">Browse cases</a>
-</div>
-"""
+      <div class="tier{feat}" data-reveal{delay}>
+        <div class="tier-label">{esc(label)}</div>
+        <div class="tier-price"><span class="cur">$</span>{price}</div>
+        <div class="tier-saves">{saves or '&nbsp;'}</div>
+        <p class="tier-blurb">{esc(blurb)}</p>
+        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+      </div>"""
 
     body = f"""
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow" data-reveal><span class="dot"></span>Clinical Reasoning · Made Visible</span>
-    <h1 data-reveal data-reveal-delay="80">Learn to think like a clinician.<br><span class="accent">Master iHuman.</span></h1>
-    <p class="hero-sub" data-reveal data-reveal-delay="160">
-      CPL teaches the clinical reasoning patterns iHuman scores — the question hierarchies, the must-not-miss diagnoses, the documentation language, the harmful-flag traps. Practice free with our simulator. Cheat sheets ship instant. Complete case guides delivered same day.
-    </p>
-    <div class="hero-ctas" data-reveal data-reveal-delay="240">
-      <a href="/simulator/" class="btn btn-primary btn-lg">Try the free simulator →</a>
-      <a href="/cases/" class="btn btn-ghost btn-lg">Browse {total_cases} cases</a>
-    </div>
-    <p class="hero-tertiary" data-reveal data-reveal-delay="280">
-      Or <a href="/sample-guide/">see a sample case guide →</a>
-    </p>
-    <div class="hero-trust" data-reveal data-reveal-delay="320">
-      <span><strong data-counter="200" data-counter-suffix="+">0</strong> verified submissions analyzed</span>
-      <span><strong data-counter="{total_cases}">0</strong> cases catalogued</span>
-      <span><strong data-counter="9">0</strong> courses supported</span>
-      <span><strong>Same-day</strong> delivery</span>
+    <div class="hero-panel">
+      <div class="hero-content">
+        <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Clinical reasoning · made visible</span>
+        <h1 data-reveal data-reveal-delay="60">Learn to think like a clinician. <span class="italic-accent">Master iHuman.</span></h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="120">
+          iHuman scores you against a rubric you never see. CPL makes that invisible logic visible and teachable — the question hierarchies, the must-not-miss diagnoses, the harmful-flag traps. Practice free. Master the patterns. Submit with confidence.
+        </p>
+        <div class="hero-ctas" data-reveal data-reveal-delay="180">
+          <a href="/simulator/" class="btn btn-lime btn-lg">Try the free simulator →</a>
+          <a href="/sample-guide/" class="btn btn-ghost-dark btn-lg">See a sample guide</a>
+        </div>
+        <p class="hero-tertiary" data-reveal data-reveal-delay="220">Free simulator and cheat sheets — <a href="#free">no card required →</a></p>
+        <div class="hero-trust" data-reveal data-reveal-delay="280">
+          <span class="t"><b><span data-counter="200" data-counter-suffix="+">0</span></b>verified submissions analyzed</span>
+          <span class="t"><b><span data-counter="{total_cases}">0</span></b>cases catalogued</span>
+          <span class="t"><b>Same-day</b>guide delivery</span>
+        </div>
+      </div>
+
+      <div class="rubric" data-decode data-reveal data-reveal-delay="140">
+        <div class="rubric-title"><span>iHuman scoring · reconstructed</span><span class="badge">DECODED</span></div>
+        <div class="rubric-case">Bebe Babbitt — Migraine with aura</div>
+        <div class="rubric-row"><div class="rubric-check">✓</div><div class="rubric-text">Screen for aura &amp; visual prodrome<small>Pivotal differentiator</small></div><div class="rubric-pts">+4</div></div>
+        <div class="rubric-row"><div class="rubric-check">✓</div><div class="rubric-text">Rule out thunderclap onset<small>Must-not-miss: subarachnoid hemorrhage</small></div><div class="rubric-pts">+5</div></div>
+        <div class="rubric-row locked"><div class="rubric-check">✓</div><div class="rubric-text">Photophobia &amp; phonophobia history<small>Supporting criteria</small></div><div class="rubric-pts">+2</div></div>
+        <div class="rubric-row locked"><div class="rubric-check">✓</div><div class="rubric-text">Avoid opioid-first management<small>Harmful-flag trap</small></div><div class="rubric-pts">+3</div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section section-narrow">
+<section class="section" id="how">
   <div class="container">
-    <div class="how-it-works-grid">
-
-      <div class="how-step" data-reveal>
-        <div class="how-step-num">01</div>
-        <h3>Practice free with our simulator</h3>
-        <p>
-          Click through realistic iHuman case stages — history, PE, DDx, plan.
-          See which choices score, which lose points, and why. Three cases
-          available for free practice right now.
-        </p>
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>How CPL works</span>
+      <h2>Learn the reasoning first. Buy a guide only when it counts.</h2>
+      <p>Everything you need to <em>learn</em> is free. The graded submissions are where we help most — and where we earn our keep.</p>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">01</div><span class="step-free">Free</span>
+        <h3>Practice with the simulator</h3>
+        <p>Click through realistic iHuman stages — history, PE, DDx, plan. See which choices score, which lose points, and exactly why. Reasoning you can use on any case.</p>
         <a href="/simulator/" class="link-arrow">Open the simulator →</a>
       </div>
-
-      <div class="how-step" data-reveal data-reveal-delay="80">
-        <div class="how-step-num">02</div>
+      <div class="step" data-reveal data-reveal-delay="90">
+        <div class="step-num">02</div><span class="step-free">Free</span>
         <h3>Master the patterns with cheat sheets</h3>
-        <p>
-          Four PDF guides covering history, physical exam, differential
-          diagnosis, and the management plan. The reasoning patterns that work
-          across every case template iHuman uses.
-        </p>
-        <a href="#free-resources" class="link-arrow">Get the cheat sheets →</a>
+        <p>Four PDFs — history, physical exam, differential diagnosis, and management plan. The universal patterns that transfer across every iHuman case template.</p>
+        <a href="#free" class="link-arrow">Get the cheat sheets →</a>
       </div>
-
-      <div class="how-step" data-reveal data-reveal-delay="160">
-        <div class="how-step-num">03</div>
-        <h3>Get your case guide when it counts</h3>
-        <p>
-          For the cases that count toward your grade — submission-ready guides
-          with every history question, PE finding, DDx ranking, and management
-          decision mapped to iHuman's scoring rubric. Same-day delivery.
-        </p>
+      <div class="step" data-reveal data-reveal-delay="180">
+        <div class="step-num">03</div><span class="step-paid">Premium</span>
+        <h3>Get the guide when it's graded</h3>
+        <p>For the cases that count: submission-ready guides with every history question, PE finding, DDx ranking, and management call mapped to the rubric. Same-day delivery.</p>
         <a href="/cases/" class="link-arrow">Browse {total_cases} cases →</a>
       </div>
-
     </div>
   </div>
 </section>
 
-<section class="section" id="free-resources" style="background:var(--cream-2);">
+<section class="section bg-cream2" id="free">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Start free</span>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Start free</span>
       <h2>Free clinical reasoning frameworks</h2>
-      <p>Four PDFs covering the universal patterns CPL has identified across 200+ verified iHuman case submissions. The reasoning that transfers to every case template — yours and ours.</p>
+      <p>Four PDFs covering the universal patterns CPL identified across 200+ verified iHuman submissions — the reasoning that transfers to every case template, yours and ours.</p>
     </div>
-
-    <form id="leadMagnetForm" data-form="leadmagnet">
+    <form data-capture data-reveal data-reveal-delay="80">
       <div class="resource-grid">
         {cheat_cards}
       </div>
-
-      <div class="capture inline mt-4">
-        <div class="capture-eyebrow">Email-delivered</div>
-        <h3>Where should we send your selections?</h3>
-        <p>Pick at least one cheat sheet above. We'll confirm via email and send the PDFs.</p>
-        <div class="capture-row">
-          <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-          <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
+      <div class="capture">
+        <div class="capture-inner">
+          <div class="capture-eyebrow">Email-delivered · free</div>
+          <h3>Where should we send your selections?</h3>
+          <p>Pick at least one cheat sheet above. We'll confirm by email and send the PDFs — no spam, unsubscribe any time.</p>
+          <div class="capture-row">
+            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+            <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
+          </div>
+          <p class="capture-fine">We use your email only to deliver requested resources and a short clinical-insight follow-up.</p>
+          <p class="form-success" data-capture-msg style="display:none; margin-top:14px; color:var(--lime-400); font-size:.92rem;"></p>
         </div>
-        <p class="capture-fine">No spam. Unsubscribe any time. We use email only to deliver requested resources and a short clinical-insight follow-up.</p>
       </div>
     </form>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="cases">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Case Catalog</span>
-      <h2>Case guides built from verified scoring data</h2>
-      <p>Every CPL guide maps the actual iHuman scoring rubric: which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions. {same_day_count} complete guides ship same day. {build_count} more available within 24–48h.</p>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Case catalog</span>
+      <h2>Guides built from verified scoring data</h2>
+      <p>Every CPL guide maps the actual iHuman rubric — which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions. {same_day_count} ship same day; {build_count} more build within 24–48h.</p>
     </div>
     <div class="case-grid">
       {case_cards}
     </div>
-    <div class="text-center mt-4">
+    <div style="text-align:center; margin-top:36px;" data-reveal>
       <a href="/cases/" class="btn btn-ghost">See all {total_cases} cases →</a>
     </div>
   </div>
 </section>
 
-<section class="section" style="background:var(--cream-2);">
+<section class="section bg-cream2" id="pricing">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Pricing</span>
-      <h2>When you need the complete guide.</h2>
-      <p>The simulator and cheat sheets are free forever. When a case counts toward your grade, our complete guides ship same day. Bundles are mix-and-match. New customer? Code <strong>CPLFIRST15</strong> takes 15% off your first single case.</p>
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Pricing</span>
+      <h2>When you need the complete guide</h2>
+      <p>The simulator and cheat sheets are free forever. When a case counts toward your grade, complete guides ship same day. Bundles mix and match. New here? Code <strong>CPLFIRST15</strong> takes 15% off your first single case.</p>
     </div>
-    <div class="pricing-grid">
-      {pricing_html}
+    <div class="pricing-grid">{pricing_html}
     </div>
   </div>
 </section>
@@ -596,55 +593,83 @@ def build_home():
 
 # ─── PAGE: Free Resources (dedicated lead magnet hub) ─────────────
 def build_free_resources():
-    cheat_cards = "".join(cheat_sheet_card_html(cs) for cs in CHEAT_SHEETS)
+    # Cheat-sheet cards (preselected) for the redesign capture form
+    def card(cs):
+        return f'''
+        <label class="resource-card selected" data-id="{esc(cs['id'])}">
+          <input type="checkbox" name="volumes" value="{esc(cs['id'])}" style="display:none" checked>
+          <span class="resource-stage">Vol {esc(cs['vol'])} · Stage {esc(cs['vol'])} of IV</span>
+          <h3>{esc(cs['title'])}</h3>
+          <p>{volume_description(cs['id'])}</p>
+          <div class="resource-meta"><span>{cs['pages']} pages</span><span>·</span><span>~10 min</span></div>
+        </label>'''
+    cheat_cards = "".join(card(cs) for cs in CHEAT_SHEETS)
 
     body = f"""
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow"><span class="dot"></span>Free Resource</span>
-    <h1>The CPL Cheat Sheet Library</h1>
-    <p class="hero-sub">
-      Four free PDFs — one per iHuman case stage. The universal patterns that score on every case, no matter what the chief complaint is. Premium typography. Verified content. Email-delivered.
-    </p>
+    <div class="hero-panel" style="grid-template-columns:1fr;">
+      <div class="hero-content" style="max-width:none;">
+        <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Free forever · no card</span>
+        <h1 data-reveal data-reveal-delay="60">Four frameworks that work on <span class="italic-accent">every</span> case.</h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="120" style="max-width:60ch;">We analyzed 200+ verified iHuman submissions and pulled out the patterns that repeat across every case template — the questions that always score, the exam items that always count, the differentials faculty expect, and the management traps to avoid. It's yours, free.</p>
+        <div class="hero-trust" data-reveal data-reveal-delay="200" style="border-top:none; padding-top:0; margin-top:8px;">
+          <span class="t"><b>4</b>PDF volumes</span>
+          <span class="t"><b>34</b>pages total</span>
+          <span class="t"><b>~40 min</b>to read all four</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="get" style="padding-top:56px;">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Pick your sheets</span>
-      <h2>Which ones do you need?</h2>
-      <p>Pick one, two, or all four. We'll send a confirmation link, then deliver your PDFs immediately.</p>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Pick your volumes</span>
+      <h2>Choose what you need — or grab all four</h2>
+      <p>Each maps to one stage of the iHuman case. Select the ones you want and we'll email the PDFs after a quick confirmation.</p>
     </div>
-
-    <form id="leadMagnetForm" data-form="leadmagnet">
+    <form data-capture data-reveal data-reveal-delay="80">
       <div class="resource-grid">
         {cheat_cards}
       </div>
-
-      <div class="capture mt-4">
-        <div class="capture-eyebrow">Email-delivered · No spam</div>
-        <h3>Where should we send them?</h3>
-        <p>You'll get a confirmation link in under a minute. Click it and your PDFs are in your inbox.</p>
-        <div class="capture-row">
-          <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-          <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
+      <div class="capture">
+        <div class="capture-inner">
+          <div class="capture-eyebrow">Email-delivered · free</div>
+          <h3>Where should we send them?</h3>
+          <p>We'll send a one-click confirmation, then the PDFs. No spam — unsubscribe any time.</p>
+          <div class="capture-row">
+            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+            <button type="submit" class="btn btn-lime btn-lg">Send my cheat sheets →</button>
+          </div>
+          <p class="capture-fine">We use your email only to deliver requested resources and a short clinical-insight follow-up.</p>
+          <p class="form-success" data-capture-msg style="display:none; margin-top:14px; color:var(--lime-400); font-size:.92rem;"></p>
         </div>
-        <p class="capture-fine">We use email only to deliver requested resources and a short clinical-insight follow-up. Unsubscribe any time. Powered by Resend.</p>
       </div>
     </form>
   </div>
 </section>
 
-<section class="section" style="background:var(--cream-2);">
+<section class="section bg-cream2">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">After the cheat sheets</span>
-      <h2>When you need the full answer key.</h2>
-      <p>The cheat sheets cover universal patterns. For your <em>specific case</em> — verbatim history questions, exact PE findings, the platform's preferred diagnosis names, complete management plans — that's what the CPL case guides are for.</p>
-    </div>
-    <div class="text-center">
-      <a href="/cases/" class="btn btn-primary btn-lg">Browse the case catalog →</a>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">①</div>
+        <h3>Because learning should be free</h3>
+        <p>The reasoning patterns transfer to every case you'll ever see. We'd rather you learn them than gate them — that's the mission.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="90">
+        <div class="step-num">②</div>
+        <h3>Built from real scoring data</h3>
+        <p>Every framework comes from 200+ verified submissions — not guesswork. You're learning what the platform actually rewards.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="180">
+        <div class="step-num">③</div>
+        <h3>The guides are there when it counts</h3>
+        <p>When a specific case is graded and you're short on time, our complete case guides pick up where the frameworks leave off.</p>
+        <a href="/cases/" class="link-arrow">Browse the catalog →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -652,158 +677,100 @@ def build_free_resources():
 
     write_page("free-resources", body,
                title="Free Cheat Sheets",
-               description="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered.",
+               description="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered, no card required.",
                page_class="free-resources")
 
 
 # ─── PAGE: Cases catalog ──────────────────────────────────────────
+def _short_course(course):
+    """Compact a course string for catalog cards (e.g. 'NR 509 Week 6' → 'NR 509 · Wk 6')."""
+    import re as _re
+    c = (course or "").strip()
+    c = _re.sub(r'\bWeek\s*(\d+)', r'Wk \1', c)
+    return c
+
+
 def build_catalog():
-    # Build a structured catalog data blob the JS can use for bundle pricing
-    all_cases = CASES
-    all_cards = "".join(case_card_html(c) for c in all_cases)
-
-    # Collect unique filter options from data
-    schools = sorted({c.get("school", "") for c in all_cases if c.get("school")})
-    tags = sorted({t for c in all_cases for t in c.get("tags", [])})
-    courses = sorted({c.get("course", "").split(" Week")[0].strip() for c in all_cases if c.get("course")})
-
-    school_filters = "".join(
-        f'<button class="filter-chip" data-filter="school" data-value="{esc(s.lower().replace(" ", "-").replace("university", "u").strip("-"))}">{esc(s)}</button>'
-        for s in schools
-    )
-    tag_filters = "".join(
-        f'<button class="filter-chip" data-filter="tag" data-value="{esc(t.lower().replace(" ", "-"))}">{esc(t)}</button>'
-        for t in tags
-    )
-
-    # Compact case data blob for bundle builder (just slug + title + price)
     import json as _json
-    bundle_data = _json.dumps([
-        {"slug": c["slug"], "title": c["title"], "tags": c.get("tags", []), "lead_time": c.get("lead_time", "same-day")}
-        for c in all_cases
-    ])
-
+    all_cases = CASES
     total = len(all_cases)
     same_day_n = sum(1 for c in all_cases if c.get("lead_time") == "same-day")
-    fast_n = sum(1 for c in all_cases if c.get("lead_time") == "fast-build")
-    request_n = sum(1 for c in all_cases if c.get("lead_time") == "on-request")
 
-    body = f"""
-<section class="hero">
+    # Full catalog injected for the client-side renderer (cpl-catalog.js).
+    cases_js = _json.dumps([
+        {
+            "t": c["title"],
+            "cc": c.get("chief_complaint", ""),
+            "dx": c.get("diagnosis", ""),
+            "sys": c.get("tags", []),
+            "school": c.get("school", "") or "Multiple Institutions",
+            "course": _short_course(c.get("course", "")),
+            "lead": c.get("lead_time", "same-day"),
+            "href": f"/case/{c['slug']}/",
+        }
+        for c in all_cases
+    ], ensure_ascii=False)
+
+    body = """
+<section class="cat-hero">
   <div class="container">
-    <span class="hero-eyebrow"><span class="dot"></span>Case Catalog</span>
-    <h1><span data-counter="{total}" data-counter-suffix=" cases">0 cases</span>. <span class="accent">All available today.</span></h1>
-    <p class="hero-sub">
-      From verified scoring data across 200+ submissions. {same_day_n} ship same day. {total - same_day_n} more build within 24–48h on order. Across NR509, NR511, NR602, NURS 6512, NRNP 6531/6541/6552/6568, and Kaplan-platform programs.
-    </p>
-    <div class="hero-ctas">
-      <button class="btn btn-primary btn-lg" onclick="document.getElementById('catalog-grid').scrollIntoView({{behavior:'smooth'}})">Browse cases ↓</button>
-      <button class="btn btn-ghost btn-lg" onclick="document.getElementById('bundle-builder').scrollIntoView({{behavior:'smooth'}})">Build a bundle →</button>
-    </div>
-    <div class="hero-trust" style="margin-top:28px;">
-      <span><strong data-counter="{same_day_n}">0</strong> same-day guides</span>
-      <span><strong data-counter="{fast_n}">0</strong> fast-build (24–48h)</span>
-      <span><strong data-counter="{request_n}">0</strong> on-request</span>
-      <span><strong data-counter="9">0</strong> courses covered</span>
-    </div>
-  </div>
-</section>
-
-<section class="section catalog-section" id="catalog-grid">
-  <div class="container">
-
-    <!-- Toolbar: search + active filter readout -->
-    <div class="catalog-toolbar">
-      <div class="catalog-search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="catalogSearch" placeholder="Search by name, course, diagnosis…" autocomplete="off">
-        <button class="catalog-search-clear" id="catalogSearchClear" aria-label="Clear search" style="display:none;">×</button>
-      </div>
-      <div class="catalog-result-count" id="catalogResultCount" aria-live="polite">
-        Showing all {len(all_cases)} cases
-      </div>
-    </div>
-
-    <!-- Filter rail -->
-    <div class="catalog-filters">
-      <div class="filter-group">
-        <span class="filter-label">School</span>
-        {school_filters}
-      </div>
-      <div class="filter-group">
-        <span class="filter-label">System</span>
-        {tag_filters}
-      </div>
-      <div class="filter-group">
-        <span class="filter-label">Lead time</span>
-        <button class="filter-chip" data-filter="lead-time" data-value="same-day">⚡ Same-day</button>
-        <button class="filter-chip" data-filter="lead-time" data-value="fast-build">⌛ 24–48h</button>
-        <button class="filter-chip" data-filter="lead-time" data-value="on-request">📋 On request</button>
-      </div>
-      <button class="filter-clear" id="filterClear" style="display:none;">Clear filters ×</button>
-    </div>
-
-    <!-- Unified case grid -->
-    <div class="case-grid" id="caseGrid">
-      {all_cards}
-    </div>
-
-    <!-- Empty state -->
-    <div class="catalog-empty" id="catalogEmpty" style="display:none;">
-      <p>No cases match those filters.</p>
-      <button class="btn btn-ghost" onclick="window.cpl.catalog.clearAll()">Show all cases</button>
-    </div>
-  </div>
-</section>
-
-<!-- Bundle builder section -->
-<section class="section" id="bundle-builder" style="background:var(--cream-2);">
-  <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Bundle Builder</span>
-      <h2>Pick your cases. <span style="color:var(--teal-700); font-style:italic;">Save more.</span></h2>
-      <p>Pick 1, 3, or 5 cases. Price updates live. Mix any cases — single price for any combination.</p>
-    </div>
-
-    <div class="bundle-builder" data-cases='{esc(bundle_data)}'>
-      <div class="bundle-pool">
-        <h3 class="bundle-section-title">Available cases <span class="muted" style="font-weight:400; font-size:0.85rem;">— click to add</span></h3>
-        <div class="bundle-pool-grid" id="bundlePool"></div>
-      </div>
-
-      <div class="bundle-summary">
-        <div class="bundle-cart" id="bundleCart">
-          <h3 class="bundle-section-title">Your bundle</h3>
-          <div class="bundle-cart-items" id="bundleCartItems">
-            <p class="muted" style="text-align:center; padding:32px 0;">No cases selected yet.<br>Click a case on the left to add it.</p>
-          </div>
-
-          <div class="bundle-pricing" id="bundlePricing" style="display:none;">
-            <div class="bundle-tier-row" id="bundleTierRow">
-              <span class="bundle-tier-label" id="bundleTierLabel">—</span>
-              <span class="bundle-tier-saves" id="bundleTierSaves"></span>
-            </div>
-            <div class="bundle-price-row">
-              <div>
-                <span class="bundle-price-original" id="bundlePriceOriginal"></span>
-                <span class="bundle-price-final" id="bundlePriceFinal">$0</span>
-              </div>
-              <div class="bundle-price-savings" id="bundlePriceSavings"></div>
-            </div>
-            <button class="btn btn-primary btn-lg" id="bundleOrder" style="width:100%;">Order this bundle →</button>
-            <p class="muted bundle-disclaimer">We'll confirm via email or WhatsApp before charging. Use code <strong>CPLFIRST15</strong> for 15% off if this is your first single case.</p>
-          </div>
+    <div class="cat-hero-panel">
+      <div class="cat-hero-inner">
+        <span class="eyebrow on-dark"><span class="dot"></span>Case catalog</span>
+        <h1>Find your case. <span class="italic-accent">See exactly what scores.</span></h1>
+        <p>Every guide is built from verified scoring data and mapped to the iHuman rubric. Search by patient, diagnosis, or course — iHuman rotates names, so each guide covers every alias of its template.</p>
+        <div class="cat-search-big">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="catSearch" placeholder="Search by name, diagnosis, or course…" autocomplete="off">
+          <button class="cat-search-clear" id="catSearchClear" aria-label="Clear search" style="display:none;">×</button>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<section class="cat-body" id="catalog">
+  <div class="container">
+    <div class="cat-filters">
+      <div class="filter-group"><span class="filter-label">System</span><div class="filter-chips" id="fSystem"></div></div>
+      <div class="filter-group"><span class="filter-label">School</span><div class="filter-chips" id="fSchool"></div></div>
+      <div class="filter-group"><span class="filter-label">Lead time</span><div class="filter-chips" id="fLead"></div></div>
+      <button class="filter-clear" id="filterClear">Clear filters ×</button>
+    </div>
+    <div class="cat-count" id="catCount">Showing all cases</div>
+    <div class="case-grid" id="caseGrid"></div>
+    <div class="cat-empty" id="catEmpty">
+      <h3>No cases match those filters</h3>
+      <p>Try removing a filter — or message support and we'll confirm whether your case is in the pipeline.</p>
+    </div>
+  </div>
+</section>
+
+<div class="bundle-bar" id="bundleBar">
+  <div class="bundle-bar-inner">
+    <div class="bundle-info">
+      <span class="bc" data-bundle-count>0 cases</span>
+      <span class="bt" data-bundle-total>$0</span>
+      <span class="bs" data-bundle-save>&nbsp;</span>
+    </div>
+    <div class="bundle-list" data-bundle-list></div>
+    <button class="btn btn-lime" data-bundle-order>Order this bundle →</button>
+  </div>
+</div>
 """
+
+    body_scripts = (
+        f'<script>window.CPL_CASES = {cases_js};</script>\n'
+        f'<script src="/cpl-catalog.js" defer></script>'
+    )
 
     write_page("cases", body,
                title="Case Catalog",
-               description="Browse 16 iHuman case guides. Same-day delivery on most cases. Built from verified student submissions.",
-               page_class="catalog")
+               description=(f"Browse {total} iHuman case guides across NR509, NR511, NR602, "
+                            f"NURS 6512, NRNP 6531/6541/6552/6568 and Kaplan programs. "
+                            f"{same_day_n} ship same day."),
+               page_class="catalog",
+               body_scripts=body_scripts)
 
 
 # ─── PAGE: Individual case preview ────────────────────────────────
@@ -855,267 +822,237 @@ def get_preview_data(slug):
     }
 
 
-def _render_preview_section(case, preview):
-    """Render the PDF preview block. Two tracks: real (section pages + locked
-    stack) and sample (watermarked format excerpts + honest warning + CTA)."""
+def _render_preview_gallery(case, preview):
+    """Render the redesign guide-preview panel (.gallery). Real previews show
+    section pages (clear) + locked teasers; sample previews show watermarked
+    format excerpts with an honest 'not your case' note. Both end in an
+    unlock/order bar."""
     if not preview:
         return ''
-
     slug = case['slug']
     total = preview['total_pages']
-    order_subject = esc(f"CPL Order - {case['title']}").replace(' ', '%20')
     title = esc(case['title'])
+    order_attr = esc(case['title'])
 
-    # Counts for the value copy (fall back to generic phrasing)
-    q_count = case.get('preview_hpi_count')
-    pe_count = case.get('preview_pe_count')
-    dx_count = case.get('preview_dx_count')
-    if q_count and pe_count and dx_count:
-        value_line = (f"{q_count} scored history questions, {pe_count} physical "
-                      f"exam items, {dx_count} ranked differentials")
-    else:
-        value_line = ("the full history bank, scored PE checklist, ranked "
-                      "differentials")
-
-    # ── Real preview ───────────────────────────────────────────────
     if not preview['is_sample']:
-        clear_pages = preview['clear_pages']
         labels = preview['section_labels']
         clear_count = preview['clear_count']
         locked_count = preview['locked_count']
-
-        clear_html = ''
-        for n in clear_pages:
-            label = labels.get(str(n), f"Page {n}")
-            clear_html += f'''
-        <div class="pdf-page pdf-page-clear">
-          <div class="pdf-page-num">Page {n} of {total} &mdash; {esc(label)}</div>
-          <img src="/previews/{slug}/page_{n}.png"
-               alt="{title} guide &mdash; {esc(label)}"
-               loading="lazy" class="pdf-page-img">
+        gpages = ''
+        for n in preview['clear_pages']:
+            label = esc(labels.get(str(n), f"Page {n}"))
+            gpages += f'''
+            <div class="gpage clear" data-lightbox="/previews/{slug}/page_{n}.png">
+              <div class="gpage-frame"><span class="gpage-tag sample">Sample</span><img src="/previews/{slug}/page_{n}.png" alt="Page {n} — {label}" loading="lazy"></div>
+              <div class="gpage-label"><b>Page {n}</b>{label}</div>
+            </div>'''
+        for n in preview['stack_blurred']:
+            gpages += f'''
+            <div class="gpage locked">
+              <div class="gpage-frame"><span class="gpage-tag locked">Locked</span><img src="/previews/{slug}/page_{n}_blurred.png" alt="Locked page" loading="lazy"></div>
+              <div class="gpage-label"><b>Page {n}</b>Locked</div>
+            </div>'''
+        intro = (f"Actual pages from your {title} guide — one from each section. "
+                 f"Click a sample to read it full size. The remaining {locked_count} "
+                 f"unlock when you order.")
+        return f'''
+        <div class="panel" data-reveal style="padding-bottom:28px;">
+          <div class="panel-eyebrow">Real guide preview</div>
+          <h3>See the real pages. {clear_count} of {total} are on us.</h3>
+          <p style="color:var(--muted); font-size:.95rem; margin:0 0 18px;">{intro}</p>
+          <div class="gallery">{gpages}
+          </div>
+          <div class="unlock-bar">
+            <div class="ub-text"><b>{locked_count} more pages — locked</b><small>Full history bank, PE checklist, ranked DDx, EHR docs, SOAP note &amp; 6-part management plan</small></div>
+            <button class="btn btn-lime" data-order="{order_attr}" data-price="150">Unlock the complete guide — $150</button>
+          </div>
         </div>'''
 
-        stack_html = ''
-        for i, n in enumerate(preview['stack_blurred']):
-            stack_html += f'''
-          <div class="pdf-page pdf-page-blurred" style="z-index:{10-i}">
-            <div class="pdf-page-num">Page {n} of {total} &mdash; Locked</div>
-            <img src="/previews/{slug}/page_{n}_blurred.png"
-                 alt="Locked guide page" loading="lazy"
-                 class="pdf-page-img blurred-img">
-          </div>'''
-
-        return f'''
-<div class="pdf-preview-section" data-reveal>
-  <div class="pdf-preview-label">
-    <span class="pdf-real-badge">&#9889; Guide Preview</span>
-    <span class="pdf-real-note">{clear_count} sample pages from your actual {title} guide &mdash; one from each section</span>
-  </div>
-  {clear_html}
-  <div class="pdf-locked-stack">
-    {stack_html}
-    <div class="pdf-unlock-overlay">
-      <div class="pdf-lock-icon">&#128274;</div>
-      <div class="pdf-lock-title">{locked_count} more pages &mdash; locked</div>
-      <div class="pdf-lock-sub">
-        Full history bank ({value_line}), complete PE checklist, ranked DDx,
-        EHR documentation, SOAP note, and management plan with APA references.
-      </div>
-      <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}" class="btn btn-primary">
-        Get the complete {title} guide &mdash; $150
-      </a>
-      <div class="pdf-lock-note">
-        Word + PDF &middot; Same-day delivery &middot;
-        Use code <strong>CPLFIRST15</strong> for 15% off your first
-      </div>
-      <div class="pdf-lock-note">
-        Want to see a full sample first? <a href="/sample-guide/">View a complete sample guide &rarr;</a>
-      </div>
-    </div>
-  </div>
-</div>'''
-
-    # ── Sample preview ─────────────────────────────────────────────
+    # Sample preview — watermarked format excerpts from a different completed case
     source = preview['sample_source']
     source_title = esc(preview['source_title'])
+    sample_labels = [(1, "Cover &amp; overview"), (2, "History bank"),
+                     (3, "PE checklist"), (4, "Tests &amp; DDx")]
+    gpages = ''
+    for idx, label in sample_labels:
+        gpages += f'''
+            <div class="gpage clear" data-lightbox="/previews/_watermarked/{source}/sample_{idx}.png">
+              <div class="gpage-frame"><span class="gpage-tag sample">Example</span><img src="/previews/_watermarked/{source}/sample_{idx}.png" alt="Example {label}" loading="lazy"></div>
+              <div class="gpage-label"><b>Example</b>{label}</div>
+            </div>'''
     return f'''
-<div class="pdf-preview-section is-sample" data-reveal>
-  <div class="pdf-sample-warning">
-    <div class="pdf-sample-warning-icon">&#9888;&#65039;</div>
-    <div class="pdf-sample-warning-text">
-      <strong>This isn't your case preview.</strong>
-      We haven't built {title} yet &mdash; these images are stamped excerpts
-      from one of our completed guides ({source_title}). They show our format.
-      Your guide will be written specifically for {title} and follow this same structure.
-    </div>
-  </div>
-
-  <div class="pdf-page pdf-page-sample">
-    <div class="pdf-page-num">Example &mdash; Cover &amp; case overview format</div>
-    <img src="/previews/_watermarked/{source}/sample_1.png"
-         alt="Example cover format" loading="lazy" class="pdf-page-img">
-  </div>
-
-  <div class="pdf-page pdf-page-sample">
-    <div class="pdf-page-num">Example &mdash; History section format</div>
-    <img src="/previews/_watermarked/{source}/sample_2.png"
-         alt="Example history section format" loading="lazy" class="pdf-page-img">
-  </div>
-
-  <div class="pdf-sample-cta">
-    <div class="pdf-sample-cta-title">Order {title} and get your own complete guide</div>
-    <div class="pdf-sample-cta-sub">
-      Word + PDF, built specifically for {title}. {total}+ pages of
-      patient-specific content covering {value_line}, EHR documentation,
-      SOAP note, and management plan.
-    </div>
-    <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}" class="btn btn-primary">
-      Order this guide &mdash; $150
-    </a>
-    <div class="pdf-sample-cta-note">
-      Use code <strong>CPLFIRST15</strong> for 15% off your first single case.
-      &middot; <a href="/sample-guide/">See a complete sample guide &rarr;</a>
-    </div>
-  </div>
-</div>'''
+        <div class="panel" data-reveal style="padding-bottom:28px;">
+          <div class="panel-eyebrow">Guide format preview</div>
+          <h3>This isn't your case yet — here's our format</h3>
+          <p style="color:var(--muted); font-size:.95rem; margin:0 0 18px;">We haven't built {title} yet. These are stamped excerpts from a completed guide ({source_title}) so you can see the exact structure. Your guide will be written specifically for {title} and follow this same format.</p>
+          <div class="gallery">{gpages}
+          </div>
+          <div class="unlock-bar">
+            <div class="ub-text"><b>Order {title} and get your own complete guide</b><small>Built specifically for {title} — history bank, PE checklist, ranked DDx, EHR docs, SOAP note &amp; management plan</small></div>
+            <button class="btn btn-lime" data-order="{order_attr}" data-price="150">Order this guide — $150</button>
+          </div>
+        </div>'''
 
 
 def build_case_preview(case):
+    title = esc(case['title'])
+    course = esc(case.get('course', ''))
+    school = esc(case.get('school', ''))
+    patient = esc(case.get('patient_short', ''))
+    cc = esc(case.get('chief_complaint', ''))
+    diagnosis = esc(case.get('diagnosis', ''))
+    must_not_miss = esc(case.get('must_not_miss', '—'))
+    tags = case.get('tags', [])
+    primary_sys = esc(tags[0]) if tags else 'Clinical'
+    patient_name = esc(case['title'].split('—')[0].split('-')[0].strip())
+    lead_time = case.get('lead_time', 'same-day')
+    badge = ('⚡ Same-day delivery' if lead_time == 'same-day'
+             else '⌛ 24–48h build' if lead_time == 'fast-build'
+             else '📋 On request')
+    order_attr = esc(case['title'])
+    order_subject = esc(f"CPL Order - {case['title']}").replace(' ', '%20')
+
+    # Scoring traps
     traps_html = "".join(
-        f'<div class="trap-callout" data-reveal data-reveal-delay="{i*80}"><div class="trap-callout-title">⚠ Scoring Trap</div><div>{esc(t)}</div></div>'
-        for i, t in enumerate(case.get("key_scoring_traps", []))
-    )
+        f'<div class="trap" data-reveal data-reveal-delay="{i*60}"><span class="trap-ico">⚠</span><div class="trap-body">{esc(t)}</div></div>'
+        for i, t in enumerate(case.get('key_scoring_traps', []))
+    ) or '<p style="color:var(--muted); font-size:.95rem; margin:0;">Full scoring strategy is mapped in the delivered guide.</p>'
 
-    lead_time = case.get("lead_time", "same-day")
-    if lead_time == "same-day":
-        cta_label = "Get this case guide"
-        cta_blurb = "Word + PDF, delivered same day to your inbox."
-        lead_badge = '<span class="lead-badge lead-badge-fast">⚡ Same-day delivery</span>'
-    else:
-        cta_label = "Order this case guide"
-        cta_blurb = "Word + PDF, built and delivered within 24–48 hours."
-        lead_badge = '<span class="lead-badge lead-badge-build">⌛ 24–48h build</span>'
-
-    counts = ""
-    if case.get("preview_hpi_count"):
-        counts = f"""
-<ul>
-  <li><strong>{case['preview_hpi_count']}</strong> history questions with verbatim patient responses</li>
-  <li><strong>{case['preview_pe_count']}</strong> physical exam items with documentation language</li>
-  <li><strong>{case['preview_dx_count']}</strong> ranked differential diagnoses (platform-verified names)</li>
-  <li>Full EHR documentation (Subjective + Objective sections)</li>
-  <li>Tests Ordered list with rationale for each</li>
-  <li>Complete Management Plan in 6-part structure</li>
-  <li>SOAP Note ready to submit</li>
-  <li>APA-formatted scholarly references</li>
-</ul>
-"""
-    else:
-        counts = """
-<ul>
-  <li>Full history question bank with verbatim patient responses</li>
-  <li>Physical exam checklist with documentation language</li>
-  <li>Ranked differential diagnoses with platform-verified names</li>
-  <li>Complete EHR + SOAP Note</li>
-  <li>Tests Ordered list with rationale</li>
-  <li>Management Plan with APA references</li>
-</ul>
-"""
-
-    aliases_html = ""
-    if case.get("aliases") and len(case["aliases"]) > 1:
-        chips = "".join(f'<span class="case-tag">{esc(a)}</span>' for a in case["aliases"])
-        aliases_html = f"""
-<div class="preview-section">
-  <h3>Same case, different patient name</h3>
-  <p>iHuman rotates the patient name across course sections. This guide covers all aliases of this case template:</p>
-  <div class="case-meta">{chips}</div>
-  <p class="muted mt-2" style="font-size:0.88rem;">Tell us which alias you have at checkout — we customize the delivered guide to your exact patient.</p>
-</div>
-"""
-
-    # ── PDF Preview Section ──────────────────────────────────────
+    # Guide stats + contents (use real counts when present)
     preview = get_preview_data(case['slug'])
-    pdf_preview_html = _render_preview_section(case, preview)
+    total_pages = preview['total_pages'] if preview else None
+    hpi = case.get('preview_hpi_count')
+    pe = case.get('preview_pe_count')
+    dx = case.get('preview_dx_count')
+    stats = []
+    if hpi: stats.append((hpi, 'History Qs'))
+    if pe: stats.append((pe, 'PE items'))
+    if dx: stats.append((dx, 'Ranked DDx'))
+    if total_pages: stats.append((total_pages, 'Pages'))
+    stats_html = "".join(
+        f'<div class="gstat"><b>{v}</b><span>{esc(l)}</span></div>' for v, l in stats
+    )
+    stats_block = f'<div class="guide-stats">{stats_html}</div>' if stats_html else ''
+    guide_heading = (f"{total_pages} pages, mapped to the rubric" if total_pages
+                     else "Mapped to the iHuman rubric")
+    if hpi and pe and dx:
+        contents_top = (
+            f'<li><span><b>{hpi}</b> history questions with verbatim patient responses</span></li>'
+            f'<li><span><b>{pe}</b> physical exam items with documentation language</span></li>'
+            f'<li><span><b>{dx}</b> ranked differentials (platform-verified names)</span></li>'
+        )
+    else:
+        contents_top = (
+            '<li><span>Full history question bank with verbatim patient responses</span></li>'
+            '<li><span>Physical exam checklist with documentation language</span></li>'
+            '<li><span>Ranked differentials with platform-verified names</span></li>'
+        )
 
-    course_chip = f'<span class="case-tag">{esc(case.get("course",""))}</span>'
-    school_chip = f'<span class="case-tag">{esc(case.get("school",""))}</span>'
-    tag_chips = "".join(f'<span class="case-tag">{esc(t)}</span>' for t in case.get("tags", []))
+    gallery_html = _render_preview_gallery(case, preview)
+
+    # Aliases panel
+    aliases_html = ''
+    if case.get('aliases') and len(case['aliases']) > 1:
+        chips = "".join(f'<span class="alias-chip">{esc(a)}</span>' for a in case['aliases'])
+        aliases_html = f'''
+        <div class="panel" data-reveal style="margin-bottom:0;">
+          <div class="panel-eyebrow">Same case, different patient name</div>
+          <h3>This guide covers every alias</h3>
+          <p style="color:var(--muted); font-size:.95rem; margin:0 0 6px;">iHuman rotates the patient name across course sections. This template's known aliases:</p>
+          <div class="alias-chips">{chips}</div>
+          <p style="color:var(--muted); font-size:.86rem; margin:0;">Tell us which alias you have at checkout — we customize the delivered guide to your exact patient.</p>
+        </div>'''
 
     body = f"""
-<section class="preview-hero">
+<section class="cp-hero">
   <div class="container">
-    <div class="preview-eyebrow">Case Preview · {esc(case.get('course',''))} {lead_badge}</div>
-    <h1 data-reveal>{esc(case['title'])}</h1>
-    <p class="preview-cc" data-reveal data-reveal-delay="100">"{esc(case['chief_complaint'])}"</p>
-    <div class="preview-meta" data-reveal data-reveal-delay="200">
-      <span>Patient: <strong>{esc(case['patient_short'])}</strong></span>
-      <span>Course: <strong>{esc(case.get('course','—'))}</strong></span>
-      <span>School: <strong>{esc(case.get('school','—'))}</strong></span>
+    <div class="cp-hero-panel">
+      <div class="cp-breadcrumb"><a href="/cases/">Case catalog</a> &nbsp;/&nbsp; {primary_sys} &nbsp;/&nbsp; {patient_name}</div>
+      <div class="cp-eyebrow">
+        <span class="course">Case preview · {course}</span>
+        <span class="cp-badge">{badge}</span>
+      </div>
+      <h1 data-reveal>{title}</h1>
+      <p class="cp-cc" data-reveal data-reveal-delay="80">"{cc}"</p>
+      <div class="cp-meta" data-reveal data-reveal-delay="140">
+        <span class="m">Patient<b>{patient or '—'}</b></span>
+        <span class="m">Course<b>{course or '—'}</b></span>
+        <span class="m">School<b>{school or '—'}</b></span>
+        <span class="m">System<b>{primary_sys}</b></span>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section class="cp-body">
   <div class="container">
-    <div class="preview-grid">
-      <div>
-        <div class="preview-section">
-          <h3>Final diagnosis</h3>
-          <p style="font-family:var(--font-display); font-size:1.3rem; color:var(--teal-800); margin:0;">
-            {esc(case['diagnosis'])}
-          </p>
+    <div class="cp-grid">
+      <div class="cp-main">
+
+        <div class="panel dx-row" data-reveal>
+          <div>
+            <div class="panel-eyebrow">Final diagnosis</div>
+            <p class="dx-final">{diagnosis}</p>
+          </div>
+          <div>
+            <div class="panel-eyebrow">Must-not-miss</div>
+            <p style="margin:0; color:var(--ink-2); font-size:.95rem; line-height:1.45;">{must_not_miss}</p>
+          </div>
         </div>
 
-        <div class="preview-section">
-          <h3>Must-not-miss</h3>
-          <p>{esc(case.get('must_not_miss', '—'))}</p>
+        <div class="panel" data-reveal>
+          <div class="panel-eyebrow">What's in the guide</div>
+          <h3>{guide_heading}</h3>
+          {stats_block}
+          <ul class="guide-contents">
+            {contents_top}
+            <li><span>Full EHR documentation — Subjective + Objective</span></li>
+            <li><span>Tests Ordered, each with scoring rationale</span></li>
+            <li><span>Complete 6-part management plan</span></li>
+            <li><span>SOAP note, ready to submit</span></li>
+            <li><span>APA-formatted scholarly references</span></li>
+          </ul>
         </div>
 
-        <div class="preview-section">
-          <h3>What's in the guide</h3>
-          {counts}
-        </div>
-
-        {pdf_preview_html}
-
-        <div class="preview-section">
-          <h3>Scoring traps this case</h3>
-          <p>The point-loss patterns we map for you:</p>
+        <div class="panel" data-reveal>
+          <div class="panel-eyebrow">Scoring logic, decoded</div>
+          <h3>The traps that quietly cost points</h3>
+          <p style="color:var(--muted); font-size:.95rem; margin:0 0 18px;">These are the point-loss patterns iHuman never tells you about. We map every one for this case.</p>
           {traps_html}
         </div>
+
+        {gallery_html}
 
         {aliases_html}
       </div>
 
-      <aside>
-        <div class="preview-side-cta">
-          <span class="resource-stage">{esc(case.get('course','iHuman Case'))}</span>
-          <h4>{esc(cta_label)}</h4>
-          <div class="side-price">$150</div>
-          <p class="muted" style="font-size:0.88rem;">{esc(cta_blurb)}</p>
-          <a href="mailto:Tutorspot98@gmail.com?subject=CPL%20Order%20-%20{esc(case['title'])}" class="btn btn-primary" style="width:100%; margin-top:8px;">Order via email</a>
-          <a href="https://wa.me/" class="btn btn-ghost" style="width:100%; margin-top:8px;">WhatsApp DM</a>
-          <p class="muted mt-3" style="font-size:0.78rem; text-align:center;">Use code <strong>CPLFIRST15</strong> for 15% off your first single case.</p>
+      <aside class="cp-aside">
+        <div class="order-card" id="order">
+          <div class="order-card-inner">
+            <div class="order-eyebrow">{course or 'iHuman case'}</div>
+            <h4>Get this case guide</h4>
+            <div class="order-price"><span class="cur">$</span>150</div>
+            <p class="sub">Word + PDF, delivered same day to your inbox.</p>
+            <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}" class="btn btn-lime" data-order="{order_attr}" data-price="150">Order this guide →</a>
+            <button class="btn btn-ghost-dark" data-access-code>I have an access code</button>
+            <ul class="order-incl">
+              <li>Same-day delivery</li>
+              <li>Mapped to the scoring rubric</li>
+              <li>Customized to your patient alias</li>
+            </ul>
+            <div class="order-code">Code <strong>CPLFIRST15</strong> — 15% off your first single case</div>
+          </div>
         </div>
 
-        <div class="capture inline" style="margin-top:20px;">
-          <div class="capture-eyebrow">First time here?</div>
-          <h3 style="font-size:1.1rem;">Get the free cheat sheets first.</h3>
-          <p>Four PDFs that work across every iHuman case. Email-delivered.</p>
-          <form data-form="leadmagnet">
-            <input type="hidden" name="volumes" value="history,physical-exam,ddx,plan">
-            <div class="capture-row" style="margin-top:8px;">
-              <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-            </div>
-            <button type="submit" class="btn btn-lime" style="width:100%; margin-top:8px;">Get all 4 cheat sheets →</button>
+        <div class="side-free">
+          <div class="panel-eyebrow">First time here?</div>
+          <h4>Get the free cheat sheets first</h4>
+          <p>Four PDFs that work across every iHuman case. Email-delivered, no card.</p>
+          <form data-capture>
+            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email" style="width:100%; padding:12px 16px; border-radius:999px; border:1.5px solid var(--border-strong); font-family:var(--font-body); font-size:.92rem; background:#fff; margin-bottom:9px;">
+            <button type="submit" class="btn btn-primary" style="width:100%;">Get all 4 cheat sheets →</button>
+            <p class="form-success" data-capture-msg style="display:none; margin:12px 0 0; color:var(--teal-700); font-size:.85rem;"></p>
           </form>
-        </div>
-
-        <!-- Recently viewed cases (rendered dynamically by cpl.js) -->
-        <div class="recent-cases-block" data-render="recent-cases" style="display:none;">
-          <div class="recent-label">Recently viewed</div>
-          <div data-recent-list></div>
         </div>
       </aside>
     </div>
@@ -1125,21 +1062,21 @@ def build_case_preview(case):
 
     write_page(f"case/{case['slug']}", body,
                title=case['title'],
-               description=f"{case['title']} — {case['chief_complaint']}. iHuman case guide for {case.get('course','')}. Built from verified student submissions.",
+               description=f"{case['title']} — {case['chief_complaint']}. iHuman case guide for {case.get('course','')}. Built from verified student submissions, mapped to the scoring rubric.",
                page_class="case-preview")
 
 
 # ─── PAGE: Confirm (double opt-in landing) ────────────────────────
 def build_confirm():
     body = """
-<section class="hero">
-  <div class="container container-narrow text-center">
-    <span class="hero-eyebrow"><span class="dot"></span>Almost there</span>
-    <h1 id="confirmTitle">Confirming your email…</h1>
-    <p class="hero-sub" id="confirmSub">
-      Validating your confirmation link. This takes a few seconds.
-    </p>
-    <div id="confirmResult"></div>
+<section class="status-page">
+  <div class="container">
+    <div class="status-card" data-reveal>
+      <div class="status-badge" id="confirmBadge">…</div>
+      <h1 id="confirmTitle">Confirming your email…</h1>
+      <p id="confirmSub">Validating your confirmation link. This takes a few seconds.</p>
+      <div id="confirmResult" class="status-ctas"></div>
+    </div>
   </div>
 </section>
 
@@ -1161,9 +1098,11 @@ def build_confirm():
     const res = await fetch('/api/confirm?t=' + encodeURIComponent(token));
     const data = await res.json();
     if (res.ok && data.ok) {
+      var badge = document.getElementById('confirmBadge');
+      if (badge) badge.textContent = '✓';
       titleEl.textContent = "Your PDFs are on the way!";
       subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
-      resultEl.innerHTML = '<div class="form-success">Email confirmed: ' + data.email + '. Volumes: ' + (data.volumes || []).join(', ') + '</div><div style="margin-top:24px;"><a href="/cases/" class="btn btn-primary btn-lg">Browse case catalog →</a></div>';
+      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Open the simulator</a>';
     } else {
       titleEl.textContent = "Couldn't confirm";
       subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
@@ -1185,18 +1124,17 @@ def build_confirm():
 # ─── PAGE: Thank you (post-form-submission) ───────────────────────
 def build_thankyou():
     body = """
-<section class="hero">
-  <div class="container container-narrow text-center">
-    <span class="hero-eyebrow"><span class="dot"></span>Check your inbox</span>
-    <h1>One quick step.</h1>
-    <p class="hero-sub">
-      We've sent a confirmation link to your email. Click it (in the next 24 hours) and your PDFs land in your inbox immediately.
-    </p>
-    <p class="muted">
-      Don't see it? Check the spam folder. The sender is <strong>onboarding@resend.dev</strong>.
-    </p>
-    <div class="mt-4">
-      <a href="/cases/" class="btn btn-primary btn-lg">Browse cases while you wait →</a>
+<section class="status-page">
+  <div class="container">
+    <div class="status-card" data-reveal>
+      <div class="status-badge">✉</div>
+      <h1>One quick step.</h1>
+      <p>We've sent a confirmation link to your email. Click it within 24 hours and your PDFs land in your inbox immediately.</p>
+      <p style="font-size:.9rem;">Don't see it? Check the spam folder — the sender is <strong>onboarding@resend.dev</strong>.</p>
+      <div class="status-ctas">
+        <a href="/simulator/" class="btn btn-lime">Try the simulator while you wait</a>
+        <a href="/cases/" class="btn btn-ghost">Browse cases</a>
+      </div>
     </div>
   </div>
 </section>
@@ -1209,325 +1147,144 @@ def build_thankyou():
 
 # ─── PAGE: Simulator ──────────────────────────────────────────────
 def build_simulator():
-    """Build the interactive case simulator page (free clinical reasoning practice)."""
-    import json as _json
-    sim_data_json = _json.dumps(SIMULATOR_DATA)
-
-    body = f'''
-<section class="simulator-hero">
-  <div class="container">
-    <span class="hero-eyebrow"><span class="dot"></span>Free · Take a minute</span>
-    <h1>Practice. Don't pay to learn.</h1>
-    <p class="hero-sub">
-      Three iHuman cases. Real scoring patterns. See which choices lose points
-      and why. No signup, no payment — this is what free clinical reasoning
-      education looks like.
-    </p>
+    """Build the interactive case simulator page (React app from cpl-simulator.jsx)."""
+    body = '''
+<section class="section-tight" style="padding-top:48px;">
+  <div class="container-narrow" style="text-align:center;">
+    <span class="eyebrow"><span class="dot"></span>Free · no sign-up</span>
+    <h1 style="margin:16px 0 12px; font-size:clamp(2rem,4vw,3rem);">Practice the reasoning. <span class="italic-accent" style="color:var(--teal-700);">See every point.</span></h1>
+    <p style="color:var(--muted); font-size:1.08rem; max-width:54ch; margin:0 auto;">Work a real iHuman case the way it's graded — history, exam, differential, and plan. Make your picks, then watch the scoring logic light up: what earns points, what's filler, and which choices are harmful-flag traps.</p>
   </div>
 </section>
 
-<section class="simulator-section">
+<section class="sim-wrap" style="padding-top:8px;">
   <div class="container">
-
-    <div class="sim-case-picker">
-      <span class="sim-case-picker-label">Pick a case:</span>
-      <button class="sim-case-btn is-active" data-case="harvey" onclick="loadCase('harvey', this)">Harvey Hoya — HTN</button>
-      <button class="sim-case-btn" data-case="bebe" onclick="loadCase('bebe', this)">Bebe Babbitt — Migraine</button>
-      <button class="sim-case-btn" data-case="kennedy" onclick="loadCase('kennedy', this)">Kennedy Poole — ADHD</button>
-    </div>
-
-    <div class="sim-container">
-      <div class="sim-header">
-        <div>
-          <div class="sim-case-title" id="sim-case-title">Harvey Hoya — Hypertension Stage 2</div>
-          <div class="sim-case-meta" id="sim-case-meta">57-year-old male · NR 509 / NR 511 Week 5 · Chamberlain</div>
-        </div>
-        <div class="sim-score-pill" id="sim-score-display">Score: 0%</div>
-      </div>
-
-      <div class="sim-progress">
-        <div class="sim-prog-step" id="prog-1"></div>
-        <div class="sim-prog-step" id="prog-2"></div>
-        <div class="sim-prog-step" id="prog-3"></div>
-        <div class="sim-prog-step" id="prog-4"></div>
-      </div>
-
-      <div class="sim-body" id="sim-body"></div>
-
-      <div class="sim-footer">
-        <span class="sim-stage-label" id="sim-stage-label">Stage 1 of 4 — History (free)</span>
-        <button class="btn btn-primary btn-sm" id="sim-next-btn" onclick="nextQuestion()" style="display:none">Next question →</button>
-      </div>
-    </div>
-
-    <div id="sim-unlock-section" style="display:none">
-      <div class="sim-unlock">
-        <h3>You've completed the free simulator.</h3>
-        <p>
-          The full reasoning map for any case — every history question, every PE
-          finding, every DDx ranking, every harmful-flag trap — ships in a
-          complete CPL guide. Same day, $150, or 15% off your first with code CPLFIRST15.
-        </p>
-        <div class="sim-unlock-ctas">
-          <a href="/cases/" class="btn btn-lime">Browse complete case guides</a>
-          <button class="btn btn-ghost" onclick="resetCurrentCase()">Try this case again</button>
-        </div>
-      </div>
-    </div>
-
+    <div id="sim-root"></div>
+    <p style="text-align:center; color:var(--muted); font-size:.85rem; margin-top:18px;">This is a teaching simulation built from verified scoring patterns — it's not affiliated with iHuman. Always follow your school's academic policies.</p>
   </div>
 </section>
-
-<script>
-const SIMULATOR_DATA = {sim_data_json};
-let currentCase = 'harvey';
-let currentQuestion = 0;
-let score = 0;
-let answered = [];
-
-function loadCase(caseId, btn) {{
-  currentCase = caseId;
-  currentQuestion = 0;
-  score = 0;
-  answered = [];
-  document.querySelectorAll('.sim-case-btn').forEach(b => b.classList.remove('is-active'));
-  if (btn) btn.classList.add('is-active');
-  const data = SIMULATOR_DATA[caseId];
-  document.getElementById('sim-case-title').textContent = data.title;
-  document.getElementById('sim-case-meta').textContent = data.meta;
-  document.getElementById('sim-unlock-section').style.display = 'none';
-  document.getElementById('sim-next-btn').style.display = 'none';
-  updateScore();
-  updateProgress();
-  renderQuestion();
-}}
-
-function renderQuestion() {{
-  const data = SIMULATOR_DATA[currentCase];
-  const q = data.questions[currentQuestion];
-  if (!q) {{ finishCase(); return; }}
-  const body = document.getElementById('sim-body');
-  body.innerHTML = `
-    <div class="sim-question-stage">${{q.stage}}</div>
-    <div class="sim-question">${{q.q}}</div>
-    <div class="sim-options" id="sim-options"></div>
-    <div class="sim-feedback" id="sim-feedback" style="display:none"></div>
-  `;
-  const opts = document.getElementById('sim-options');
-  q.options.forEach((opt, idx) => {{
-    const div = document.createElement('button');
-    div.className = 'sim-option';
-    div.textContent = opt;
-    div.onclick = () => selectOption(idx);
-    opts.appendChild(div);
-  }});
-  document.getElementById('sim-stage-label').textContent =
-    `Stage ${{currentQuestion + 1}} of ${{data.questions.length}} — ${{q.stage}} (free)`;
-  document.getElementById('sim-next-btn').style.display = 'none';
-}}
-
-function selectOption(idx) {{
-  if (answered.includes(currentQuestion)) return;
-  answered.push(currentQuestion);
-  const q = SIMULATOR_DATA[currentCase].questions[currentQuestion];
-  const correct = idx === q.correct;
-  if (correct) score++;
-  const opts = document.querySelectorAll('#sim-options .sim-option');
-  opts.forEach((el, i) => {{
-    el.classList.add('is-answered');
-    if (i === q.correct) el.classList.add('is-correct');
-    if (i === idx && !correct) el.classList.add('is-wrong');
-  }});
-  const fb = document.getElementById('sim-feedback');
-  fb.className = correct ? 'sim-feedback is-correct' : 'sim-feedback is-wrong';
-  fb.innerHTML = `<strong>${{correct ? '✓ Correct' : '✗ Not quite'}}</strong><br>${{q.feedback}}`;
-  fb.style.display = 'block';
-  updateScore();
-  document.getElementById('sim-next-btn').style.display = '';
-}}
-
-function nextQuestion() {{
-  currentQuestion++;
-  updateProgress();
-  renderQuestion();
-}}
-
-function updateScore() {{
-  const data = SIMULATOR_DATA[currentCase];
-  const pct = Math.round((score / data.questions.length) * 100);
-  document.getElementById('sim-score-display').textContent = `Score: ${{pct}}%`;
-}}
-
-function updateProgress() {{
-  for (let i = 1; i <= 4; i++) {{
-    const el = document.getElementById(`prog-${{i}}`);
-    if (!el) continue;
-    el.className = 'sim-prog-step';
-    if (i < currentQuestion + 1) el.classList.add('is-done');
-    if (i === currentQuestion + 1) el.classList.add('is-active');
-  }}
-}}
-
-function finishCase() {{
-  const data = SIMULATOR_DATA[currentCase];
-  const pct = Math.round((score / data.questions.length) * 100);
-  document.getElementById('sim-body').innerHTML = `
-    <div class="sim-finish">
-      <div class="sim-finish-score">${{pct}}%</div>
-      <div class="sim-finish-label">You got ${{score}} of ${{data.questions.length}} questions right.</div>
-      <p class="sim-finish-note">
-        That's just 4 of ~35 questions on this case. A complete CPL guide maps
-        every scored question, every PE finding, every DDx ranking, and every
-        management decision.
-      </p>
-    </div>
-  `;
-  document.getElementById('sim-next-btn').style.display = 'none';
-  document.getElementById('sim-stage-label').textContent = 'Complete';
-  document.getElementById('sim-unlock-section').style.display = '';
-}}
-
-function resetCurrentCase() {{
-  loadCase(currentCase, document.querySelector(`.sim-case-btn[data-case="${{currentCase}}"]`));
-}}
-
-loadCase('harvey', document.querySelector('.sim-case-btn[data-case="harvey"]'));
-</script>
 '''
-
+    sim_scripts = (
+        '<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>\n'
+        '<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>\n'
+        '<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>\n'
+        '<script type="text/babel" src="/cpl-simulator.jsx"></script>'
+    )
     write_page("simulator", body,
                title="Case Simulator",
-               description="Practice clinical reasoning on real iHuman case patterns. Free simulator with three cases, scored feedback, no signup.",
-               page_class="simulator")
+               description="Practice clinical reasoning on a real iHuman case pattern — free interactive simulator with scored feedback, no signup.",
+               page_class="simulator",
+               body_scripts=sim_scripts)
+    return
 
 
 # ─── PAGE: Sample guide (marketing demo of a full guide) ──────────
 def build_sample_guide():
-    """Build the /sample-guide/ page showing one full guide's anatomy."""
+    """Build the /sample-guide/ page — anatomy of a complete guide (Bebe Babbitt)."""
     total = len(CASES)
-    same_day_n = sum(1 for c in CASES if c.get("lead_time") == "same-day")
+    pv = "/previews/bebe-babbitt-migraine"
     body = f'''
-<section class="sample-hero">
+<section class="cat-hero">
   <div class="container">
-    <span class="hero-eyebrow"><span class="dot"></span>Anatomy of a CPL guide</span>
-    <h1>See exactly what you get.</h1>
-    <p class="hero-sub">
-      Below is the complete structure of a CPL case guide, with real pages from
-      the Harvey Hoya HTN guide. Every CPL guide follows this same format with
-      case-specific content.
-    </p>
+    <div class="cat-hero-panel">
+      <div class="cat-hero-inner">
+        <span class="eyebrow on-dark"><span class="dot"></span>Anatomy of a guide</span>
+        <h1>What you actually <span class="italic-accent">get.</span></h1>
+        <p>A complete CPL guide is a 25-page, submission-ready document — every history question, exam finding, differential, and management call mapped to how the case scores. Here's the full Bebe Babbitt guide, section by section.</p>
+        <div class="hero-trust" style="border-top:none; padding-top:0; margin-top:4px;">
+          <span class="t"><b>25</b>pages</span>
+          <span class="t"><b>4</b>scored stages</span>
+          <span class="t"><b>Word + PDF</b>same-day</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="sample-section">
-  <div class="container sample-container">
+<section class="section" style="padding-top:48px;">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Section by section</span>
+      <h2>Every page earns its place</h2>
+      <p>Click any page to read it full-size. These are real pages from a delivered guide.</p>
+    </div>
 
-    <div class="sample-page-block">
-      <div class="sample-page-meta">
-        <div class="sample-page-num">Page 1 · Cover &amp; Case Overview</div>
-        <h2>Every guide opens with the case identity</h2>
-        <p>
-          Patient demographics, chief complaint, presenting context, and the
-          verified diagnosis with associated must-not-miss conditions. This is
-          the orientation page — you know exactly which case you're working on
-          and what you're aiming for.
-        </p>
+    <div class="anatomy-row" data-reveal>
+      <div class="anatomy-img" data-lightbox="{pv}/page_1.png">
+        <div class="a-frame"><img src="{pv}/page_1.png" alt="Cover and case overview page"></div>
+        <span class="a-page">Page 1</span>
       </div>
-      <div class="sample-page-image">
-        <img src="/sample-guide/page_1_cover.png" alt="Cover page of a CPL guide" loading="lazy">
+      <div class="anatomy-text">
+        <span class="anatomy-num">01 · Cover &amp; overview</span>
+        <h3>The case at a glance</h3>
+        <p>Patient, chief complaint, course and week, the final diagnosis, and the must-not-miss conditions — so you know where the case is going before you start, and how the points are distributed across the four stages.</p>
+        <div class="anatomy-scores"><span class="as">Diagnosis</span><span class="as">Must-not-miss</span><span class="as">Score map</span></div>
       </div>
     </div>
 
-    <div class="sample-page-block reversed">
-      <div class="sample-page-meta">
-        <div class="sample-page-num">Pages 2–8 · History Bank</div>
-        <h2>Every scored history question, in iHuman order</h2>
-        <p>
-          The complete history bank with verbatim patient responses, organized
-          into the OLDCARTS framework, past medical history, family history,
-          social history, and review of systems. Each question is marked with
-          its scoring weight and the pivotal communication questions are highlighted.
-        </p>
-        <p class="sample-fact">
-          <strong>What this saves you:</strong> 30–45 minutes of fumbling through
-          unhelpful "How are you today?" questions. You walk in knowing exactly
-          which 35 questions iHuman counts.
-        </p>
+    <div class="anatomy-row" data-reveal>
+      <div class="anatomy-img" data-lightbox="{pv}/page_6.png">
+        <div class="a-frame"><img src="{pv}/page_6.png" alt="History question bank page"></div>
+        <span class="a-page">Page 6</span>
       </div>
-      <div class="sample-page-image">
-        <img src="/sample-guide/page_2_history.png" alt="History section page from a CPL guide" loading="lazy">
+      <div class="anatomy-text">
+        <span class="anatomy-num">02 · History — verbatim question bank</span>
+        <h3>Every scored question, with the patient's exact words</h3>
+        <p>32 history questions, each marked as performed, with the verbatim patient response and the clinical term to document. History is ~40% of your score — this is where most points are won or lost.</p>
+        <div class="anatomy-scores"><span class="as">32 questions</span><span class="as">Verbatim responses</span><span class="as">~40% of score</span></div>
       </div>
     </div>
 
-    <div class="sample-page-block">
-      <div class="sample-page-meta">
-        <div class="sample-page-num">Pages 9–14 · Physical Exam</div>
-        <h2>Every scored PE item with documentation language</h2>
-        <p>
-          Each PE finding paired with the exact documentation phrase iHuman
-          expects. Cardiac auscultation points, lung field locations, abdominal
-          quadrant findings — all with the clinical language that scores instead
-          of the lay language that loses points.
-        </p>
-        <p class="sample-fact">
-          <strong>What this saves you:</strong> Knowing the difference between
-          writing "AV nicking" (full credit) vs. "narrowing where the veins
-          cross" (partial credit). Documentation language is 20% of the case score.
-        </p>
+    <div class="anatomy-row" data-reveal>
+      <div class="anatomy-img" data-lightbox="{pv}/page_10.png">
+        <div class="a-frame"><img src="{pv}/page_10.png" alt="Physical exam checklist page"></div>
+        <span class="a-page">Page 10</span>
       </div>
-      <div class="sample-page-image">
-        <img src="/sample-guide/page_3_pe.png" alt="Physical exam page from a CPL guide" loading="lazy">
+      <div class="anatomy-text">
+        <span class="anatomy-num">03 · Physical exam — complete checklist</span>
+        <h3>What to examine, and the words that score</h3>
+        <p>24 exam items with the exact documentation language faculty look for. Includes the items that score on every case and the ones specific to this presentation — plus what <em>not</em> to do.</p>
+        <div class="anatomy-scores"><span class="as">24 PE items</span><span class="as">Documentation language</span><span class="as">Trap warnings</span></div>
       </div>
     </div>
 
-    <div class="sample-page-block reversed">
-      <div class="sample-page-meta">
-        <div class="sample-page-num">Pages 15–24 · DDx, Tests, Management Plan, SOAP Note</div>
-        <h2>The reasoning behind every grade-impacting decision</h2>
-        <p>
-          The ranked differential diagnosis list with the platform-verified order,
-          the tests to order (and the harmful-flag tests to avoid), and the
-          complete 6-part management plan with APA-formatted references. Plus a
-          ready-to-submit SOAP note.
-        </p>
-        <p class="sample-fact">
-          <strong>What this saves you:</strong> The harmful-flag traps alone can
-          zero your Tests score. The DDx ranking can swing 15 points. We map
-          every one — you don't guess.
-        </p>
+    <div class="anatomy-row" data-reveal>
+      <div class="anatomy-img" data-lightbox="{pv}/page_17.png">
+        <div class="a-frame"><img src="{pv}/page_17.png" alt="Tests and differentials page"></div>
+        <span class="a-page">Page 17</span>
       </div>
-      <div class="sample-page-image">
-        <img src="/sample-guide/page_4_plan.png" alt="Management plan page from a CPL guide" loading="lazy">
+      <div class="anatomy-text">
+        <span class="anatomy-num">04 · Diagnosis — tests &amp; differentials</span>
+        <h3>Ranked differentials and the tests that count</h3>
+        <p>Platform-verified differential names in ranked order, the tests to order (and the ones that trigger harmful-flag deductions), and the 2–3 sentence problem statement faculty expect.</p>
+        <div class="anatomy-scores"><span class="as">4 ranked DDx</span><span class="as">Tests + rationale</span><span class="as">Problem statement</span></div>
       </div>
     </div>
-
   </div>
 </section>
 
-<section class="sample-cta-section">
+<section class="section bg-cream2">
   <div class="container">
-    <div class="sample-cta-card">
-      <h2>Your case follows this exact format.</h2>
-      <p>
-        {total} cases catalogued across NR509, NR511, NR602, NURS 6512,
-        NRNP 6531, 6541, 6552, 6568 and Kaplan-platform programs.
-        {same_day_n} ship same day. The rest build within 24–48h on order.
-      </p>
-      <div class="sample-cta-row">
-        <a href="/cases/" class="btn btn-primary">Browse {total} case guides</a>
-        <a href="mailto:Tutorspot98@gmail.com?subject=CPL%20Question" class="btn btn-ghost">Ask a question</a>
-      </div>
-      <p class="muted-small">
-        Use code <strong>CPLFIRST15</strong> for 15% off your first single case.
-        Bundles save up to $210.
-      </p>
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>And the rest</span>
+      <h2>Plus the parts that finish the submission</h2>
+    </div>
+    <div class="steps" data-reveal>
+      <div class="step"><div class="step-num">EHR</div><h3>Full documentation</h3><p>Subjective + Objective sections, ready to paste into the iHuman EHR.</p></div>
+      <div class="step"><div class="step-num">SOAP</div><h3>SOAP note</h3><p>A complete, submission-ready SOAP note in the structure faculty grade against.</p></div>
+      <div class="step"><div class="step-num">APA</div><h3>Scholarly references</h3><p>APA-formatted references and the 6-part management plan, fully written out.</p></div>
+    </div>
+    <div style="text-align:center; margin-top:40px;" data-reveal>
+      <a class="btn btn-primary btn-lg" data-order="Bebe Babbitt — Migraine with Aura" data-price="150">Get this guide — $150</a>
+      <a class="btn btn-ghost btn-lg" href="/cases/" style="margin-left:10px;">Browse all {total} cases</a>
+      <p style="color:var(--muted); font-size:.85rem; margin-top:14px;">Code <strong style="color:var(--teal-700);">CPLFIRST15</strong> takes 15% off your first single case.</p>
     </div>
   </div>
 </section>
 '''
     write_page("sample-guide", body,
                title="See a Sample CPL Case Guide",
-               description="See exactly what a CPL iHuman case guide contains — full pages from the Harvey Hoya HTN guide, including history bank, physical exam, and management plan.",
+               description="See exactly what a CPL iHuman case guide contains — real pages from the Bebe Babbitt migraine guide: history bank, physical exam, differentials, and management plan.",
                page_class="sample-guide")
 
 
@@ -1535,52 +1292,88 @@ def build_sample_guide():
 def build_about():
     body = """
 <section class="hero">
-  <div class="container container-narrow">
-    <span class="hero-eyebrow"><span class="dot"></span>About</span>
-    <h1>Clinical reasoning is the skill <span class="accent">iHuman is actually testing.</span></h1>
-    <p class="hero-sub">
-      iHuman simulates virtual patient encounters. It scores you on the exact same skills you'll be graded on as a practicing NP. The problem isn't that iHuman is hard — it's that the scoring logic is invisible. CPL makes it visible.
-    </p>
+  <div class="container">
+    <div class="hero-panel" style="grid-template-columns:1fr;">
+      <div class="hero-content" style="max-width:none;">
+        <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Our mission</span>
+        <h1 data-reveal data-reveal-delay="60" style="max-width:20ch;">Make the invisible <span class="italic-accent">visible.</span></h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="120" style="max-width:60ch;">iHuman scores nursing students against a rubric they never see. That opacity breeds anxiety and rewards memorization over reasoning. CPL exists to change that — to turn a black-box assessment into something you can actually learn from.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:56px;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;" class="about-split">
+      <div data-reveal>
+        <p class="mission-quote">A grade shouldn't depend on <span class="hl">guessing</span> what the software wants.</p>
+      </div>
+      <div data-reveal data-reveal-delay="90">
+        <p style="font-size:1.05rem; color:var(--ink-2); line-height:1.65;">Nursing and NP students spend hours on iHuman cases with little feedback on <em>why</em> they lost points. The scoring logic — which questions are pivotal, which exam items count, which management choices trigger harmful-flag deductions — stays hidden.</p>
+        <p style="font-size:1.05rem; color:var(--ink-2); line-height:1.65;">We analyzed 200+ verified submissions to reconstruct that logic, then turned it into something teachable: a free simulator and free cheat sheets to learn the patterns, and complete case guides for the submissions that count.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container">
+    <div class="statband" data-reveal>
+      <div class="sb"><b><span data-counter="200" data-counter-suffix="+">0</span></b><span>Verified submissions analyzed</span></div>
+      <div class="sb"><b><span data-counter="171">0</span></b><span>Cases catalogued</span></div>
+      <div class="sb"><b><span data-counter="9">0</span></b><span>Courses supported</span></div>
+      <div class="sb"><b>Same-day</b><span>Guide delivery</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-cream2">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>The model</span>
+      <h2>Lead with education. Monetize the moments that matter.</h2>
+      <p>The vast majority of what CPL offers is free — because the mission is learning. Revenue comes from the high-stakes, time-pressured graded submissions, where a complete, rubric-mapped guide is worth real money to a stressed student.</p>
+    </div>
+    <div class="steps" data-reveal>
+      <div class="step"><span class="step-free">Free</span><h3>The simulator</h3><p>Interactive, scored clinical-reasoning practice. The top of the funnel and the heart of the mission.</p></div>
+      <div class="step"><span class="step-free">Free</span><h3>The cheat sheets</h3><p>Four frameworks that transfer to every case — and an email relationship built on genuine value.</p></div>
+      <div class="step"><span class="step-paid">Premium</span><h3>The case guides</h3><p>$150 each, bundles to $540. Same-day, rubric-mapped, built from verified data. Where CPL earns.</p></div>
+    </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="container container-narrow">
-    <p>iHuman scores you on the same clinical judgment you'll use as a practicing NP:</p>
-    <ul>
-      <li>Which history questions to ask, in what order</li>
-      <li>Which physical exam items are pertinent to this presentation</li>
-      <li>How to rank differential diagnoses by probability and severity</li>
-      <li>Which tests to order — and which trigger "harmful to patient"</li>
-      <li>How to write documentation that matches clinical reality</li>
-    </ul>
-    <p>Most students never see <em>why</em> they lost 15 points on a case — only that they did.</p>
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>What we stand for</span>
+      <h2>Principles that keep us honest</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 48px;" class="about-principles" data-reveal>
+      <div class="principle"><div class="pi">📘</div><div><h4>Education first</h4><p>Everything that teaches the reasoning is free. We gate convenience, never understanding.</p></div></div>
+      <div class="principle"><div class="pi">🔍</div><div><h4>Verified, not invented</h4><p>Our frameworks and guides come from real, verified submissions — not guesswork or scraping.</p></div></div>
+      <div class="principle"><div class="pi">🤍</div><div><h4>Calm over pressure</h4><p>Our audience is anxious and time-poor. We design to reduce stress, never manufacture it.</p></div></div>
+      <div class="principle"><div class="pi">⚖️</div><div><h4>Integrity-aware</h4><p>CPL is a study resource. We're independent of iHuman and any school, and we point students to their own academic policies.</p></div></div>
+    </div>
+  </div>
+</section>
 
-    <h2 class="mt-4">What CPL does</h2>
-    <p>We make iHuman's invisible scoring logic visible.</p>
-    <p><strong>For practice:</strong> Our case simulator walks you through real case patterns, scoring your choices and explaining the reasoning in real time. Free.</p>
-    <p><strong>For mastery:</strong> Our four cheat sheet PDFs codify the universal patterns that score on every case template — history hierarchies, PE checklists, DDx ranking logic, and the harmful-flag traps. Free, email-delivered.</p>
-    <p><strong>For graded submissions:</strong> Our complete case guides give you the verified scoring map for a specific case — every history question, every PE item, every DDx, every management decision, with the clinical reasoning behind each. $150 per case, same-day delivery, mix-and-match bundles.</p>
-
-    <h2 class="mt-4">Where the data comes from</h2>
-    <p>Every CPL guide is built from verified student submissions. We analyze 100% performance reports, client screenshots, and multi-submission pattern data to map what actually scores on the iHuman platform — not what should score in theory, what does score in practice.</p>
-    <p>We've analyzed 200+ submissions across NR509, NR511, NR602, NURS 6512, NRNP 6531, 6541, 6552, and 6568. The patterns we identify get codified into the cheat sheets and simulator. The case-specific scoring maps get codified into the guides.</p>
-
-    <h2 class="mt-4">Who we serve</h2>
-    <p>Primarily nursing students at Chamberlain University and Walden University. Increasingly: PMHNP students at South University, Regis College, and others using the Kaplan Clinical Canvas platform. The reasoning patterns transfer across institutions — the case-specific scoring maps are institution-specific.</p>
-
-    <h2 class="mt-4">What CPL is not</h2>
-    <p>CPL is not a clinical reference. The medication dosing and management content in our guides reflects what the iHuman platform expects on those specific case templates. <strong>Verify all dosing with current Epocrates or UpToDate before any clinical application.</strong></p>
-    <p>CPL is also not affiliated with iHuman, Kaplan, Chamberlain University, Walden University, or any other institution. We're an independent educational resource.</p>
-
-    <h2 class="mt-4">Contact</h2>
-    <p><a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a> — for case orders, support, or partnership inquiries.</p>
+<section class="section-tight" style="padding-bottom:80px;">
+  <div class="container">
+    <div class="capture" data-reveal style="text-align:center;">
+      <div class="capture-inner">
+        <div class="capture-eyebrow">Get in touch</div>
+        <h3>Questions, partnerships, or press?</h3>
+        <p style="max-width:50ch; margin-left:auto; margin-right:auto;">We're a small team building calmly and deliberately. We'd love to hear from you.</p>
+        <a class="btn btn-lime btn-lg" href="mailto:Tutorspot98@gmail.com">Email the team →</a>
+      </div>
+    </div>
   </div>
 </section>
 """
     write_page("about", body,
                title="About",
-               description="Clinical reasoning is the skill iHuman is actually testing. CPL makes the invisible scoring logic visible — free simulator, free cheat sheets, complete case guides.",
+               description="iHuman scores students against a rubric they never see. CPL makes the invisible visible — a clinical reasoning platform with a free simulator, free cheat sheets, and complete case guides.",
                page_class="about")
 
 
@@ -1604,22 +1397,26 @@ def build_faq():
     )
 
     body = f"""
-<section class="hero">
-  <div class="container container-narrow">
-    <span class="hero-eyebrow"><span class="dot"></span>FAQ</span>
-    <h1>Common questions, <span class="accent">honest answers.</span></h1>
-    <p class="hero-sub">If you don't see your question here, email <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>.</p>
+<section class="cat-hero">
+  <div class="container">
+    <div class="cat-hero-panel">
+      <div class="cat-hero-inner">
+        <span class="eyebrow on-dark"><span class="dot"></span>Questions, answered</span>
+        <h1>Everything you might <span class="italic-accent">ask.</span></h1>
+        <p>Delivery, formats, pricing, academic integrity, and how the guides line up with iHuman. Still unsure? The Support chat in the corner can help, or email us any time.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" style="padding-top:48px;">
   <div class="container container-narrow">
-    <div class="faq-list">
+    <div class="faq-list" data-reveal>
       {faq_html}
     </div>
-    <p class="text-center mt-4 muted">
+    <p style="text-align:center; margin-top:36px; color:var(--muted);" data-reveal>
       Want to see exactly what's inside a guide?
-      <a href="/sample-guide/">View a complete sample guide →</a>
+      <a href="/sample-guide/">View the anatomy of a guide →</a>
     </p>
   </div>
 </section>
@@ -1634,9 +1431,9 @@ def build_faq():
 def build_legal():
     terms_body = """
 <section class="section">
-  <div class="container container-narrow">
+  <div class="container container-narrow"><div class="prose">
     <h1>Terms of Use</h1>
-    <p class="muted">Last updated: May 2026</p>
+    <p class="updated">Last updated: May 2026</p>
     <h3>1. Educational use only</h3>
     <p>CPL materials are sold for personal study and academic preparation use. They are not clinical references. Medication dosing and management content reflect what specific iHuman case templates expect — not what should be prescribed in real clinical practice.</p>
     <h3>2. No clinical authority</h3>
@@ -1647,14 +1444,14 @@ def build_legal():
     <p>Refunds available within 7 days of purchase for the wrong case delivered or substantive uncorrectable error. Contact Tutorspot98@gmail.com.</p>
     <h3>5. Email use</h3>
     <p>We use your email address solely to deliver requested resources and a short clinical-insight follow-up sequence. We do not sell, rent, or share email addresses. Unsubscribe at any time via the link in every email.</p>
-  </div>
+  </div></div>
 </section>
 """
     privacy_body = """
 <section class="section">
-  <div class="container container-narrow">
+  <div class="container container-narrow"><div class="prose">
     <h1>Privacy</h1>
-    <p class="muted">Last updated: May 2026</p>
+    <p class="updated">Last updated: May 2026</p>
     <h3>What we collect</h3>
     <p>When you submit the free-resources form, we collect your email address and the IDs of the cheat sheets you selected. Nothing else.</p>
     <h3>What we do with it</h3>
@@ -1665,7 +1462,7 @@ def build_legal():
     <p>We do not sell, rent, or share your email. We do not embed analytics tracking pixels in delivery emails. We do not use email to target advertising.</p>
     <h3>How to delete your data</h3>
     <p>Email Tutorspot98@gmail.com with the subject "Delete my data" and we'll remove your address from our records within 7 days.</p>
-  </div>
+  </div></div>
 </section>
 """
     write_page("terms", terms_body, title="Terms of Use", page_class="legal")
@@ -1720,13 +1517,17 @@ def build_favicon():
 
 # ─── Front-end JS ────────────────────────────────────────────────
 def build_js():
-    """Copy the source JS from src/cpl.js to public/cpl.js."""
-    src_path = os.path.join(ROOT, "src", "cpl.js")
-    dst_path = os.path.join(PUBLIC, "cpl.js")
-    with open(src_path, "r", encoding="utf-8") as fr:
-        content = fr.read()
-    with open(dst_path, "w", encoding="utf-8") as fw:
-        fw.write(content)
+    """Copy the redesign JS/JSX assets from src/ to public/."""
+    assets = ["cpl.js", "cpl-checkout.js", "cpl-support.js",
+              "cpl-catalog.js", "cpl-simulator.jsx"]
+    for name in assets:
+        src_path = os.path.join(ROOT, "src", name)
+        if not os.path.exists(src_path):
+            continue
+        with open(src_path, "r", encoding="utf-8") as fr:
+            content = fr.read()
+        with open(os.path.join(PUBLIC, name), "w", encoding="utf-8") as fw:
+            fw.write(content)
 
 # ─── Orchestrator ────────────────────────────────────────────────
 def build_all():

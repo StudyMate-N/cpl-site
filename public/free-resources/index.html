@@ -4,24 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Cheat Sheets · Clinical Performance Lab</title>
-<meta name="description" content="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered.">
+<meta name="description" content="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered, no card required.">
 <link rel="canonical" href="https://cpl-site.vercel.app/free-resources/">
 <meta property="og:title" content="Free Cheat Sheets · Clinical Performance Lab">
-<meta property="og:description" content="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered.">
+<meta property="og:description" content="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered, no card required.">
 <meta property="og:url" content="https://cpl-site.vercel.app/free-resources/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Clinical Performance Lab">
 <meta property="og:image" content="https://cpl-site.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free Cheat Sheets · Clinical Performance Lab">
-<meta name="twitter:description" content="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered.">
+<meta name="twitter:description" content="Four free PDFs covering the universal patterns that score on every iHuman case. Email-delivered, no card required.">
 <meta name="twitter:url" content="https://cpl-site.vercel.app/free-resources/">
 <meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 </head>
 <body class="free-resources">
 
@@ -30,116 +31,127 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab
-        <small>iHuman case mastery</small>
-      </span>
+      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="/cases/">Case catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
+
+<div class="menu-backdrop"></div>
+<div class="mobile-menu">
+  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
+  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="/cases/" data-menu-close>Case catalog</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+</div>
 
 
 
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow"><span class="dot"></span>Free Resource</span>
-    <h1>The CPL Cheat Sheet Library</h1>
-    <p class="hero-sub">
-      Four free PDFs — one per iHuman case stage. The universal patterns that score on every case, no matter what the chief complaint is. Premium typography. Verified content. Email-delivered.
-    </p>
+    <div class="hero-panel" style="grid-template-columns:1fr;">
+      <div class="hero-content" style="max-width:none;">
+        <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Free forever · no card</span>
+        <h1 data-reveal data-reveal-delay="60">Four frameworks that work on <span class="italic-accent">every</span> case.</h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="120" style="max-width:60ch;">We analyzed 200+ verified iHuman submissions and pulled out the patterns that repeat across every case template — the questions that always score, the exam items that always count, the differentials faculty expect, and the management traps to avoid. It's yours, free.</p>
+        <div class="hero-trust" data-reveal data-reveal-delay="200" style="border-top:none; padding-top:0; margin-top:8px;">
+          <span class="t"><b>4</b>PDF volumes</span>
+          <span class="t"><b>34</b>pages total</span>
+          <span class="t"><b>~40 min</b>to read all four</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="get" style="padding-top:56px;">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Pick your sheets</span>
-      <h2>Which ones do you need?</h2>
-      <p>Pick one, two, or all four. We'll send a confirmation link, then deliver your PDFs immediately.</p>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Pick your volumes</span>
+      <h2>Choose what you need — or grab all four</h2>
+      <p>Each maps to one stage of the iHuman case. Select the ones you want and we'll email the PDFs after a quick confirmation.</p>
     </div>
-
-    <form id="leadMagnetForm" data-form="leadmagnet">
+    <form data-capture data-reveal data-reveal-delay="80">
       <div class="resource-grid">
         
-<label class="resource-card" data-id="history">
-  <input type="checkbox" name="volumes" value="history" style="display:none" >
-  <span class="resource-stage">Vol I · Stage I of IV</span>
-  <h3>History Framework</h3>
-  <p>Universal questions that score on every case. OLDCARTS, ROS, the pivotal communication question, and the lay-to-clinical translation table.</p>
-  <div class="resource-meta">
-    <span>8 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
-<label class="resource-card" data-id="physical-exam">
-  <input type="checkbox" name="volumes" value="physical-exam" style="display:none" >
-  <span class="resource-stage">Vol II · Stage II of IV</span>
-  <h3>Universal PE Checklist</h3>
-  <p>PE items that score on every case — cardiac auscultation, lung fields, abdominal quadrants. Diagrams for each.</p>
-  <div class="resource-meta">
-    <span>9 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
-<label class="resource-card" data-id="ddx">
-  <input type="checkbox" name="volumes" value="ddx" style="display:none" >
-  <span class="resource-stage">Vol III · Stage III of IV</span>
-  <h3>DDx &amp; Key Findings</h3>
-  <p>How iHuman ranks differentials, the must-not-miss framework, and the 2–3 sentence problem statement structure faculty look for.</p>
-  <div class="resource-meta">
-    <span>8 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
-<label class="resource-card" data-id="plan">
-  <input type="checkbox" name="volumes" value="plan" style="display:none" >
-  <span class="resource-stage">Vol IV · Stage IV of IV</span>
-  <h3>Management Plan &amp; SOAP</h3>
-  <p>The harmful-flag trap, 6-part management plan, medication answers by case template, SOAP note. The faculty-scored 20%.</p>
-  <div class="resource-meta">
-    <span>9 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
+        <label class="resource-card selected" data-id="history">
+          <input type="checkbox" name="volumes" value="history" style="display:none" checked>
+          <span class="resource-stage">Vol I · Stage I of IV</span>
+          <h3>History Framework</h3>
+          <p>Universal questions that score on every case. OLDCARTS, ROS, the pivotal communication question, and the lay-to-clinical translation table.</p>
+          <div class="resource-meta"><span>8 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
+        <label class="resource-card selected" data-id="physical-exam">
+          <input type="checkbox" name="volumes" value="physical-exam" style="display:none" checked>
+          <span class="resource-stage">Vol II · Stage II of IV</span>
+          <h3>Universal PE Checklist</h3>
+          <p>PE items that score on every case — cardiac auscultation, lung fields, abdominal quadrants. Diagrams for each.</p>
+          <div class="resource-meta"><span>9 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
+        <label class="resource-card selected" data-id="ddx">
+          <input type="checkbox" name="volumes" value="ddx" style="display:none" checked>
+          <span class="resource-stage">Vol III · Stage III of IV</span>
+          <h3>DDx &amp; Key Findings</h3>
+          <p>How iHuman ranks differentials, the must-not-miss framework, and the 2–3 sentence problem statement structure faculty look for.</p>
+          <div class="resource-meta"><span>8 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
+        <label class="resource-card selected" data-id="plan">
+          <input type="checkbox" name="volumes" value="plan" style="display:none" checked>
+          <span class="resource-stage">Vol IV · Stage IV of IV</span>
+          <h3>Management Plan &amp; SOAP</h3>
+          <p>The harmful-flag trap, 6-part management plan, medication answers by case template, SOAP note. The faculty-scored 20%.</p>
+          <div class="resource-meta"><span>9 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
       </div>
-
-      <div class="capture mt-4">
-        <div class="capture-eyebrow">Email-delivered · No spam</div>
-        <h3>Where should we send them?</h3>
-        <p>You'll get a confirmation link in under a minute. Click it and your PDFs are in your inbox.</p>
-        <div class="capture-row">
-          <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-          <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
+      <div class="capture">
+        <div class="capture-inner">
+          <div class="capture-eyebrow">Email-delivered · free</div>
+          <h3>Where should we send them?</h3>
+          <p>We'll send a one-click confirmation, then the PDFs. No spam — unsubscribe any time.</p>
+          <div class="capture-row">
+            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+            <button type="submit" class="btn btn-lime btn-lg">Send my cheat sheets →</button>
+          </div>
+          <p class="capture-fine">We use your email only to deliver requested resources and a short clinical-insight follow-up.</p>
+          <p class="form-success" data-capture-msg style="display:none; margin-top:14px; color:var(--lime-400); font-size:.92rem;"></p>
         </div>
-        <p class="capture-fine">We use email only to deliver requested resources and a short clinical-insight follow-up. Unsubscribe any time. Powered by Resend.</p>
       </div>
     </form>
   </div>
 </section>
 
-<section class="section" style="background:var(--cream-2);">
+<section class="section bg-cream2">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">After the cheat sheets</span>
-      <h2>When you need the full answer key.</h2>
-      <p>The cheat sheets cover universal patterns. For your <em>specific case</em> — verbatim history questions, exact PE findings, the platform's preferred diagnosis names, complete management plans — that's what the CPL case guides are for.</p>
-    </div>
-    <div class="text-center">
-      <a href="/cases/" class="btn btn-primary btn-lg">Browse the case catalog →</a>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">①</div>
+        <h3>Because learning should be free</h3>
+        <p>The reasoning patterns transfer to every case you'll ever see. We'd rather you learn them than gate them — that's the mission.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="90">
+        <div class="step-num">②</div>
+        <h3>Built from real scoring data</h3>
+        <p>Every framework comes from 200+ verified submissions — not guesswork. You're learning what the platform actually rewards.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="180">
+        <div class="step-num">③</div>
+        <h3>The guides are there when it counts</h3>
+        <p>When a specific case is graded and you're short on time, our complete case guides pick up where the frameworks leave off.</p>
+        <a href="/cases/" class="link-arrow">Browse the catalog →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -156,19 +168,19 @@
       </p>
     </div>
     <div>
-      <h4>Resources</h4>
+      <h4>Learn</h4>
       <ul>
         <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
         <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About CPL</a></li>
+        <li><a href="/faq/">FAQ</a></li>
         <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
       </ul>
     </div>
@@ -180,6 +192,7 @@
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
@@ -187,23 +200,9 @@
 </footer>
 
 
-
-<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup">
-    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
-    <span class="resource-stage">Free · Take a minute</span>
-    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
-    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
-    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
-      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
-    </form>
-    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
-  </div>
-</div>
-
-
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
+<script src="/cpl-support.js" defer></script>
 
 </body>
 </html>

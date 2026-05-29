@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clinical Performance Lab</title>
+<title>Clinical Performance Lab — Learn to think like a clinician</title>
 <meta name="description" content="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.">
 <link rel="canonical" href="https://cpl-site.vercel.app/">
-<meta property="og:title" content="Clinical Performance Lab">
+<meta property="og:title" content="Clinical Performance Lab — Learn to think like a clinician">
 <meta property="og:description" content="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.">
 <meta property="og:url" content="https://cpl-site.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Clinical Performance Lab">
 <meta property="og:image" content="https://cpl-site.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Clinical Performance Lab">
+<meta name="twitter:title" content="Clinical Performance Lab — Learn to think like a clinician">
 <meta name="twitter:description" content="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.">
 <meta name="twitter:url" content="https://cpl-site.vercel.app/">
 <meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 </head>
 <body class="home">
 
@@ -30,95 +31,106 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab
-        <small>iHuman case mastery</small>
-      </span>
+      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
       <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-      <li><a href="/cases/">Case Catalog</a></li>
+      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="/cases/">Case catalog</a></li>
       <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
   </div>
 </nav>
+
+<div class="menu-backdrop"></div>
+<div class="mobile-menu">
+  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
+  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="/cases/" data-menu-close>Case catalog</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+</div>
 
 
 
 <section class="hero">
   <div class="container">
-    <span class="hero-eyebrow" data-reveal><span class="dot"></span>Clinical Reasoning · Made Visible</span>
-    <h1 data-reveal data-reveal-delay="80">Learn to think like a clinician.<br><span class="accent">Master iHuman.</span></h1>
-    <p class="hero-sub" data-reveal data-reveal-delay="160">
-      CPL teaches the clinical reasoning patterns iHuman scores — the question hierarchies, the must-not-miss diagnoses, the documentation language, the harmful-flag traps. Practice free with our simulator. Cheat sheets ship instant. Complete case guides delivered same day.
-    </p>
-    <div class="hero-ctas" data-reveal data-reveal-delay="240">
-      <a href="/simulator/" class="btn btn-primary btn-lg">Try the free simulator →</a>
-      <a href="/cases/" class="btn btn-ghost btn-lg">Browse 171 cases</a>
-    </div>
-    <p class="hero-tertiary" data-reveal data-reveal-delay="280">
-      Or <a href="/sample-guide/">see a sample case guide →</a>
-    </p>
-    <div class="hero-trust" data-reveal data-reveal-delay="320">
-      <span><strong data-counter="200" data-counter-suffix="+">0</strong> verified submissions analyzed</span>
-      <span><strong data-counter="171">0</strong> cases catalogued</span>
-      <span><strong data-counter="9">0</strong> courses supported</span>
-      <span><strong>Same-day</strong> delivery</span>
+    <div class="hero-panel">
+      <div class="hero-content">
+        <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Clinical reasoning · made visible</span>
+        <h1 data-reveal data-reveal-delay="60">Learn to think like a clinician. <span class="italic-accent">Master iHuman.</span></h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="120">
+          iHuman scores you against a rubric you never see. CPL makes that invisible logic visible and teachable — the question hierarchies, the must-not-miss diagnoses, the harmful-flag traps. Practice free. Master the patterns. Submit with confidence.
+        </p>
+        <div class="hero-ctas" data-reveal data-reveal-delay="180">
+          <a href="/simulator/" class="btn btn-lime btn-lg">Try the free simulator →</a>
+          <a href="/sample-guide/" class="btn btn-ghost-dark btn-lg">See a sample guide</a>
+        </div>
+        <p class="hero-tertiary" data-reveal data-reveal-delay="220">Free simulator and cheat sheets — <a href="#free">no card required →</a></p>
+        <div class="hero-trust" data-reveal data-reveal-delay="280">
+          <span class="t"><b><span data-counter="200" data-counter-suffix="+">0</span></b>verified submissions analyzed</span>
+          <span class="t"><b><span data-counter="171">0</span></b>cases catalogued</span>
+          <span class="t"><b>Same-day</b>guide delivery</span>
+        </div>
+      </div>
+
+      <div class="rubric" data-decode data-reveal data-reveal-delay="140">
+        <div class="rubric-title"><span>iHuman scoring · reconstructed</span><span class="badge">DECODED</span></div>
+        <div class="rubric-case">Bebe Babbitt — Migraine with aura</div>
+        <div class="rubric-row"><div class="rubric-check">✓</div><div class="rubric-text">Screen for aura &amp; visual prodrome<small>Pivotal differentiator</small></div><div class="rubric-pts">+4</div></div>
+        <div class="rubric-row"><div class="rubric-check">✓</div><div class="rubric-text">Rule out thunderclap onset<small>Must-not-miss: subarachnoid hemorrhage</small></div><div class="rubric-pts">+5</div></div>
+        <div class="rubric-row locked"><div class="rubric-check">✓</div><div class="rubric-text">Photophobia &amp; phonophobia history<small>Supporting criteria</small></div><div class="rubric-pts">+2</div></div>
+        <div class="rubric-row locked"><div class="rubric-check">✓</div><div class="rubric-text">Avoid opioid-first management<small>Harmful-flag trap</small></div><div class="rubric-pts">+3</div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section section-narrow">
+<section class="section" id="how">
   <div class="container">
-    <div class="how-it-works-grid">
-
-      <div class="how-step" data-reveal>
-        <div class="how-step-num">01</div>
-        <h3>Practice free with our simulator</h3>
-        <p>
-          Click through realistic iHuman case stages — history, PE, DDx, plan.
-          See which choices score, which lose points, and why. Three cases
-          available for free practice right now.
-        </p>
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>How CPL works</span>
+      <h2>Learn the reasoning first. Buy a guide only when it counts.</h2>
+      <p>Everything you need to <em>learn</em> is free. The graded submissions are where we help most — and where we earn our keep.</p>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="step-num">01</div><span class="step-free">Free</span>
+        <h3>Practice with the simulator</h3>
+        <p>Click through realistic iHuman stages — history, PE, DDx, plan. See which choices score, which lose points, and exactly why. Reasoning you can use on any case.</p>
         <a href="/simulator/" class="link-arrow">Open the simulator →</a>
       </div>
-
-      <div class="how-step" data-reveal data-reveal-delay="80">
-        <div class="how-step-num">02</div>
+      <div class="step" data-reveal data-reveal-delay="90">
+        <div class="step-num">02</div><span class="step-free">Free</span>
         <h3>Master the patterns with cheat sheets</h3>
-        <p>
-          Four PDF guides covering history, physical exam, differential
-          diagnosis, and the management plan. The reasoning patterns that work
-          across every case template iHuman uses.
-        </p>
-        <a href="#free-resources" class="link-arrow">Get the cheat sheets →</a>
+        <p>Four PDFs — history, physical exam, differential diagnosis, and management plan. The universal patterns that transfer across every iHuman case template.</p>
+        <a href="#free" class="link-arrow">Get the cheat sheets →</a>
       </div>
-
-      <div class="how-step" data-reveal data-reveal-delay="160">
-        <div class="how-step-num">03</div>
-        <h3>Get your case guide when it counts</h3>
-        <p>
-          For the cases that count toward your grade — submission-ready guides
-          with every history question, PE finding, DDx ranking, and management
-          decision mapped to iHuman's scoring rubric. Same-day delivery.
-        </p>
+      <div class="step" data-reveal data-reveal-delay="180">
+        <div class="step-num">03</div><span class="step-paid">Premium</span>
+        <h3>Get the guide when it's graded</h3>
+        <p>For the cases that count: submission-ready guides with every history question, PE finding, DDx ranking, and management call mapped to the rubric. Same-day delivery.</p>
         <a href="/cases/" class="link-arrow">Browse 171 cases →</a>
       </div>
-
     </div>
   </div>
 </section>
 
-<section class="section" id="free-resources" style="background:var(--cream-2);">
+<section class="section bg-cream2" id="free">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Start free</span>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Start free</span>
       <h2>Free clinical reasoning frameworks</h2>
-      <p>Four PDFs covering the universal patterns CPL has identified across 200+ verified iHuman case submissions. The reasoning that transfers to every case template — yours and ours.</p>
+      <p>Four PDFs covering the universal patterns CPL identified across 200+ verified iHuman submissions — the reasoning that transfers to every case template, yours and ours.</p>
     </div>
-
-    <form id="leadMagnetForm" data-form="leadmagnet">
+    <form data-capture data-reveal data-reveal-delay="80">
       <div class="resource-grid">
         
 <label class="resource-card" data-id="history">
@@ -170,172 +182,116 @@
 </label>
 
       </div>
-
-      <div class="capture inline mt-4">
-        <div class="capture-eyebrow">Email-delivered</div>
-        <h3>Where should we send your selections?</h3>
-        <p>Pick at least one cheat sheet above. We'll confirm via email and send the PDFs.</p>
-        <div class="capture-row">
-          <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-          <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
+      <div class="capture">
+        <div class="capture-inner">
+          <div class="capture-eyebrow">Email-delivered · free</div>
+          <h3>Where should we send your selections?</h3>
+          <p>Pick at least one cheat sheet above. We'll confirm by email and send the PDFs — no spam, unsubscribe any time.</p>
+          <div class="capture-row">
+            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+            <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
+          </div>
+          <p class="capture-fine">We use your email only to deliver requested resources and a short clinical-insight follow-up.</p>
+          <p class="form-success" data-capture-msg style="display:none; margin-top:14px; color:var(--lime-400); font-size:.92rem;"></p>
         </div>
-        <p class="capture-fine">No spam. Unsubscribe any time. We use email only to deliver requested resources and a short clinical-insight follow-up.</p>
       </div>
     </form>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="cases">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Case Catalog</span>
-      <h2>Case guides built from verified scoring data</h2>
-      <p>Every CPL guide maps the actual iHuman scoring rubric: which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions. 6 complete guides ship same day. 165 more available within 24–48h.</p>
+    <div class="section-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Case catalog</span>
+      <h2>Guides built from verified scoring data</h2>
+      <p>Every CPL guide maps the actual iHuman rubric — which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions. 6 ship same day; 165 more build within 24–48h.</p>
     </div>
     <div class="case-grid">
       
-<a class="case-card" href="/case/harvey-hoya-htn/"
-   data-slug="harvey-hoya-htn"
-   data-tags="cardiovascular,adult"
-   data-school="chamberlain-u"
-   data-courses="nr-509,nr-511"
-   data-lead-time="same-day"
-   data-search="harvey hoya — hypertension stage 2 high blood pressure noted at community health fair hypertension, primary (essential) — stage 2 with target organ damage nr 509 / nr 511 week 5 chamberlain university cardiovascular adult harvey hoya anselmo lopez herbie romero felipe garcia jessie wood">
+<a class="case-card" href="/case/harvey-hoya-htn/" data-reveal>
   <h3>Harvey Hoya — Hypertension Stage 2</h3>
   <p class="case-cc">High blood pressure noted at community health fair</p>
-  <div class="case-meta"><span class="case-tag">Cardiovascular</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 / NR 511 Week 5</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <div class="case-meta"><span class="case-tag">Cardiovascular</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="case-sub">Chamberlain University · NR 509 / NR 511 Week 5</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 
-<a class="case-card" href="/case/bebe-babbitt-migraine/"
-   data-slug="bebe-babbitt-migraine"
-   data-tags="neurologic,adult"
-   data-school="chamberlain-u"
-   data-courses="nr-509"
-   data-lead-time="same-day"
-   data-search="bebe babbitt — migraine with aura more frequent severe headaches migraine with aura nr 509 week 6 chamberlain university neurologic adult bebe babbitt marta hernandez jessica walbertz mabel johnson">
+<a class="case-card" href="/case/bebe-babbitt-migraine/" data-reveal>
   <h3>Bebe Babbitt — Migraine with Aura</h3>
   <p class="case-cc">More frequent severe headaches</p>
-  <div class="case-meta"><span class="case-tag">Neurologic</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 Week 6</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <div class="case-meta"><span class="case-tag">Neurologic</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="case-sub">Chamberlain University · NR 509 Week 6</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 
-<a class="case-card" href="/case/cynthia-francis-hyperlipidemia/"
-   data-slug="cynthia-francis-hyperlipidemia"
-   data-tags="endocrine,adult"
-   data-school="chamberlain-u"
-   data-courses="nr-509,nr-511"
-   data-lead-time="same-day"
-   data-search="cynthia francis — hyperlipidemia follow-up after abnormal lipid panel hyperlipidemia / mixed dyslipidemia nr 509 / nr 511 chamberlain university endocrine adult cynthia francis">
+<a class="case-card" href="/case/cynthia-francis-hyperlipidemia/" data-reveal>
   <h3>Cynthia Francis — Hyperlipidemia</h3>
   <p class="case-cc">Follow-up after abnormal lipid panel</p>
-  <div class="case-meta"><span class="case-tag">Endocrine</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 509 / NR 511</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <div class="case-meta"><span class="case-tag">Endocrine</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="case-sub">Chamberlain University · NR 509 / NR 511</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 
-<a class="case-card" href="/case/samantha-graves-gastroenteritis/"
-   data-slug="samantha-graves-gastroenteritis"
-   data-tags="gi,pediatric"
-   data-school="chamberlain-u"
-   data-courses="nr-602"
-   data-lead-time="same-day"
-   data-search="samantha graves — viral gastroenteritis vomiting and diarrhea ×2 days acute viral gastroenteritis with mild dehydration nr 602 week 5 chamberlain university gi pediatric samantha graves courtney graham">
+<a class="case-card" href="/case/samantha-graves-gastroenteritis/" data-reveal>
   <h3>Samantha Graves — Viral Gastroenteritis</h3>
   <p class="case-cc">Vomiting and diarrhea ×2 days</p>
   <div class="case-meta"><span class="case-tag">GI</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 602 Week 5</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <p class="case-sub">Chamberlain University · NR 602 Week 5</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 
-<a class="case-card" href="/case/kennedy-poole-adhd/"
-   data-slug="kennedy-poole-adhd"
-   data-tags="mental-health,pediatric"
-   data-school="chamberlain-u"
-   data-courses="nr-602"
-   data-lead-time="same-day"
-   data-search="kennedy poole — adhd, inattentive slipping grades and academic decline adhd, predominantly inattentive (f90.0) nr 602 week 4 chamberlain university mental health pediatric kennedy poole">
+<a class="case-card" href="/case/kennedy-poole-adhd/" data-reveal>
   <h3>Kennedy Poole — ADHD, Inattentive</h3>
   <p class="case-cc">Slipping grades and academic decline</p>
   <div class="case-meta"><span class="case-tag">Mental Health</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NR 602 Week 4</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <p class="case-sub">Chamberlain University · NR 602 Week 4</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 
-<a class="case-card" href="/case/christine-smith-pyelonephritis/"
-   data-slug="christine-smith-pyelonephritis"
-   data-tags="gu,adult"
-   data-school="walden-u"
-   data-courses="nrnp-6531"
-   data-lead-time="same-day"
-   data-search="christine smith — pyelonephritis flank pain, fever, dysuria acute pyelonephritis nrnp 6531 week 7 walden university gu adult christine smith">
+<a class="case-card" href="/case/christine-smith-pyelonephritis/" data-reveal>
   <h3>Christine Smith — Pyelonephritis</h3>
   <p class="case-cc">Flank pain, fever, dysuria</p>
-  <div class="case-meta"><span class="case-tag">GU</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="muted" style="font-size:0.85rem; margin:8px 0 0;">NRNP 6531 Week 7</p>
-  <div class="case-cta">
-    <span>Preview case →</span>
-    <span aria-hidden="true">→</span>
-  </div>
+  <div class="case-meta"><span class="case-tag">GU</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+  <p class="case-sub">Walden University · NRNP 6531 Week 7</p>
+  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
 </a>
 
     </div>
-    <div class="text-center mt-4">
+    <div style="text-align:center; margin-top:36px;" data-reveal>
       <a href="/cases/" class="btn btn-ghost">See all 171 cases →</a>
     </div>
   </div>
 </section>
 
-<section class="section" style="background:var(--cream-2);">
+<section class="section bg-cream2" id="pricing">
   <div class="container">
-    <div class="section-title-block">
-      <span class="eyebrow">Pricing</span>
-      <h2>When you need the complete guide.</h2>
-      <p>The simulator and cheat sheets are free forever. When a case counts toward your grade, our complete guides ship same day. Bundles are mix-and-match. New customer? Code <strong>CPLFIRST15</strong> takes 15% off your first single case.</p>
+    <div class="section-head center" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Pricing</span>
+      <h2>When you need the complete guide</h2>
+      <p>The simulator and cheat sheets are free forever. When a case counts toward your grade, complete guides ship same day. Bundles mix and match. New here? Code <strong>CPLFIRST15</strong> takes 15% off your first single case.</p>
     </div>
     <div class="pricing-grid">
-      
-<div class="tier">
-  <div class="tier-label">Single guide</div>
-  <div class="tier-price"><span class="currency">$</span>150</div>
-  <div class="tier-saves">&nbsp;</div>
-  <p class="tier-blurb">One complete case, delivered same day.</p>
-  <a href="/cases/" class="btn btn-primary">Browse cases</a>
-</div>
-
-<div class="tier featured">
-  <div class="tier-label">3-case bundle</div>
-  <div class="tier-price"><span class="currency">$</span>390</div>
-  <div class="tier-saves">Save $60</div>
-  <p class="tier-blurb">Save $60. Mix any 3 cases.</p>
-  <a href="/cases/" class="btn btn-primary">Browse cases</a>
-</div>
-
-<div class="tier">
-  <div class="tier-label">5-case bundle</div>
-  <div class="tier-price"><span class="currency">$</span>540</div>
-  <div class="tier-saves">Save $210</div>
-  <p class="tier-blurb">Save $210. Best value for a full term.</p>
-  <a href="/cases/" class="btn btn-primary">Browse cases</a>
-</div>
-
+      <div class="tier" data-reveal>
+        <div class="tier-label">Single guide</div>
+        <div class="tier-price"><span class="cur">$</span>150</div>
+        <div class="tier-saves">&nbsp;</div>
+        <p class="tier-blurb">One complete case, delivered same day.</p>
+        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+      </div>
+      <div class="tier featured" data-reveal data-reveal-delay="90">
+        <div class="tier-label">3-case bundle</div>
+        <div class="tier-price"><span class="cur">$</span>390</div>
+        <div class="tier-saves">Save $60</div>
+        <p class="tier-blurb">Mix any 3 cases. Great for a busy mid-term.</p>
+        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+      </div>
+      <div class="tier" data-reveal data-reveal-delay="180">
+        <div class="tier-label">5-case bundle</div>
+        <div class="tier-price"><span class="cur">$</span>540</div>
+        <div class="tier-saves">Save $210</div>
+        <p class="tier-blurb">Best value for a full term of submissions.</p>
+        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+      </div>
     </div>
   </div>
 </section>
@@ -352,19 +308,19 @@
       </p>
     </div>
     <div>
-      <h4>Resources</h4>
+      <h4>Learn</h4>
       <ul>
         <li><a href="/simulator/">Case Simulator</a></li>
         <li><a href="/free-resources/">Free Cheat Sheets</a></li>
         <li><a href="/sample-guide/">Sample Guide</a></li>
         <li><a href="/cases/">Case Catalog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="/about/">About CPL</a></li>
+        <li><a href="/faq/">FAQ</a></li>
         <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
       </ul>
     </div>
@@ -376,6 +332,7 @@
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
@@ -383,23 +340,9 @@
 </footer>
 
 
-
-<div class="popup-overlay" id="cplPopup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup">
-    <button class="popup-close" aria-label="Close" onclick="cplClosePopup()">×</button>
-    <span class="resource-stage">Free · Take a minute</span>
-    <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
-    <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
-    <form class="popup-form" onsubmit="cplSubmitPopup(event)">
-      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
-      <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
-    </form>
-    <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
-  </div>
-</div>
-
-
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
+<script src="/cpl-support.js" defer></script>
 
 </body>
 </html>
