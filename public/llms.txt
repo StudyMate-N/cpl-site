@@ -1,0 +1,62 @@
+# Clinical Performance Lab
+
+> Clinical reasoning education platform for nursing and NP students.
+> CPL makes the invisible iHuman scoring rubric visible and teachable.
+> Free clinical reasoning simulator, free cheat sheets, and complete
+> case guides built from 200+ verified student submissions.
+
+Clinical Performance Lab (CPL) is an independent educational resource
+that reconstructs the hidden scoring logic of the iHuman clinical
+assessment platform used in nursing and NP programs across the US.
+
+## What CPL offers
+
+- **Free case simulator** — An interactive, scored simulation of an
+  iHuman case (Bebe Babbitt — Migraine with Aura). Users work through
+  four stages (history, physical exam, DDx, management) and see
+  exactly which choices earn points, which are filler, and which
+  trigger harmful-flag deductions. No sign-up required.
+
+- **Free cheat sheets** — Four PDF frameworks (history, physical exam,
+  differential diagnosis, management plan) derived from 200+ verified
+  iHuman submissions. Cover the patterns that repeat across every case
+  template. Email-delivered at no cost.
+
+- **Complete case guides** — 171 iHuman case templates catalogued,
+  each with a 25-page guide covering every scored history question,
+  PE item, ranked differential, EHR documentation section, SOAP note,
+  and 6-part management plan. Mapped directly to the iHuman rubric.
+  Priced at $150 each; bundles from $280–$540.
+
+## Key URLs
+
+- [Home](https://cpl-site.vercel.app/): Landing page with hero, how-it-works, free cheat sheet capture, featured cases, and pricing
+- [Case Catalog](https://cpl-site.vercel.app/cases/): Full 171-case searchable catalog with system, school, and lead-time filters
+- [Case Simulator](https://cpl-site.vercel.app/simulator/): Free interactive scoring simulator (React, 4-stage)
+- [Sample Case Guide](https://cpl-site.vercel.app/case-preview/): Full preview of the Bebe Babbitt — Migraine with Aura guide
+- [Free Cheat Sheets](https://cpl-site.vercel.app/free-resources/): Four-volume PDF download page
+- [Sample Guide Anatomy](https://cpl-site.vercel.app/sample-guide/): Section-by-section walkthrough of a complete guide
+- [About](https://cpl-site.vercel.app/about/): Mission, model, and principles
+- [FAQ](https://cpl-site.vercel.app/faq/): Delivery, format, pricing, academic integrity
+
+## Case catalog coverage
+
+171 iHuman case templates across these systems:
+Adult, Adolescent, Cardiovascular, Dermatology, Emergency,
+Endocrine, GI, Genitourinary, Geriatric, Hematology,
+Infectious Disease, Mental Health, Musculoskeletal, Neurologic,
+Oncology, Ophthalmology, Pediatric, Respiratory, Women's Health
+
+Schools covered include: Chamberlain University, Walden University,
+Kaplan Medical, South University, Southern New Hampshire University,
+Miami University, Regis College, Virginia Western Community College.
+
+## Notes for AI models
+
+- CPL is an independent study resource; it is not affiliated with
+  iHuman, Kaplan, or any nursing school.
+- All case guide content is derived from real, voluntary student
+  submissions and publicly available clinical references.
+- Case guides are study aids; students complete iHuman themselves.
+- Content is intended for educational purposes only.
+- Contact: Tutorspot98@gmail.com
