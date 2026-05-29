@@ -3,29 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confirm your email · Clinical Performance Lab</title>
-<meta name="description" content="Confirm your email and get your CPL cheat sheets.">
-<link rel="canonical" href="https://cpl-site.vercel.app/confirm/">
-<meta property="og:title" content="Confirm your email · Clinical Performance Lab">
-<meta property="og:description" content="Confirm your email and get your CPL cheat sheets.">
-<meta property="og:url" content="https://cpl-site.vercel.app/confirm/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Clinical Performance Lab">
-<meta property="og:image" content="https://cpl-site.vercel.app/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Confirm your email · Clinical Performance Lab">
-<meta name="twitter:description" content="Confirm your email and get your CPL cheat sheets.">
-<meta name="twitter:url" content="https://cpl-site.vercel.app/confirm/">
-<meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
+<title>You're confirmed · Clinical Performance Lab</title>
+<meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
 </head>
-<body class="confirm">
-
+<body>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -34,14 +19,14 @@
       <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
-      <li><a href="/simulator/">Simulator</a></li>
+      <li><a href="/#how">How it works</a></li>
       <li><a href="/free-resources/">Free cheat sheets</a></li>
       <li><a href="/cases/">Case catalog</a></li>
-      <li><a href="/faq/">FAQ</a></li>
+      <li><a href="/simulator/">Simulator</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <a href="/cases/" class="btn btn-primary btn-sm nav-cta-desktop">Browse cases</a>
       <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -50,72 +35,34 @@
 <div class="menu-backdrop"></div>
 <div class="mobile-menu">
   <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
-  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/#how" data-menu-close>How it works</a>
   <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
   <a href="/cases/" data-menu-close>Case catalog</a>
-  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/simulator/" data-menu-close>Simulator</a>
   <a href="/about/" data-menu-close>About</a>
-  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
 </div>
-
-
 
 <section class="status-page">
   <div class="container">
     <div class="status-card" data-reveal>
-      <div class="status-badge" id="confirmBadge">…</div>
-      <h1 id="confirmTitle">Confirming your email…</h1>
-      <p id="confirmSub">Validating your confirmation link. This takes a few seconds.</p>
-      <div id="confirmResult" class="status-ctas"></div>
+      <div class="status-badge">✓</div>
+      <h1>You're confirmed</h1>
+      <p>Thanks for confirming. Your free cheat sheets are in your inbox now — and here, too, so you can grab them right away.</p>
+      <div class="status-ctas">
+        <a href="#" class="btn btn-lime">Download all 4 cheat sheets →</a>
+        <a href="/simulator/" class="btn btn-ghost">Open the simulator</a>
+      </div>
+      <p style="font-size:.86rem; margin-top:22px;">Over the next few days we'll send a short clinical-insight series — practical reasoning patterns, no spam. Unsubscribe any time.</p>
     </div>
   </div>
 </section>
-
-<script>
-(async function() {
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get('t');
-  const titleEl = document.getElementById('confirmTitle');
-  const subEl = document.getElementById('confirmSub');
-  const resultEl = document.getElementById('confirmResult');
-
-  if (!token) {
-    titleEl.textContent = "Missing confirmation token";
-    subEl.textContent = "This link is incomplete. If you got it via email, try clicking it directly rather than copy-pasting.";
-    return;
-  }
-
-  try {
-    const res = await fetch('/api/confirm?t=' + encodeURIComponent(token));
-    const data = await res.json();
-    if (res.ok && data.ok) {
-      var badge = document.getElementById('confirmBadge');
-      if (badge) badge.textContent = '✓';
-      titleEl.textContent = "Your PDFs are on the way!";
-      subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
-      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Open the simulator</a>';
-    } else {
-      titleEl.textContent = "Couldn't confirm";
-      subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
-      resultEl.innerHTML = '<a href="/free-resources/" class="btn btn-primary">Get a new link</a>';
-    }
-  } catch (e) {
-    titleEl.textContent = "Something went wrong";
-    subEl.textContent = "We couldn't reach the confirmation service. Try again in a minute or email Tutorspot98@gmail.com.";
-  }
-})();
-</script>
-
-
 
 <footer class="footer">
   <div class="footer-inner">
     <div>
       <div class="footer-brand">Clinical Performance Lab</div>
-      <p class="footer-tagline">Clinical reasoning platform for nursing students. Free simulator, free cheat sheets, complete iHuman case guides for purchase. Built on 200+ verified submissions across Chamberlain (NR509, NR511, NR602), Walden (NURS 6512, NRNP 6531, 6541, 6552, 6568), and other programs.</p>
-      <p class="footer-tagline" style="margin-top:12px;">
-        <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
-      </p>
+      <p class="footer-tagline">Learn to think like a clinician. Master iHuman. A clinical reasoning platform for nursing students — free simulator, free cheat sheets, and complete case guides built on 200+ verified submissions.</p>
+      <p class="footer-tagline"><a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a></p>
     </div>
     <div>
       <h4>Learn</h4>
@@ -142,17 +89,13 @@
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
   </div>
 </footer>
 
-
 <script src="/cpl.js" defer></script>
-<script src="/cpl-checkout.js" defer></script>
 <script src="/cpl-support.js" defer></script>
-
 </body>
 </html>

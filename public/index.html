@@ -5,27 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clinical Performance Lab — Learn to think like a clinician</title>
 <meta name="description" content="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.">
-<link rel="canonical" href="https://cpl-site.vercel.app/">
-<meta property="og:title" content="Clinical Performance Lab — Learn to think like a clinician">
-<meta property="og:description" content="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.">
-<meta property="og:url" content="https://cpl-site.vercel.app/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Clinical Performance Lab">
-<meta property="og:image" content="https://cpl-site.vercel.app/og-image.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Clinical Performance Lab — Learn to think like a clinician">
-<meta name="twitter:description" content="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.">
-<meta name="twitter:url" content="https://cpl-site.vercel.app/">
-<meta name="twitter:image" content="https://cpl-site.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
 </head>
-<body class="home">
-
+<body>
 
 <nav class="nav">
   <div class="nav-inner">
@@ -34,10 +19,10 @@
       <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
-      <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free cheat sheets</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#free">Free cheat sheets</a></li>
       <li><a href="/cases/">Case catalog</a></li>
-      <li><a href="/faq/">FAQ</a></li>
+      <li><a href="/case-preview/">Sample case</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="nav-actions">
@@ -50,16 +35,15 @@
 <div class="menu-backdrop"></div>
 <div class="mobile-menu">
   <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
-  <a href="/simulator/" data-menu-close>Simulator</a>
-  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
+  <a href="#how" data-menu-close>How it works</a>
+  <a href="#free" data-menu-close>Free cheat sheets</a>
   <a href="/cases/" data-menu-close>Case catalog</a>
-  <a href="/faq/" data-menu-close>FAQ</a>
+  <a href="/case-preview/" data-menu-close>Sample case</a>
   <a href="/about/" data-menu-close>About</a>
   <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
 </div>
 
-
-
+<!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="container">
     <div class="hero-panel">
@@ -71,7 +55,7 @@
         </p>
         <div class="hero-ctas" data-reveal data-reveal-delay="180">
           <a href="/simulator/" class="btn btn-lime btn-lg">Try the free simulator →</a>
-          <a href="/sample-guide/" class="btn btn-ghost-dark btn-lg">See a sample guide</a>
+          <a href="/case-preview/" class="btn btn-ghost-dark btn-lg">See a sample guide</a>
         </div>
         <p class="hero-tertiary" data-reveal data-reveal-delay="220">Free simulator and cheat sheets — <a href="#free">no card required →</a></p>
         <div class="hero-trust" data-reveal data-reveal-delay="280">
@@ -93,6 +77,7 @@
   </div>
 </section>
 
+<!-- ═══ HOW IT WORKS ═══ -->
 <section class="section" id="how">
   <div class="container">
     <div class="section-head center" data-reveal>
@@ -102,27 +87,31 @@
     </div>
     <div class="steps">
       <div class="step" data-reveal>
-        <div class="step-num">01</div><span class="step-free">Free</span>
+        <div class="step-num">01</div>
+        <span class="step-free">Free</span>
         <h3>Practice with the simulator</h3>
         <p>Click through realistic iHuman stages — history, PE, DDx, plan. See which choices score, which lose points, and exactly why. Reasoning you can use on any case.</p>
         <a href="/simulator/" class="link-arrow">Open the simulator →</a>
       </div>
       <div class="step" data-reveal data-reveal-delay="90">
-        <div class="step-num">02</div><span class="step-free">Free</span>
+        <div class="step-num">02</div>
+        <span class="step-free">Free</span>
         <h3>Master the patterns with cheat sheets</h3>
         <p>Four PDFs — history, physical exam, differential diagnosis, and management plan. The universal patterns that transfer across every iHuman case template.</p>
         <a href="#free" class="link-arrow">Get the cheat sheets →</a>
       </div>
       <div class="step" data-reveal data-reveal-delay="180">
-        <div class="step-num">03</div><span class="step-paid">Premium</span>
+        <div class="step-num">03</div>
+        <span class="step-paid">Premium</span>
         <h3>Get the guide when it's graded</h3>
         <p>For the cases that count: submission-ready guides with every history question, PE finding, DDx ranking, and management call mapped to the rubric. Same-day delivery.</p>
-        <a href="/cases/" class="link-arrow">Browse 171 cases →</a>
+        <a href="#cases" class="link-arrow">Browse 171 cases →</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ═══ FREE CHEAT SHEETS ═══ -->
 <section class="section bg-cream2" id="free">
   <div class="container">
     <div class="section-head" data-reveal>
@@ -132,55 +121,34 @@
     </div>
     <form data-capture data-reveal data-reveal-delay="80">
       <div class="resource-grid">
-        
-<label class="resource-card" data-id="history">
-  <input type="checkbox" name="volumes" value="history" style="display:none" >
-  <span class="resource-stage">Vol I · Stage I of IV</span>
-  <h3>History Framework</h3>
-  <p>Universal questions that score on every case. OLDCARTS, ROS, the pivotal communication question, and the lay-to-clinical translation table.</p>
-  <div class="resource-meta">
-    <span>8 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
-<label class="resource-card" data-id="physical-exam">
-  <input type="checkbox" name="volumes" value="physical-exam" style="display:none" >
-  <span class="resource-stage">Vol II · Stage II of IV</span>
-  <h3>Universal PE Checklist</h3>
-  <p>PE items that score on every case — cardiac auscultation, lung fields, abdominal quadrants. Diagrams for each.</p>
-  <div class="resource-meta">
-    <span>9 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
-<label class="resource-card" data-id="ddx">
-  <input type="checkbox" name="volumes" value="ddx" style="display:none" >
-  <span class="resource-stage">Vol III · Stage III of IV</span>
-  <h3>DDx &amp; Key Findings</h3>
-  <p>How iHuman ranks differentials, the must-not-miss framework, and the 2–3 sentence problem statement structure faculty look for.</p>
-  <div class="resource-meta">
-    <span>8 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
-<label class="resource-card" data-id="plan">
-  <input type="checkbox" name="volumes" value="plan" style="display:none" >
-  <span class="resource-stage">Vol IV · Stage IV of IV</span>
-  <h3>Management Plan &amp; SOAP</h3>
-  <p>The harmful-flag trap, 6-part management plan, medication answers by case template, SOAP note. The faculty-scored 20%.</p>
-  <div class="resource-meta">
-    <span>9 pages</span>
-    <span>·</span>
-    <span>~10 min read</span>
-  </div>
-</label>
-
+        <label class="resource-card" data-id="history">
+          <input type="checkbox" name="volumes" value="history" style="display:none">
+          <span class="resource-stage">Vol I · Stage I of IV</span>
+          <h3>History Framework</h3>
+          <p>Universal questions that score on every case. OLDCARTS, ROS, the pivotal communication question, and the lay-to-clinical translation table.</p>
+          <div class="resource-meta"><span>8 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
+        <label class="resource-card" data-id="physical-exam">
+          <input type="checkbox" name="volumes" value="physical-exam" style="display:none">
+          <span class="resource-stage">Vol II · Stage II of IV</span>
+          <h3>Universal PE Checklist</h3>
+          <p>Physical-exam items that score on every case — cardiac auscultation, lung fields, abdominal quadrants. With diagrams for each.</p>
+          <div class="resource-meta"><span>9 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
+        <label class="resource-card" data-id="ddx">
+          <input type="checkbox" name="volumes" value="ddx" style="display:none">
+          <span class="resource-stage">Vol III · Stage III of IV</span>
+          <h3>DDx &amp; Key Findings</h3>
+          <p>How iHuman ranks differentials, the must-not-miss framework, and the 2–3 sentence problem statement faculty look for.</p>
+          <div class="resource-meta"><span>8 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
+        <label class="resource-card" data-id="plan">
+          <input type="checkbox" name="volumes" value="plan" style="display:none">
+          <span class="resource-stage">Vol IV · Stage IV of IV</span>
+          <h3>Management Plan &amp; SOAP</h3>
+          <p>The harmful-flag trap, the 6-part management plan, medication answers by template, and the SOAP note — the faculty-scored 20%.</p>
+          <div class="resource-meta"><span>9 pages</span><span>·</span><span>~10 min</span></div>
+        </label>
       </div>
       <div class="capture">
         <div class="capture-inner">
@@ -199,63 +167,57 @@
   </div>
 </section>
 
+<!-- ═══ FEATURED CASES ═══ -->
 <section class="section" id="cases">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow"><span class="dot"></span>Case catalog</span>
       <h2>Guides built from verified scoring data</h2>
-      <p>Every CPL guide maps the actual iHuman rubric — which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions. 6 ship same day; 165 more build within 24–48h.</p>
+      <p>Every CPL guide maps the actual iHuman rubric — which history questions score, which PE items count, which DDx rankings are platform-verified, which management choices avoid harmful-flag deductions.</p>
     </div>
     <div class="case-grid">
-      
-<a class="case-card" href="/case/harvey-hoya-htn/" data-reveal>
-  <h3>Harvey Hoya — Hypertension Stage 2</h3>
-  <p class="case-cc">High blood pressure noted at community health fair</p>
-  <div class="case-meta"><span class="case-tag">Cardiovascular</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="case-sub">Chamberlain University · NR 509 / NR 511 Week 5</p>
-  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
-</a>
-
-<a class="case-card" href="/case/bebe-babbitt-migraine/" data-reveal>
-  <h3>Bebe Babbitt — Migraine with Aura</h3>
-  <p class="case-cc">More frequent severe headaches</p>
-  <div class="case-meta"><span class="case-tag">Neurologic</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="case-sub">Chamberlain University · NR 509 Week 6</p>
-  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
-</a>
-
-<a class="case-card" href="/case/cynthia-francis-hyperlipidemia/" data-reveal>
-  <h3>Cynthia Francis — Hyperlipidemia</h3>
-  <p class="case-cc">Follow-up after abnormal lipid panel</p>
-  <div class="case-meta"><span class="case-tag">Endocrine</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="case-sub">Chamberlain University · NR 509 / NR 511</p>
-  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
-</a>
-
-<a class="case-card" href="/case/samantha-graves-gastroenteritis/" data-reveal>
-  <h3>Samantha Graves — Viral Gastroenteritis</h3>
-  <p class="case-cc">Vomiting and diarrhea ×2 days</p>
-  <div class="case-meta"><span class="case-tag">GI</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="case-sub">Chamberlain University · NR 602 Week 5</p>
-  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
-</a>
-
-<a class="case-card" href="/case/kennedy-poole-adhd/" data-reveal>
-  <h3>Kennedy Poole — ADHD, Inattentive</h3>
-  <p class="case-cc">Slipping grades and academic decline</p>
-  <div class="case-meta"><span class="case-tag">Mental Health</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="case-sub">Chamberlain University · NR 602 Week 4</p>
-  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
-</a>
-
-<a class="case-card" href="/case/christine-smith-pyelonephritis/" data-reveal>
-  <h3>Christine Smith — Pyelonephritis</h3>
-  <p class="case-cc">Flank pain, fever, dysuria</p>
-  <div class="case-meta"><span class="case-tag">GU</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
-  <p class="case-sub">Walden University · NRNP 6531 Week 7</p>
-  <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
-</a>
-
+      <a class="case-card" href="/case-preview/" data-reveal>
+        <h3>Harvey Hoya — Hypertension Stage 2</h3>
+        <p class="case-cc">High blood pressure noted at a community health fair</p>
+        <div class="case-meta"><span class="case-tag">Cardiovascular</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+        <p class="case-sub">NR 509 / NR 511 · Week 5 · Chamberlain</p>
+        <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
+      </a>
+      <a class="case-card" href="/case-preview/" data-reveal data-reveal-delay="60">
+        <h3>Bebe Babbitt — Migraine with Aura</h3>
+        <p class="case-cc">More frequent, more severe headaches</p>
+        <div class="case-meta"><span class="case-tag">Neurologic</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+        <p class="case-sub">NR 509 · Week 6 · Chamberlain</p>
+        <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
+      </a>
+      <a class="case-card" href="/case-preview/" data-reveal data-reveal-delay="120">
+        <h3>Cynthia Francis — Hyperlipidemia</h3>
+        <p class="case-cc">Follow-up after an abnormal lipid panel</p>
+        <div class="case-meta"><span class="case-tag">Endocrine</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+        <p class="case-sub">NR 509 / NR 511 · Chamberlain</p>
+        <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
+      </a>
+      <a class="case-card" href="/case-preview/" data-reveal>
+        <h3>Samantha Graves — Viral Gastroenteritis</h3>
+        <p class="case-cc">Vomiting and diarrhea ×2 days</p>
+        <div class="case-meta"><span class="case-tag">GI</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+        <p class="case-sub">NR 602 · Week 5 · Chamberlain</p>
+        <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
+      </a>
+      <a class="case-card" href="/case-preview/" data-reveal data-reveal-delay="60">
+        <h3>Kennedy Poole — ADHD, Inattentive</h3>
+        <p class="case-cc">Slipping grades and academic decline</p>
+        <div class="case-meta"><span class="case-tag">Mental Health</span><span class="case-tag">Pediatric</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+        <p class="case-sub">NR 602 · Week 4 · Chamberlain</p>
+        <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
+      </a>
+      <a class="case-card" href="/case-preview/" data-reveal data-reveal-delay="120">
+        <h3>Christine Smith — Pyelonephritis</h3>
+        <p class="case-cc">Flank pain, fever, dysuria</p>
+        <div class="case-meta"><span class="case-tag">GU</span><span class="case-tag">Adult</span><span class="case-tag lead-fast">⚡ Same-day</span></div>
+        <p class="case-sub">NRNP 6531 · Week 7 · Walden</p>
+        <div class="case-cta"><span>Preview case</span><span aria-hidden="true">→</span></div>
+      </a>
     </div>
     <div style="text-align:center; margin-top:36px;" data-reveal>
       <a href="/cases/" class="btn btn-ghost">See all 171 cases →</a>
@@ -263,6 +225,7 @@
   </div>
 </section>
 
+<!-- ═══ PRICING ═══ -->
 <section class="section bg-cream2" id="pricing">
   <div class="container">
     <div class="section-head center" data-reveal>
@@ -276,36 +239,33 @@
         <div class="tier-price"><span class="cur">$</span>150</div>
         <div class="tier-saves">&nbsp;</div>
         <p class="tier-blurb">One complete case, delivered same day.</p>
-        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+        <a href="#cases" class="btn btn-primary">Browse cases</a>
       </div>
       <div class="tier featured" data-reveal data-reveal-delay="90">
         <div class="tier-label">3-case bundle</div>
         <div class="tier-price"><span class="cur">$</span>390</div>
         <div class="tier-saves">Save $60</div>
         <p class="tier-blurb">Mix any 3 cases. Great for a busy mid-term.</p>
-        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+        <a href="#cases" class="btn btn-primary">Browse cases</a>
       </div>
       <div class="tier" data-reveal data-reveal-delay="180">
         <div class="tier-label">5-case bundle</div>
         <div class="tier-price"><span class="cur">$</span>540</div>
         <div class="tier-saves">Save $210</div>
         <p class="tier-blurb">Best value for a full term of submissions.</p>
-        <a href="/cases/" class="btn btn-primary">Browse cases</a>
+        <a href="#cases" class="btn btn-primary">Browse cases</a>
       </div>
     </div>
   </div>
 </section>
 
-
-
+<!-- ═══ FOOTER ═══ -->
 <footer class="footer">
   <div class="footer-inner">
     <div>
       <div class="footer-brand">Clinical Performance Lab</div>
-      <p class="footer-tagline">Clinical reasoning platform for nursing students. Free simulator, free cheat sheets, complete iHuman case guides for purchase. Built on 200+ verified submissions across Chamberlain (NR509, NR511, NR602), Walden (NURS 6512, NRNP 6531, 6541, 6552, 6568), and other programs.</p>
-      <p class="footer-tagline" style="margin-top:12px;">
-        <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
-      </p>
+      <p class="footer-tagline">Learn to think like a clinician. Master iHuman. A clinical reasoning platform for nursing students — free simulator, free cheat sheets, and complete case guides built on 200+ verified submissions.</p>
+      <p class="footer-tagline"><a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a></p>
     </div>
     <div>
       <h4>Learn</h4>
@@ -332,17 +292,14 @@
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
   </div>
 </footer>
 
-
 <script src="/cpl.js" defer></script>
 <script src="/cpl-checkout.js" defer></script>
 <script src="/cpl-support.js" defer></script>
-
 </body>
 </html>
