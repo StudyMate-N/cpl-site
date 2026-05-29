@@ -12,7 +12,7 @@
     'Ordering: the student requests an invoice; CPL emails it; once paid the student receives a personal access code that unlocks the complete guide for download. Same-day delivery, Word + PDF.',
     'Catalog: 171 cases across Chamberlain (NR509/NR511/NR602), Walden (NURS6512, NRNP6531/6541/6552/6568) and others. iHuman rotates patient names, so each guide covers all aliases of a case template.',
     'Tone: warm, calm, confident, concise \u2014 the audience is stressed students, often on mobile, anxious about grades. Reduce anxiety. On academic-integrity questions: CPL is a study and learning resource (like a tutor or answer-explanation guide); encourage students to follow their school\u2019s policies and use guides to learn the reasoning. Never claim affiliation with iHuman or any school.',
-    'Keep replies under ~90 words. Use plain language. If unsure or it needs a human, offer to pass it to the CPL team at Tutorspot98@gmail.com.'
+    'Keep replies under ~90 words. Use plain language. If unsure or it needs a human, offer to pass it to the CPL team at support@clinicalperformancelab.com.'
   ].join(' ');
 
   var GREETING = "Hi! I'm the CPL assistant 👋 I can help with how ordering works, what's free, whether we have your case, or scoring questions. What's on your mind?";
@@ -39,7 +39,7 @@
     '  <input type="text" placeholder="Ask about cases, scoring, orders…" autocomplete="off" data-chat-text>',
     '  <button type="submit" aria-label="Send">↑</button>',
     '</form>',
-    '<div class="cpl-chat-foot">Powered by CPL · or email <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a></div>'
+    '<div class="cpl-chat-foot">Powered by CPL · or email <a href="mailto:support@clinicalperformancelab.com">support@clinicalperformancelab.com</a></div>'
   ].join('');
   document.body.appendChild(panel);
 
@@ -81,7 +81,7 @@
       return "CPL is a study resource — it teaches the clinical reasoning iHuman rewards so you learn it, like a tutor or answer-explanation guide. Always follow your school\u2019s academic policies. We\u2019re not affiliated with iHuman.";
     if (s.indexOf('case') > -1 || s.indexOf('have') > -1)
       return "Most likely! We catalog 171 cases across Chamberlain and Walden programs. Tell me the patient name or diagnosis and I\u2019ll point you to it — and remember iHuman rotates names, so guides cover every alias.";
-    return "Great question — for anything specific, the CPL team can help directly at Tutorspot98@gmail.com. In the meantime: the simulator and cheat sheets are free, and complete guides are $150 with same-day delivery.";
+    return "Great question — for anything specific, the CPL team can help directly at support@clinicalperformancelab.com. In the meantime: the simulator and cheat sheets are free, and complete guides are $150 with same-day delivery.";
   }
 
   var pending = false;

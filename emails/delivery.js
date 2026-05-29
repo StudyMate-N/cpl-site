@@ -1,7 +1,7 @@
 // Email 2 — Delivery (sent immediately after the user clicks the confirm link).
 // Goal: get the PDFs in their hands and set up the next email expectation.
 
-const { shell, button, escapeHtml } = require('./_shell');
+const { shell, button, escapeHtml, REPLY_TO } = require('./_shell');
 
 const VOLUMES_META = {
   'history':       { label: 'Vol I · History Framework',     file: 'cpl-vol-1-history.pdf' },
@@ -68,7 +68,7 @@ function deliveryEmail({ email, volumes, baseUrl, unsubscribeUrl }) {
     ${button({ url: `${baseUrl}/cases/`, label: 'Browse the case catalog' })}
 
     <p style="margin:24px 0 0; font-size:13px; color:#5C6E69; line-height:1.6;">
-      Questions? Just reply to this email — it goes straight to <a href="mailto:Tutorspot98@gmail.com" style="color:#0F7A6B;">Tutorspot98@gmail.com</a>.
+      Questions? Just reply to this email — it goes straight to <a href="mailto:${REPLY_TO}" style="color:#0F7A6B;">${REPLY_TO}</a>.
     </p>
   `;
 

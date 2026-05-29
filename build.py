@@ -36,6 +36,11 @@ BASE_URL = SITE_URL  # backwards-compatible alias used across this module
 SITE_NAME = "Clinical Performance Lab"
 SITE_TAG = "Clinical reasoning platform for nursing students — master iHuman"
 
+# Role-based email addresses (single source of truth for the rebrand).
+CONTACT_EMAIL = "hello@clinicalperformancelab.com"     # brand front door · footer/about/general
+ORDER_EMAIL   = "orders@clinicalperformancelab.com"    # "Order this guide" requests · invoicing
+SUPPORT_EMAIL = "support@clinicalperformancelab.com"   # delivery issues · refunds · "delete my data"
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PUBLIC = os.path.join(ROOT, "public")
 
@@ -322,7 +327,7 @@ def footer_html():
       <div class="footer-brand">Clinical Performance Lab</div>
       <p class="footer-tagline">Clinical reasoning platform for nursing students. Free simulator, free cheat sheets, complete iHuman case guides for purchase. Built on 200+ verified submissions across Chamberlain (NR509, NR511, NR602), Walden (NURS 6512, NRNP 6531, 6541, 6552, 6568), and other programs.</p>
       <p class="footer-tagline" style="margin-top:12px;">
-        <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>
+        <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>
       </p>
     </div>
     <div>
@@ -339,7 +344,7 @@ def footer_html():
       <ul>
         <li><a href="/about/">About CPL</a></li>
         <li><a href="/faq/">FAQ</a></li>
-        <li><a href="mailto:Tutorspot98@gmail.com">Contact</a></li>
+        <li><a href="mailto:{CONTACT_EMAIL}">Contact</a></li>
       </ul>
     </div>
     <div>
@@ -1033,7 +1038,7 @@ def build_case_preview(case):
             <h4>Get this case guide</h4>
             <div class="order-price"><span class="cur">$</span>150</div>
             <p class="sub">Word + PDF, delivered same day to your inbox.</p>
-            <a href="mailto:Tutorspot98@gmail.com?subject={order_subject}" class="btn btn-lime" data-order="{order_attr}" data-price="150">Order this guide →</a>
+            <a href="mailto:{ORDER_EMAIL}?subject={order_subject}" class="btn btn-lime" data-order="{order_attr}" data-price="150">Order this guide →</a>
             <button class="btn btn-ghost-dark" data-access-code>I have an access code</button>
             <ul class="order-incl">
               <li>Same-day delivery</li>
@@ -1110,7 +1115,7 @@ def build_confirm():
     }
   } catch (e) {
     titleEl.textContent = "Something went wrong";
-    subEl.textContent = "We couldn't reach the confirmation service. Try again in a minute or email Tutorspot98@gmail.com.";
+    subEl.textContent = "We couldn't reach the confirmation service. Try again in a minute or email support@clinicalperformancelab.com.";
   }
 })();
 </script>
@@ -1365,7 +1370,7 @@ def build_about():
         <div class="capture-eyebrow">Get in touch</div>
         <h3>Questions, partnerships, or press?</h3>
         <p style="max-width:50ch; margin-left:auto; margin-right:auto;">We're a small team building calmly and deliberately. We'd love to hear from you.</p>
-        <a class="btn btn-lime btn-lg" href="mailto:Tutorspot98@gmail.com">Email the team →</a>
+        <a class="btn btn-lime btn-lg" href="mailto:hello@clinicalperformancelab.com">Email the team →</a>
       </div>
     </div>
   </div>
@@ -1441,7 +1446,7 @@ def build_legal():
     <h3>3. Independent of institutions</h3>
     <p>CPL is not affiliated with iHuman, Kaplan, Chamberlain University, Walden University, or any other institution. We are an independent educational resource.</p>
     <h3>4. Refund policy</h3>
-    <p>Refunds available within 7 days of purchase for the wrong case delivered or substantive uncorrectable error. Contact Tutorspot98@gmail.com.</p>
+    <p>Refunds available within 7 days of purchase for the wrong case delivered or substantive uncorrectable error. Contact support@clinicalperformancelab.com.</p>
     <h3>5. Email use</h3>
     <p>We use your email address solely to deliver requested resources and a short clinical-insight follow-up sequence. We do not sell, rent, or share email addresses. Unsubscribe at any time via the link in every email.</p>
   </div></div>
@@ -1461,7 +1466,7 @@ def build_legal():
     <h3>What we don't do</h3>
     <p>We do not sell, rent, or share your email. We do not embed analytics tracking pixels in delivery emails. We do not use email to target advertising.</p>
     <h3>How to delete your data</h3>
-    <p>Email Tutorspot98@gmail.com with the subject "Delete my data" and we'll remove your address from our records within 7 days.</p>
+    <p>Email support@clinicalperformancelab.com with the subject "Delete my data" and we'll remove your address from our records within 7 days.</p>
   </div></div>
 </section>
 """

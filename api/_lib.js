@@ -7,6 +7,13 @@ const VALID_VOLUMES = ['history', 'physical-exam', 'ddx', 'plan'];
 const TOKEN_TTL_HOURS = 24;
 const SUBSCRIBER_TTL_DAYS = 90;  // keep records for 90 days after last activity
 
+// ─── Site / brand constants (single source of truth) ──────────────
+// All endpoints + email templates derive links and contact addresses
+// from these env-driven values so the brand can change in one place.
+const SITE_URL = (process.env.CPL_BASE_URL || 'https://www.clinicalperformancelab.com').replace(/\/+$/, '');
+const SITE_DOMAIN = SITE_URL.replace(/^https?:\/\//, '');
+const REPLY_TO = process.env.CPL_REPLY_TO || 'hello@clinicalperformancelab.com';
+
 // ─── Email validation ─────────────────────────────────────────────
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
@@ -304,6 +311,9 @@ function getClientIp(req) {
 module.exports = {
   VALID_VOLUMES,
   DRIP_STEPS,
+  SITE_URL,
+  SITE_DOMAIN,
+  REPLY_TO,
   isValidEmail,
   normalizeEmail,
   sanitizeVolumes,

@@ -1,7 +1,7 @@
 // Email 1 — Confirmation (sent immediately after subscribe form submission).
 // Goal: get them to click the confirm link.
 
-const { shell, button, escapeHtml } = require('./_shell');
+const { shell, button, escapeHtml, SITE_DOMAIN } = require('./_shell');
 
 const VOLUME_LABELS = {
   'history':       'Vol I — The History Question Framework',
@@ -10,7 +10,8 @@ const VOLUME_LABELS = {
   'plan':          'Vol IV — Management Plan & SOAP Note',
 };
 
-function confirmationEmail({ email, volumes, confirmUrl, unsubscribeUrl }) {
+function confirmationEmail({ email, volumes, confirmUrl, unsubscribeUrl, baseUrl }) {
+  const siteDomain = baseUrl ? baseUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '') : SITE_DOMAIN;
   const subject = 'Confirm to get your CPL cheat sheets';
   const preheader = "Click the link inside to get your free cheat sheets — it'll take 2 seconds.";
 
@@ -50,7 +51,7 @@ function confirmationEmail({ email, volumes, confirmUrl, unsubscribeUrl }) {
   `;
 
   const html = shell({ preheader, bodyHtml, unsubscribeUrl });
-  const text = `Confirm to get your CPL cheat sheets.\n\nThanks for requesting the CPL Cheat Sheet Library. Click this link to confirm and we'll send your PDFs immediately:\n\n${confirmUrl}\n\nYou requested:\n${(volumes || []).map(v => '- ' + (VOLUME_LABELS[v] || v)).join('\n')}\n\nThe link expires in 24 hours. Didn't sign up? Ignore this email.\n\nClinical Performance Lab\ncpl-site.vercel.app`;
+  const text = `Confirm to get your CPL cheat sheets.\n\nThanks for requesting the CPL Cheat Sheet Library. Click this link to confirm and we'll send your PDFs immediately:\n\n${confirmUrl}\n\nYou requested:\n${(volumes || []).map(v => '- ' + (VOLUME_LABELS[v] || v)).join('\n')}\n\nThe link expires in 24 hours. Didn't sign up? Ignore this email.\n\nClinical Performance Lab\n${siteDomain}`;
 
   return { subject, html, text };
 }

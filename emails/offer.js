@@ -1,7 +1,7 @@
 // Email 5 — Day 7 discount offer. Last email in the sequence.
 // Goal: convert with a modest, time-bounded incentive.
 
-const { shell, button, escapeHtml } = require('./_shell');
+const { shell, button, escapeHtml, REPLY_TO } = require('./_shell');
 
 function offerEmail({ baseUrl, unsubscribeUrl }) {
   const subject = "15% off your first CPL case guide (one-time code)";
@@ -57,7 +57,7 @@ function offerEmail({ baseUrl, unsubscribeUrl }) {
     </p>
 
     <p style="margin:24px 0 0; font-size:13px; color:#5C6E69; line-height:1.6;">
-      This is the last automated email you'll get from us. If you ever want resources for a new case or have a question, just reply — <a href="mailto:Tutorspot98@gmail.com" style="color:#0F7A6B;">Tutorspot98@gmail.com</a>.
+      This is the last automated email you'll get from us. If you ever want resources for a new case or have a question, just reply — <a href="mailto:${REPLY_TO}" style="color:#0F7A6B;">${REPLY_TO}</a>.
     </p>
 
     <p style="margin:8px 0 0; font-size:13px; color:#5C6E69; line-height:1.6;">
@@ -87,7 +87,7 @@ What you get for $127.50:
 
 Bundle pricing (3-case $390, 5-case $540) is already discounted — code applies to single cases only.
 
-This is the last automated email. Reply any time — Tutorspot98@gmail.com.
+This is the last automated email. Reply any time — ${REPLY_TO}.
 
 Good luck with your cases.
 — The CPL team`;

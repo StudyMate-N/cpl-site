@@ -24,6 +24,11 @@ SRC      = os.path.join(BASE, 'src')
 SITE     = 'https://www.clinicalperformancelab.com'
 OG_IMAGE = f'{SITE}/og-image.png'
 
+# Role-based email addresses (single source of truth for the rebrand).
+CONTACT_EMAIL = 'hello@clinicalperformancelab.com'     # brand front door · footer/about/general
+ORDER_EMAIL   = 'orders@clinicalperformancelab.com'    # "Order this guide" requests · invoicing
+SUPPORT_EMAIL = 'support@clinicalperformancelab.com'   # delivery issues · refunds · "delete my data"
+
 # ── Link / asset substitutions (applied in order) ─────────────────────────────
 SUBS = [
     ('href="index.html#how"',      'href="/#how"'),
@@ -50,6 +55,19 @@ SUBS = [
     ('src="previews/',             'src="/previews/'),
     ('data-lightbox="previews/',   'data-lightbox="/previews/'),
     ('href="previews/',            'href="/previews/'),
+    # ---- Email rebrand (order matters: specific contexts before general) ------
+    # Order requests → orders@
+    ('mailto:Tutorspot98@gmail.com?subject=',
+     f'mailto:{ORDER_EMAIL}?subject='),
+    # Legal / data contexts (privacy deletion + terms) → support@
+    ('deletion requests? Email <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>',
+     f'deletion requests? Email <a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),
+    ('these terms? Email <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>',
+     f'these terms? Email <a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),
+    # Everything else (footer, Contact, about CTA) → hello@
+    ('mailto:Tutorspot98@gmail.com',  f'mailto:{CONTACT_EMAIL}'),
+    # Bare display text (footer text, thank-you whitelist tip) → hello@
+    ('Tutorspot98@gmail.com',         CONTACT_EMAIL),
 ]
 
 # ── FAQ items for JSON-LD ─────────────────────────────────────────────────────
@@ -99,7 +117,7 @@ def schema_home() -> str:
                 "logo": {"@type": "ImageObject", "url": f"{SITE}/og-image.png"},
                 "contactPoint": {
                     "@type": "ContactPoint",
-                    "email": "Tutorspot98@gmail.com",
+                    "email": CONTACT_EMAIL,
                     "contactType": "customer support",
                     "availableLanguage": "English"
                 },
@@ -461,14 +479,14 @@ assessment platform used in nursing and NP programs across the US.
 
 ## Key URLs
 
-- [Home](https://cpl-site.vercel.app/): Landing page with hero, how-it-works, free cheat sheet capture, featured cases, and pricing
-- [Case Catalog](https://cpl-site.vercel.app/cases/): Full 171-case searchable catalog with system, school, and lead-time filters
-- [Case Simulator](https://cpl-site.vercel.app/simulator/): Free interactive scoring simulator (React, 4-stage)
-- [Sample Case Guide](https://cpl-site.vercel.app/case-preview/): Full preview of the Bebe Babbitt — Migraine with Aura guide
-- [Free Cheat Sheets](https://cpl-site.vercel.app/free-resources/): Four-volume PDF download page
-- [Sample Guide Anatomy](https://cpl-site.vercel.app/sample-guide/): Section-by-section walkthrough of a complete guide
-- [About](https://cpl-site.vercel.app/about/): Mission, model, and principles
-- [FAQ](https://cpl-site.vercel.app/faq/): Delivery, format, pricing, academic integrity
+- [Home](https://www.clinicalperformancelab.com/): Landing page with hero, how-it-works, free cheat sheet capture, featured cases, and pricing
+- [Case Catalog](https://www.clinicalperformancelab.com/cases/): Full 171-case searchable catalog with system, school, and lead-time filters
+- [Case Simulator](https://www.clinicalperformancelab.com/simulator/): Free interactive scoring simulator (React, 4-stage)
+- [Sample Case Guide](https://www.clinicalperformancelab.com/case-preview/): Full preview of the Bebe Babbitt — Migraine with Aura guide
+- [Free Cheat Sheets](https://www.clinicalperformancelab.com/free-resources/): Four-volume PDF download page
+- [Sample Guide Anatomy](https://www.clinicalperformancelab.com/sample-guide/): Section-by-section walkthrough of a complete guide
+- [About](https://www.clinicalperformancelab.com/about/): Mission, model, and principles
+- [FAQ](https://www.clinicalperformancelab.com/faq/): Delivery, format, pricing, academic integrity
 
 ## Case catalog coverage
 
@@ -490,7 +508,7 @@ Miami University, Regis College, Virginia Western Community College.
   submissions and publicly available clinical references.
 - Case guides are study aids; students complete iHuman themselves.
 - Content is intended for educational purposes only.
-- Contact: Tutorspot98@gmail.com
+- Contact: hello@clinicalperformancelab.com
 """
 
 def write_llms_txt() -> None:

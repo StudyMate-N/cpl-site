@@ -13,6 +13,7 @@ const {
   signUnsubscribeToken,
   getDueDripJobs,
   removeDripJob,
+  SITE_URL, REPLY_TO,
 } = require('../_lib');
 
 const insightEmail = require('../../emails/insight');
@@ -20,7 +21,6 @@ const introEmail   = require('../../emails/intro');
 const offerEmail   = require('../../emails/offer');
 
 const FROM_ADDRESS = process.env.CPL_FROM_ADDRESS || 'CPL <onboarding@resend.dev>';
-const BASE_URL = process.env.CPL_BASE_URL || 'https://cpl-site.vercel.app';
 
 const EMAIL_BUILDERS = {
   insight: insightEmail,
@@ -92,17 +92,17 @@ module.exports = async function handler(req, res) {
       }
 
       const unsubToken = signUnsubscribeToken(email);
-      const unsubscribeUrl = `${BASE_URL}/api/unsubscribe?t=${encodeURIComponent(unsubToken)}`;
+      const unsubscribeUrl = `${SITE_URL}/api/unsubscribe?t=${encodeURIComponent(unsubToken)}`;
 
       const { subject, html, text } = builder({
-        baseUrl: BASE_URL,
+        baseUrl: SITE_URL,
         unsubscribeUrl,
       });
 
       const { error } = await resend.emails.send({
         from: FROM_ADDRESS,
         to: email,
-        replyTo: 'Tutorspot98@gmail.com',
+        replyTo: REPLY_TO,
         subject,
         html,
         text,

@@ -3,7 +3,10 @@
 //
 // Validates token, marks email unsubscribed, returns a plain HTML confirmation page.
 
-const { verifyUnsubscribeToken, markUnsubscribed } = require('./_lib');
+const {
+  verifyUnsubscribeToken, markUnsubscribed,
+  SITE_URL, SITE_DOMAIN, REPLY_TO,
+} = require('./_lib');
 
 module.exports = async function handler(req, res) {
   const token = (req.query && req.query.t) || '';
@@ -20,7 +23,7 @@ module.exports = async function handler(req, res) {
     verified = verifyUnsubscribeToken(token);
   } catch (e) {
     console.error('Unsub verify threw:', e.message);
-    return sendHtml(res, 500, htmlPage("Server error", "Something went wrong. Try again or email Tutorspot98@gmail.com."));
+    return sendHtml(res, 500, htmlPage("Server error", `Something went wrong. Try again or email ${REPLY_TO}.`));
   }
 
   if (!verified.ok) {
@@ -34,12 +37,12 @@ module.exports = async function handler(req, res) {
     await markUnsubscribed(verified.email);
   } catch (e) {
     console.error('markUnsubscribed failed:', e.message);
-    return sendHtml(res, 500, htmlPage("Server error", "Try again in a minute or email Tutorspot98@gmail.com."));
+    return sendHtml(res, 500, htmlPage("Server error", `Try again in a minute or email ${REPLY_TO}.`));
   }
 
   return sendHtml(res, 200, htmlPage(
     "You're unsubscribed.",
-    `We won't email ${escapeHtml(verified.email)} again. If you change your mind, you can resubscribe any time at <a href="https://cpl-site.vercel.app/free-resources/" style="color:#0F7A6B;">cpl-site.vercel.app/free-resources/</a>.`
+    `We won't email ${escapeHtml(verified.email)} again. If you change your mind, you can resubscribe any time at <a href="${SITE_URL}/free-resources/" style="color:#0F7A6B;">${SITE_DOMAIN}/free-resources/</a>.`
   ));
 };
 
@@ -80,7 +83,7 @@ function htmlPage(title, body) {
   </div>
   <h1>${escapeHtml(title)}</h1>
   <p>${body}</p>
-  <a class="home" href="https://cpl-site.vercel.app">Back to cpl-site.vercel.app →</a>
+  <a class="home" href="${SITE_URL}">Back to ${SITE_DOMAIN} →</a>
 </div>
 </body>
 </html>`;

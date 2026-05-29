@@ -11,11 +11,11 @@ const {
   getSubscriber, setSubscriber,
   isUnsubscribed,
   scheduleDrip,
+  SITE_URL, REPLY_TO,
 } = require('./_lib');
 const deliveryEmail = require('../emails/delivery');
 
 const FROM_ADDRESS = process.env.CPL_FROM_ADDRESS || 'CPL <onboarding@resend.dev>';
-const BASE_URL = process.env.CPL_BASE_URL || 'https://cpl-site.vercel.app';
 
 module.exports = async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
@@ -108,17 +108,17 @@ async function sendDelivery(email, volumes) {
   }
 
   const unsubToken = signUnsubscribeToken(email);
-  const unsubscribeUrl = `${BASE_URL}/api/unsubscribe?t=${encodeURIComponent(unsubToken)}`;
+  const unsubscribeUrl = `${SITE_URL}/api/unsubscribe?t=${encodeURIComponent(unsubToken)}`;
 
   try {
     const resend = new Resend(apiKey);
     const { subject, html, text } = deliveryEmail({
-      email, volumes, baseUrl: BASE_URL, unsubscribeUrl,
+      email, volumes, baseUrl: SITE_URL, unsubscribeUrl,
     });
     const { data, error } = await resend.emails.send({
       from: FROM_ADDRESS,
       to: email,
-      replyTo: 'Tutorspot98@gmail.com',
+      replyTo: REPLY_TO,
       subject,
       html,
       text,

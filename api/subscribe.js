@@ -9,11 +9,11 @@ const {
   isUnsubscribed,
   checkRateLimit,
   readJsonBody, getClientIp,
+  SITE_URL, REPLY_TO,
 } = require('./_lib');
 const confirmationEmail = require('../emails/confirmation');
 
 const FROM_ADDRESS = process.env.CPL_FROM_ADDRESS || 'CPL <onboarding@resend.dev>';
-const BASE_URL = process.env.CPL_BASE_URL || 'https://cpl-site.vercel.app';
 
 module.exports = async function handler(req, res) {
   // CORS — same-origin only (Vercel handles this automatically when API+site are on the same domain)
@@ -63,10 +63,10 @@ module.exports = async function handler(req, res) {
     console.error('Token signing failed:', e.message);
     return res.status(500).json({ ok: false, error: 'Server configuration error.' });
   }
-  const confirmUrl = `${BASE_URL}/confirm/?t=${encodeURIComponent(token)}`;
+  const confirmUrl = `${SITE_URL}/confirm/?t=${encodeURIComponent(token)}`;
 
   const unsubToken = signUnsubscribeToken(email);
-  const unsubscribeUrl = `${BASE_URL}/api/unsubscribe?t=${encodeURIComponent(unsubToken)}`;
+  const unsubscribeUrl = `${SITE_URL}/api/unsubscribe?t=${encodeURIComponent(unsubToken)}`;
 
   // ─── Send confirmation email ────────────────────────
   const apiKey = process.env.RESEND_API_KEY;
@@ -78,13 +78,13 @@ module.exports = async function handler(req, res) {
   try {
     const resend = new Resend(apiKey);
     const { subject, html, text } = confirmationEmail({
-      email, volumes, confirmUrl, unsubscribeUrl,
+      email, volumes, confirmUrl, unsubscribeUrl, baseUrl: SITE_URL,
     });
 
     const { data, error } = await resend.emails.send({
       from: FROM_ADDRESS,
       to: email,
-      replyTo: 'Tutorspot98@gmail.com',
+      replyTo: REPLY_TO,
       subject,
       html,
       text,

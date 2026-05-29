@@ -11,6 +11,11 @@ function escapeHtml(s) {
     .replace(/'/g, '&#x27;');
 }
 
+// ─── Site / brand constants (single source of truth, env-driven) ──────
+const SITE_URL = (process.env.CPL_BASE_URL || 'https://www.clinicalperformancelab.com').replace(/\/+$/, '');
+const SITE_DOMAIN = SITE_URL.replace(/^https?:\/\//, '');
+const REPLY_TO = process.env.CPL_REPLY_TO || 'hello@clinicalperformancelab.com';
+
 /**
  * Wraps email body content in the CPL-branded shell.
  *
@@ -73,9 +78,9 @@ function shell({ preheader, bodyHtml, unsubscribeUrl }) {
             </p>
             <p style="margin:0; font-size:11px; color:#5C6E69; line-height:1.5;">
               You're receiving this because you requested resources from
-              <a href="https://cpl-site.vercel.app" style="color:#0F7A6B; text-decoration:none;">cpl-site.vercel.app</a>.<br>
+              <a href="${SITE_URL}" style="color:#0F7A6B; text-decoration:none;">${SITE_DOMAIN}</a>.<br>
               <a href="${escapeHtml(unsubscribeUrl)}" style="color:#5C6E69; text-decoration:underline;">Unsubscribe</a>
-              · Contact: <a href="mailto:Tutorspot98@gmail.com" style="color:#5C6E69;">Tutorspot98@gmail.com</a>
+              · Contact: <a href="mailto:${REPLY_TO}" style="color:#5C6E69;">${REPLY_TO}</a>
             </p>
           </td>
         </tr>
@@ -102,4 +107,4 @@ function button({ url, label }) {
   </table>`;
 }
 
-module.exports = { shell, button, escapeHtml };
+module.exports = { shell, button, escapeHtml, SITE_URL, SITE_DOMAIN, REPLY_TO };
