@@ -30,14 +30,14 @@ assessment platform used in nursing and NP programs across the US.
 
 ## Key URLs
 
-- [Home](https://cpl-site.vercel.app/): Landing page with hero, how-it-works, free cheat sheet capture, featured cases, and pricing
-- [Case Catalog](https://cpl-site.vercel.app/cases/): Full 171-case searchable catalog with system, school, and lead-time filters
-- [Case Simulator](https://cpl-site.vercel.app/simulator/): Free interactive scoring simulator (React, 4-stage)
-- [Sample Case Guide](https://cpl-site.vercel.app/case-preview/): Full preview of the Bebe Babbitt — Migraine with Aura guide
-- [Free Cheat Sheets](https://cpl-site.vercel.app/free-resources/): Four-volume PDF download page
-- [Sample Guide Anatomy](https://cpl-site.vercel.app/sample-guide/): Section-by-section walkthrough of a complete guide
-- [About](https://cpl-site.vercel.app/about/): Mission, model, and principles
-- [FAQ](https://cpl-site.vercel.app/faq/): Delivery, format, pricing, academic integrity
+- [Home](https://www.clinicalperformancelab.com/): Landing page with hero, how-it-works, free cheat sheet capture, featured cases, and pricing
+- [Case Catalog](https://www.clinicalperformancelab.com/cases/): Full 171-case searchable catalog with system, school, and lead-time filters
+- [Case Simulator](https://www.clinicalperformancelab.com/simulator/): Free interactive scoring simulator (React, 4-stage)
+- [Sample Case Guide](https://www.clinicalperformancelab.com/case-preview/): Full preview of the Bebe Babbitt — Migraine with Aura guide
+- [Free Cheat Sheets](https://www.clinicalperformancelab.com/free-resources/): Four-volume PDF download page
+- [Sample Guide Anatomy](https://www.clinicalperformancelab.com/sample-guide/): Section-by-section walkthrough of a complete guide
+- [About](https://www.clinicalperformancelab.com/about/): Mission, model, and principles
+- [FAQ](https://www.clinicalperformancelab.com/faq/): Delivery, format, pricing, academic integrity
 
 ## Case catalog coverage
 

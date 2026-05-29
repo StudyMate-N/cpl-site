@@ -21,7 +21,7 @@ REDESIGN = os.path.join(BASE, '_newdesign_extract', 'redesign')
 PUB      = os.path.join(BASE, 'public')
 SRC      = os.path.join(BASE, 'src')
 
-SITE     = 'https://cpl-site.vercel.app'
+SITE     = 'https://www.clinicalperformancelab.com'
 OG_IMAGE = f'{SITE}/og-image.png'
 
 # ── Link / asset substitutions (applied in order) ─────────────────────────────

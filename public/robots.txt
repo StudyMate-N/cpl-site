@@ -23,5 +23,5 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://cpl-site.vercel.app/sitemap.xml
-LLMs: https://cpl-site.vercel.app/llms.txt
+Sitemap: https://www.clinicalperformancelab.com/sitemap.xml
+LLMs: https://www.clinicalperformancelab.com/llms.txt

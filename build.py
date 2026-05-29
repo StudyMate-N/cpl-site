@@ -31,7 +31,7 @@ from cases_data import CASES, PRICING, by_lead_time, by_slug, COURSES
 
 # ─── Configuration ────────────────────────────────────────────────
 # Single source of truth for the live domain. Update here only.
-SITE_URL = "https://cpl-site.vercel.app"
+SITE_URL = "https://www.clinicalperformancelab.com"
 BASE_URL = SITE_URL  # backwards-compatible alias used across this module
 SITE_NAME = "Clinical Performance Lab"
 SITE_TAG = "Clinical reasoning platform for nursing students — master iHuman"
