@@ -323,7 +323,7 @@
         '<div style="margin-top:14px;">' + availBadge(o) + '</div>' +
       '</div>' +
       '<div class="adm-detail-body">' +
-        '<div class="adm-actioncol">' + actionCard(o) + timeline(o) + '</div>' +
+        '<div class="adm-actioncol">' + actionCard(o) + guideFilesCard(o) + timeline(o) + '</div>' +
         '<div class="adm-mailcol">' + mailPane(o) + '</div>' +
       '</div>';
     wireDetail(o);
@@ -334,6 +334,50 @@
     return o.ready
       ? '<span class="adm-avail ready">\u26a1 Pre-built iHuman case \u2014 auto-delivers the instant payment is confirmed</span>'
       : '<span class="adm-avail build">\uD83D\uDD28 Not pre-built \u2014 you\u2019ll upload the guide after payment; student gets a build notice meanwhile</span>';
+  }
+
+  function fmtSize(n) {
+    if (!n) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(0) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+
+  /* ── guide-file uploader (available at every active stage) ─────
+     Lets ops upload/stage the client's guide for ANY order. Fixes the
+     pre-built/auto-deliver case that had no upload step. */
+  function guideFilesCard(o) {
+    if (o.status === 'cancelled') return '';
+    var files = o.files || [];
+    var staged = files.length;
+    var sending = (o.status === 'building' || o.status === 'fulfilled');
+    var btnLabel = o.status === 'fulfilled' ? 'Upload &amp; send to client →'
+      : o.status === 'building' ? 'Upload &amp; deliver →'
+        : 'Save guide to order';
+    var hint = o.status === 'fulfilled'
+      ? (staged ? 'These files are live at the magic link. Add more or re-send below.'
+        : '⚠ No guide file attached yet — upload it so <b>' + esc(o.email) + '</b> can download their guide.')
+      : o.status === 'building' ? 'Drop the finished guide — uploading delivers it and emails <b>' + esc(o.email) + '</b>.'
+        : 'Optional: upload the guide now so it’s ready to deliver the moment payment clears.';
+    var list = staged
+      ? '<div class="guide-files">' + files.map(function (f) {
+          var ext = (f.name.split('.').pop() || '').toUpperCase().slice(0, 4);
+          var inner = '<span class="fi">' + esc(ext) + '</span><span class="fn">' + esc(f.name) + '</span><span class="fsz">' + esc(fmtSize(f.size)) + '</span>';
+          return f.url
+            ? '<a class="gfile" href="' + esc(f.url) + '" target="_blank" rel="noopener">' + inner + '</a>'
+            : '<div class="gfile">' + inner + '</div>';
+        }).join('') + '</div>'
+      : '';
+    return '<div class="action-card guide-card">' +
+      '<div class="action-eyebrow"><span class="gf-ico">📁</span> Guide files</div>' +
+      '<h3>Upload the client’s guide</h3>' +
+      '<p class="ah">' + hint + '</p>' +
+      list +
+      '<div class="dropzone" id="gdz"><div class="dz-ico">📎</div><b>Drop the guide here</b><span>or click to browse — .docx, .pdf, .zip</span></div>' +
+      '<input type="file" id="gdzInput" hidden multiple accept=".doc,.docx,.pdf,.zip">' +
+      '<div id="gdzFiles"></div>' +
+      '<button class="btn ' + (sending ? 'btn-primary' : 'btn-ghost') + ' btn-lg btn-block" id="btnGuide" disabled style="margin-top:12px;">' + btnLabel + '</button>' +
+      '</div>';
   }
 
   /* ── the staged action card (the human-in-the-loop) ────────── */
@@ -367,12 +411,8 @@
     if (o.status === 'building') {
       return '<div class="action-card go">' +
         '<div class="action-eyebrow"><span class="step-n">3</span> Build &amp; deliver</div>' +
-        '<h3>Upload the finished guide</h3>' +
-        '<p class="ah">Paid &amp; in production. Drop the completed guide (Word + PDF) below \u2014 sending it auto-generates the access code &amp; magic link and emails <b>' + esc(o.email) + '</b>.</p>' +
-        '<div class="dropzone" id="dz"><div class="dz-ico">\uD83D\uDCCe</div><b>Drop the guide here</b><span>or click to browse \u2014 .docx, .pdf, .zip</span></div>' +
-        '<input type="file" id="dzInput" hidden multiple accept=".doc,.docx,.pdf,.zip">' +
-        '<div id="dzFiles"></div>' +
-        '<button class="btn btn-primary btn-lg btn-block" id="btnDeliver" disabled style="margin-top:12px;">Deliver guide \u2192</button>' +
+        '<h3>In production</h3>' +
+        '<p class="ah">Paid &amp; in production for <b>' + esc(o.email) + '</b>. Upload the finished guide in the <b>Guide files</b> panel below \u2014 sending it generates the access code &amp; magic link and emails the client.</p>' +
         '</div>';
     }
     // fulfilled
@@ -557,50 +597,61 @@
       toast('Invoice email re-sent', 'Same Payoneer link to ' + o.email + '.');
     });
 
-    // STEP 3 — upload & deliver
-    var dz = document.getElementById('dz'), dzInput = document.getElementById('dzInput'), dzFiles = document.getElementById('dzFiles'), btnDeliver = document.getElementById('btnDeliver');
+    // Guide files — upload/stage at any stage. new/invoiced -> /attach (stage,
+    // no email); building/fulfilled -> /deliver (store + send delivery email).
+    var gdz = document.getElementById('gdz'), gin = document.getElementById('gdzInput'), gf = document.getElementById('gdzFiles'), btnG = document.getElementById('btnGuide');
     var picked = [];
-    if (dz) {
+    if (gdz) {
+      var sending = (o.status === 'building' || o.status === 'fulfilled');
+      var origLabel = btnG.innerHTML;
       function renderFiles() {
-        dzFiles.innerHTML = picked.map(function (f, i) {
+        gf.innerHTML = picked.map(function (f, i) {
           var ext = (f.name.split('.').pop() || '').toUpperCase().slice(0, 4);
-          return '<div class="dz-file"><span class="fi">' + esc(ext) + '</span><span class="fn">' + esc(f.name) + '</span><button class="fx" data-rm="' + i + '">\u00d7</button></div>';
+          return '<div class="dz-file"><span class="fi">' + esc(ext) + '</span><span class="fn">' + esc(f.name) + '</span><button class="fx" data-rm="' + i + '">×</button></div>';
         }).join('');
-        [].forEach.call(dzFiles.querySelectorAll('[data-rm]'), function (b) {
+        [].forEach.call(gf.querySelectorAll('[data-rm]'), function (b) {
           b.addEventListener('click', function () { picked.splice(+b.getAttribute('data-rm'), 1); renderFiles(); });
         });
-        btnDeliver.disabled = !picked.length;
+        btnG.disabled = !picked.length;
       }
-      dz.addEventListener('click', function () { dzInput.click(); });
-      dzInput.addEventListener('change', function () { picked = picked.concat([].slice.call(dzInput.files)); renderFiles(); });
-      ['dragover', 'dragenter'].forEach(function (e) { dz.addEventListener(e, function (ev2) { ev2.preventDefault(); dz.classList.add('drag'); }); });
-      ['dragleave', 'drop'].forEach(function (e) { dz.addEventListener(e, function (ev2) { ev2.preventDefault(); dz.classList.remove('drag'); }); });
-      dz.addEventListener('drop', function (ev2) { picked = picked.concat([].slice.call(ev2.dataTransfer.files)); renderFiles(); });
-      btnDeliver.addEventListener('click', function () {
+      gdz.addEventListener('click', function () { gin.click(); });
+      gin.addEventListener('change', function () { picked = picked.concat([].slice.call(gin.files)); renderFiles(); });
+      ['dragover', 'dragenter'].forEach(function (e) { gdz.addEventListener(e, function (ev2) { ev2.preventDefault(); gdz.classList.add('drag'); }); });
+      ['dragleave', 'drop'].forEach(function (e) { gdz.addEventListener(e, function (ev2) { ev2.preventDefault(); gdz.classList.remove('drag'); }); });
+      gdz.addEventListener('drop', function (ev2) { picked = picked.concat([].slice.call(ev2.dataTransfer.files)); renderFiles(); });
+      btnG.addEventListener('click', function () {
         if (OPS.mode === 'live') {
-          btnDeliver.disabled = true; btnDeliver.textContent = 'Uploading…';
+          btnG.disabled = true; btnG.textContent = 'Uploading…';
           Promise.all(picked.map(function (f) {
             return fileToB64(f).then(function (data) { return { name: f.name, type: f.type, data: data }; });
           })).then(function (files) {
-            return api('/orders/' + o.id + '/deliver', { method: 'POST', body: JSON.stringify({ files: files }) });
+            return api('/orders/' + o.id + (sending ? '/deliver' : '/attach'), { method: 'POST', body: JSON.stringify({ files: files }) });
           }).then(function (r) {
-            applyMutation(r, 'delivery', 'Guide delivered to ' + o.email, 'Access code + magic link emailed.');
+            if (sending) applyMutation(r, 'delivery', (o.status === 'fulfilled' ? 'Guide sent to ' : 'Guide delivered to ') + o.email, 'Access code + magic link emailed.');
+            else applyMutation(r, null, 'Guide saved to order', 'Staged — it’ll deliver when you confirm payment.');
           }).catch(function () {
-            btnDeliver.disabled = false; btnDeliver.textContent = 'Deliver guide →';
+            btnG.disabled = false; btnG.innerHTML = origLabel;
             toast('Upload failed', 'Could not read the files. Please try again.');
           });
           return;
         }
-        // demo
-        o.accessCode = code(); o.accessUrl = BASE + '/g/' + tok();
-        o.status = 'fulfilled';
-        o.events.push(ev('fulfilled', Date.now(), 'Guide delivered', 'Uploaded by ops · ' + picked.length + ' file' + (picked.length > 1 ? 's' : '')));
-        o.events.push(ev('mail', Date.now() + 2e3, 'Sent', '“Your guide is ready” → ' + o.email, 'delivery'));
-        save(); mailKey = 'delivery';
-        toast('Guide delivered to ' + o.email, 'Access code + magic link emailed.');
-        flashStat(); render();
+        // demo (preview only)
+        o.files = (o.files || []).concat(picked.map(function (f) { return { name: f.name, size: f.size, url: '#' }; }));
+        if (!o.accessUrl) { o.accessCode = code(); o.accessUrl = BASE + '/g/' + tok(); }
+        if (sending) {
+          o.status = 'fulfilled';
+          o.events.push(ev('fulfilled', Date.now(), 'Guide delivered', 'Uploaded by ops · ' + picked.length + ' file' + (picked.length > 1 ? 's' : '')));
+          o.events.push(ev('mail', Date.now() + 2e3, 'Sent', '“Your guide is ready” → ' + o.email, 'delivery'));
+          mailKey = 'delivery';
+          toast('Guide delivered to ' + o.email, 'Access code + magic link emailed.');
+        } else {
+          o.events.push(ev('files', Date.now(), 'Guide file(s) uploaded', picked.length + ' file' + (picked.length > 1 ? 's' : '')));
+          toast('Guide saved to order', 'Staged for delivery.');
+        }
+        save(); flashStat(); render();
       });
     }
+
     var btnRd = document.getElementById('btnResendDelivery');
     if (btnRd) btnRd.addEventListener('click', function () {
       if (OPS.mode === 'live') {

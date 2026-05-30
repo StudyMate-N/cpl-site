@@ -80,6 +80,7 @@ const login = (req, res) => { if (req.body) req.body = Object.assign({ action: '
 const invoice = (req, res) => { req.query = Object.assign({}, req.query, { action: 'invoice' }); return orderAction(req, res); };
 const confirmPay = (req, res) => { req.query = Object.assign({}, req.query, { action: 'confirm-payment' }); return orderAction(req, res); };
 const deliver = (req, res) => { req.query = Object.assign({}, req.query, { action: 'deliver' }); return orderAction(req, res); };
+const attach = (req, res) => { req.query = Object.assign({}, req.query, { action: 'attach' }); return orderAction(req, res); };
 
 let pass = 0, fail = 0;
 function ok(cond, label) { if (cond) { pass++; console.log('  ✓ ' + label); } else { fail++; console.log('  ✗ FAIL: ' + label); } }
@@ -159,6 +160,24 @@ function ok(cond, label) { if (cond) { pass++; console.log('  ✓ ' + label); } 
   // ready order's link also works
   r = mockRes(); await gpage(mockReq({ method: 'GET', query: { token: readyToken } }), r);
   ok(r.statusCode === 200, 'ready order token also serves a page');
+
+  console.log('\n── 6. Attach guide BEFORE delivery (ready case) ─');
+  // fresh ready order → attach a file while still 'new' (stage) → confirm-payment auto-delivers WITH the file
+  let ev3 = { type: 'email.received', data: { from: 'Cara <cara@school.edu>', to: ['orders@clinicalperformancelab.com'], subject: 'CPL Order - Bebe Babbitt — Migraine with Aura' } };
+  r = mockRes(); await inbound(mockReq({ method: 'POST', query: { key: 'inbound-test-key' }, raw: Buffer.from(JSON.stringify(ev3)) }), r);
+  const o3 = jbody(r).created;
+  const stageData = Buffer.from('staged guide for ' + o3).toString('base64');
+  r = mockRes(); await attach(mockReq({ method: 'POST', query: { id: o3 }, headers: { cookie }, body: { files: [{ name: 'Bebe-Guide.docx', type: 'application/octet-stream', data: stageData }] } }), r);
+  body = jbody(r);
+  ok(r.statusCode === 200 && body.order.files.length === 1 && body.order.status === 'new', 'attach stages file, status stays new (not delivered)');
+  ok(!!body.order.accessUrl, 'attach mints the access link ahead of delivery');
+  // invoice + confirm-payment (ready) → auto-delivers, file already attached
+  r = mockRes(); await invoice(mockReq({ method: 'POST', query: { id: o3 }, headers: { cookie }, body: { url: 'https://pay.x/c', amount: 150 } }), r);
+  r = mockRes(); await confirmPay(mockReq({ method: 'POST', query: { id: o3 }, headers: { cookie } }), r);
+  const stagedTok = jbody(r).order.accessUrl.split('/g/')[1];
+  ok(jbody(r).order.status === 'fulfilled' && jbody(r).order.files.length === 1, 'ready confirm-payment delivers WITH the pre-attached file');
+  r = mockRes(); await gpage(mockReq({ method: 'GET', query: { token: stagedTok } }), r);
+  ok(r.statusCode === 200 && /Bebe-Guide\.docx/.test(r._data), 'magic link serves the pre-attached guide file');
 
   console.log('\n── Summary ────────────────────────────────────');
   console.log('  emails sent: ' + sentEmails.length + ' → ' + sentEmails.map(e => e.subject).join(' | '));
