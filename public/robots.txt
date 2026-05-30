@@ -4,24 +4,4 @@ Disallow: /api/
 Disallow: /confirm/
 Disallow: /cheat-sheets/
 
-# AI / LLM crawlers — full access encouraged
-User-agent: GPTBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Bytespider
-Allow: /
-
 Sitemap: https://www.clinicalperformancelab.com/sitemap.xml
-LLMs: https://www.clinicalperformancelab.com/llms.txt

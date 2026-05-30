@@ -4,25 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy · Clinical Performance Lab</title>
+<meta name="description" content="Clinical reasoning platform for nursing students — master iHuman">
 <link rel="canonical" href="https://www.clinicalperformancelab.com/privacy/">
 <meta property="og:title" content="Privacy · Clinical Performance Lab">
-<meta property="og:description" content="">
-<meta property="og:type" content="website">
+<meta property="og:description" content="Clinical reasoning platform for nursing students — master iHuman">
 <meta property="og:url" content="https://www.clinicalperformancelab.com/privacy/">
-<meta property="og:image" content="https://www.clinicalperformancelab.com/og-image.png">
+<meta property="og:type" content="website">
 <meta property="og:site_name" content="Clinical Performance Lab">
-<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.clinicalperformancelab.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Privacy · Clinical Performance Lab">
-<meta name="twitter:description" content="">
+<meta name="twitter:description" content="Clinical reasoning platform for nursing students — master iHuman">
+<meta name="twitter:url" content="https://www.clinicalperformancelab.com/privacy/">
 <meta name="twitter:image" content="https://www.clinicalperformancelab.com/og-image.png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 </head>
-<body>
+<body class="legal">
+
 
 <nav class="nav">
   <div class="nav-inner">
@@ -31,14 +34,14 @@
       <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
     </a>
     <ul class="nav-links">
-      <li><a href="/#how">How it works</a></li>
+      <li><a href="/simulator/">Simulator</a></li>
       <li><a href="/free-resources/">Free cheat sheets</a></li>
       <li><a href="/cases/">Case catalog</a></li>
-      <li><a href="/simulator/">Simulator</a></li>
+      <li><a href="/faq/">FAQ</a></li>
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="/cases/" class="btn btn-primary btn-sm nav-cta-desktop">Browse cases</a>
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Get early access</a>
       <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -47,60 +50,43 @@
 <div class="menu-backdrop"></div>
 <div class="mobile-menu">
   <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
-  <a href="/#how" data-menu-close>How it works</a>
+  <a href="/simulator/" data-menu-close>Simulator</a>
   <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
   <a href="/cases/" data-menu-close>Case catalog</a>
-  <a href="/simulator/" data-menu-close>Simulator</a>
+  <a href="/faq/" data-menu-close>FAQ</a>
   <a href="/about/" data-menu-close>About</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Get early access</a>
 </div>
 
+
+
 <section class="section">
-  <div class="container container-narrow">
-    <h1 style="margin-bottom:8px;">Privacy</h1>
-    <div class="prose">
-      <p class="updated">Last updated: May 2026</p>
-
-      <h2>The short version</h2>
-      <p>We collect as little as possible. We use your email only to deliver what you asked for and a brief follow-up series. We never sell, rent, or share your email. You can unsubscribe any time.</p>
-
-      <h2>What we collect</h2>
-      <ul>
-        <li><strong>Email address</strong> — when you request cheat sheets or order a guide.</li>
-        <li><strong>Your selections</strong> — which cheat-sheet volumes or cases you requested, and optional details you provide (school, course, patient alias) to customize a guide.</li>
-        <li><strong>Basic delivery metadata</strong> — confirmation status and timestamps, so we can deliver reliably and prevent duplicate sends.</li>
-      </ul>
-
-      <h2>How we use it</h2>
-      <ul>
-        <li>To deliver the resources or guides you requested.</li>
-        <li>To send a short clinical-insight follow-up series (you can opt out at any time).</li>
-        <li>To respond to support messages you send us.</li>
-      </ul>
-
-      <h2>What we don't do</h2>
-      <p>We do not sell, rent, or trade your personal information. We do not use your data for third-party advertising. We keep subscriber data only as long as needed and minimize what we store.</p>
-
-      <h2>Email & consent</h2>
-      <p>We use double opt-in: after you submit your email, you confirm via a link before we send anything. Every email includes a one-click unsubscribe, which we always honor.</p>
-
-      <h2>Your choices</h2>
-      <ul>
-        <li>Unsubscribe from any email using the link in the footer.</li>
-        <li>Request deletion of your data by emailing us.</li>
-      </ul>
-
-      <h2>Contact</h2>
-      <p>Privacy questions or deletion requests? Email <a href="mailto:support@clinicalperformancelab.com">support@clinicalperformancelab.com</a>.</p>
-    </div>
-  </div>
+  <div class="container container-narrow"><div class="prose">
+    <h1>Privacy</h1>
+    <p class="updated">Last updated: May 2026</p>
+    <h3>What we collect</h3>
+    <p>When you submit the free-resources form, we collect your email address and the IDs of the cheat sheets you selected. Nothing else.</p>
+    <h3>What we do with it</h3>
+    <p>We send a confirmation email immediately. After confirmation, we deliver the PDFs and schedule a four-email follow-up sequence over 7 days. After that, we send nothing further unless you reply or request more.</p>
+    <h3>Where it's stored</h3>
+    <p>Email addresses and the drip schedule are stored in Vercel KV (a Redis-backed service). The email sending platform is Resend.</p>
+    <h3>What we don't do</h3>
+    <p>We do not sell, rent, or share your email. We do not embed analytics tracking pixels in delivery emails. We do not use email to target advertising.</p>
+    <h3>How to delete your data</h3>
+    <p>Email support@clinicalperformancelab.com with the subject "Delete my data" and we'll remove your address from our records within 7 days.</p>
+  </div></div>
 </section>
+
+
 
 <footer class="footer">
   <div class="footer-inner">
     <div>
       <div class="footer-brand">Clinical Performance Lab</div>
       <p class="footer-tagline">Learn to think like a clinician. Master iHuman. A clinical reasoning platform for nursing students — free simulator, free cheat sheets, and complete case guides built on 200+ verified submissions.</p>
-      <p class="footer-tagline"><a href="mailto:hello@clinicalperformancelab.com">hello@clinicalperformancelab.com</a></p>
+      <p class="footer-tagline" style="margin-top:12px;">
+        <a href="mailto:hello@clinicalperformancelab.com">hello@clinicalperformancelab.com</a>
+      </p>
     </div>
     <div>
       <h4>Learn</h4>
@@ -127,13 +113,17 @@
       </ul>
     </div>
   </div>
+
   <div class="footer-bottom">
     <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
     <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
   </div>
 </footer>
 
+
 <script src="/cpl.js" defer></script>
+<script src="/cpl-checkout.js" defer></script>
 <script src="/cpl-support.js" defer></script>
+
 </body>
 </html>

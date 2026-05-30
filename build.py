@@ -299,7 +299,7 @@ def nav_html():
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Try the simulator</a>
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Get early access</a>
       <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -313,7 +313,7 @@ def nav_html():
   <a href="/cases/" data-menu-close>Case catalog</a>
   <a href="/faq/" data-menu-close>FAQ</a>
   <a href="/about/" data-menu-close>About</a>
-  <a href="/simulator/" class="btn btn-primary" data-menu-close>Try the simulator</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Get early access</a>
 </div>
 """
 
@@ -480,7 +480,7 @@ def build_home():
           iHuman scores you against a rubric you never see. CPL makes that invisible logic visible and teachable — the question hierarchies, the must-not-miss diagnoses, the harmful-flag traps. Practice free. Master the patterns. Submit with confidence.
         </p>
         <div class="hero-ctas" data-reveal data-reveal-delay="180">
-          <a href="/simulator/" class="btn btn-lime btn-lg">Try the free simulator →</a>
+          <a href="/simulator/" class="btn btn-lime btn-lg">Get early access →</a>
           <a href="/sample-guide/" class="btn btn-ghost-dark btn-lg">See a sample guide</a>
         </div>
         <p class="hero-tertiary" data-reveal data-reveal-delay="220">Free simulator and cheat sheets — <a href="#free">no card required →</a></p>
@@ -515,7 +515,7 @@ def build_home():
         <div class="step-num">01</div><span class="step-free">Free</span>
         <h3>Practice with the simulator</h3>
         <p>Click through realistic iHuman stages — history, PE, DDx, plan. See which choices score, which lose points, and exactly why. Reasoning you can use on any case.</p>
-        <a href="/simulator/" class="link-arrow">Open the simulator →</a>
+        <a href="/simulator/" class="link-arrow">Get early access →</a>
       </div>
       <div class="step" data-reveal data-reveal-delay="90">
         <div class="step-num">02</div><span class="step-free">Free</span>
@@ -1107,7 +1107,7 @@ def build_confirm():
       if (badge) badge.textContent = '✓';
       titleEl.textContent = "Your PDFs are on the way!";
       subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
-      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Open the simulator</a>';
+      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Get early access</a>';
     } else {
       titleEl.textContent = "Couldn't confirm";
       subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
@@ -1137,7 +1137,7 @@ def build_thankyou():
       <p>We've sent a confirmation link to your email. Click it within 24 hours and your PDFs land in your inbox immediately.</p>
       <p style="font-size:.9rem;">Don't see it? Check the spam folder — the sender is <strong>onboarding@resend.dev</strong>.</p>
       <div class="status-ctas">
-        <a href="/simulator/" class="btn btn-lime">Try the simulator while you wait</a>
+        <a href="/simulator/" class="btn btn-lime">Get early access to the simulator →</a>
         <a href="/cases/" class="btn btn-ghost">Browse cases</a>
       </div>
     </div>
@@ -1152,32 +1152,77 @@ def build_thankyou():
 
 # ─── PAGE: Simulator ──────────────────────────────────────────────
 def build_simulator():
-    """Build the interactive case simulator page (React app from cpl-simulator.jsx)."""
+    """Case simulator — Coming soon + waitlist email capture (not yet built)."""
+    stages = ['History', 'Exam', 'Differential', 'Plan']
+    stage_html = ''.join(
+        '<div style="background:var(--cream-2); border:1px solid var(--border); border-radius:12px; padding:16px 6px;">'
+        '<span style="display:block; font-family:var(--font-display); font-size:1.4rem; color:var(--teal-700); font-weight:600; line-height:1;">' + str(i + 1) + '</span>'
+        '<b style="font-size:.82rem; color:var(--ink);">' + s + '</b></div>'
+        for i, s in enumerate(stages)
+    )
     body = '''
-<section class="section-tight" style="padding-top:48px;">
+<section class="section-tight" style="padding-top:56px;">
   <div class="container-narrow" style="text-align:center;">
-    <span class="eyebrow"><span class="dot"></span>Free · no sign-up</span>
-    <h1 style="margin:16px 0 12px; font-size:clamp(2rem,4vw,3rem);">Practice the reasoning. <span class="italic-accent" style="color:var(--teal-700);">See every point.</span></h1>
-    <p style="color:var(--muted); font-size:1.08rem; max-width:54ch; margin:0 auto;">Work a real iHuman case the way it's graded — history, exam, differential, and plan. Make your picks, then watch the scoring logic light up: what earns points, what's filler, and which choices are harmful-flag traps.</p>
+    <span class="eyebrow"><span class="dot"></span>Coming soon &middot; free</span>
+    <h1 style="margin:16px 0 14px; font-size:clamp(2rem,4.5vw,3rem);">The case simulator is <span class="italic-accent" style="color:var(--teal-700);">almost ready.</span></h1>
+    <p style="color:var(--muted); font-size:1.08rem; max-width:56ch; margin:0 auto 10px;">We&rsquo;re building a free, interactive way to practice a real iHuman case the way it&rsquo;s graded &mdash; make your picks across history, exam, differential, and plan, then watch the scoring light up: what earns points, what&rsquo;s filler, and which choices are harmful-flag traps.</p>
+    <p style="color:var(--ink); font-size:1.02rem; max-width:50ch; margin:0 auto;">Want first access? Join the waitlist &mdash; we&rsquo;ll email you the moment it goes live.</p>
+
+    <form id="waitlistForm" novalidate style="max-width:460px; margin:28px auto 0;">
+      <div style="display:flex; gap:9px; flex-wrap:wrap; justify-content:center;">
+        <input type="email" id="wlEmail" name="email" placeholder="you@school.edu" required autocomplete="email"
+               style="flex:1; min-width:210px; padding:14px 18px; border-radius:999px; border:1.5px solid var(--border-strong); font-family:var(--font-body); font-size:1rem; background:#fff;">
+        <button type="submit" class="btn btn-lime btn-lg" id="wlBtn">Notify me &rarr;</button>
+      </div>
+      <p id="wlMsg" role="status" aria-live="polite" style="font-size:.88rem; margin:12px 0 0; min-height:1.2em;"></p>
+      <p style="font-size:.78rem; color:var(--muted); margin:4px 0 0;">One email when the simulator launches. No spam, unsubscribe any time.</p>
+    </form>
   </div>
 </section>
 
-<section class="sim-wrap" style="padding-top:8px;">
-  <div class="container">
-    <div id="sim-root"></div>
-    <p style="text-align:center; color:var(--muted); font-size:.85rem; margin-top:18px;">This is a teaching simulation built from verified scoring patterns — it's not affiliated with iHuman. Always follow your school's academic policies.</p>
+<section class="section-tight" style="padding-top:14px;">
+  <div class="container-narrow">
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:560px; margin:0 auto; text-align:center;">''' + stage_html + '''</div>
+    <p style="text-align:center; color:var(--muted); font-size:.85rem; margin:22px auto 0; max-width:52ch;">A teaching simulation built from verified scoring patterns &mdash; not affiliated with iHuman. Always follow your school&rsquo;s academic policies.</p>
+
+    <div style="text-align:center; margin-top:30px; padding-top:26px; border-top:1px solid var(--border);">
+      <p style="color:var(--muted); font-size:.95rem; margin:0 0 14px;">In the meantime &mdash; these are free and ready right now:</p>
+      <a href="/free-resources/" class="btn btn-primary">Free cheat sheets &rarr;</a>
+      <a href="/sample-guide/" class="btn btn-ghost" style="margin-left:8px;">See a sample guide</a>
+    </div>
   </div>
 </section>
 '''
-    sim_scripts = (
-        '<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>\n'
-        '<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>\n'
-        '<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>\n'
-        '<script type="text/babel" src="/cpl-simulator.jsx"></script>'
-    )
+    sim_scripts = '''<script>
+(function(){
+  var f=document.getElementById('waitlistForm'); if(!f) return;
+  var em=document.getElementById('wlEmail'), btn=document.getElementById('wlBtn'), msg=document.getElementById('wlMsg');
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email=(em.value||'').trim();
+    if(!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email)){ msg.style.color='#B4540A'; msg.textContent='Please enter a valid email address.'; return; }
+    btn.disabled=true; var orig=btn.innerHTML; btn.textContent='Joining\\u2026'; msg.textContent='';
+    fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,source:'simulator'})})
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
+      .then(function(res){
+        btn.disabled=false; btn.innerHTML=orig;
+        if(res.ok && res.j && res.j.ok){
+          f.innerHTML='<div style="background:var(--warm-bg); border:1px solid var(--border); border-radius:14px; padding:24px 22px;">'+
+            '<div style="width:46px;height:46px;border-radius:50%;background:var(--lime-500);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 12px;">\\u2713</div>'+
+            '<p style="font-weight:600; color:var(--ink); font-size:1.05rem; margin:0 0 5px;">You\\u2019re on the list!</p>'+
+            '<p style="color:var(--muted); font-size:.92rem; margin:0;">We\\u2019ll email <b>'+esc(email)+'</b> the moment the simulator goes live.</p></div>';
+        } else {
+          msg.style.color='#B3322A'; msg.textContent=(res.j&&res.j.error)||'Something went wrong. Please try again.';
+        }
+      })
+      .catch(function(){ btn.disabled=false; btn.innerHTML=orig; msg.style.color='#B3322A'; msg.textContent='Network error. Please try again.'; });
+  });
+})();
+</script>'''
     write_page("simulator", body,
-               title="Case Simulator",
-               description="Practice clinical reasoning on a real iHuman case pattern — free interactive simulator with scored feedback, no signup.",
+               title="Case Simulator — Coming soon",
+               description="The free CPL case simulator is coming soon. Join the waitlist to be first to practice a real iHuman case with live, point-by-point scoring.",
                page_class="simulator",
                body_scripts=sim_scripts)
     return
