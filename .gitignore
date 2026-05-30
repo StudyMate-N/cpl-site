@@ -38,3 +38,7 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+.vercel
+.env*
+_inbound_key.txt
