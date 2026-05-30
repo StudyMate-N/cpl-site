@@ -434,7 +434,8 @@ def deploy_catalog() -> None:
 # ── Asset sync ─────────────────────────────────────────────────────────────────
 
 def sync_assets() -> None:
-    shutil.copy2(os.path.join(REDESIGN, 'cpl.css'), os.path.join(PUB, 'styles.css'))
+    # CSS canonical source is the tracked src/cpl.css (same model as the JS in src/).
+    shutil.copy2(os.path.join(SRC, 'cpl.css'), os.path.join(PUB, 'styles.css'))
     print('  OK  styles.css')
     for js in ('cpl.js', 'cpl-checkout.js', 'cpl-support.js',
                'cpl-catalog.js', 'cpl-simulator.jsx'):
