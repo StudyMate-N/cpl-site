@@ -17,6 +17,9 @@
     "api/waitlist.js": {
       "maxDuration": 10
     },
+    "api/order.js": {
+      "maxDuration": 10
+    },
     "api/cron/drip.js": {
       "maxDuration": 60
     },

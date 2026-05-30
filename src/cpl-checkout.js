@@ -1,10 +1,10 @@
 /* CPL — checkout & access-code flow (invoice model)
    Order → request invoice (paid externally) → receive access code → unlock.
    Injects a single modal; any [data-order] button opens it; [data-access-code]
-   jumps straight to code entry. Demo access code: CPL-2026 */
+   jumps straight to code entry. Live: order → POST /api/order (creates the
+   order in /ops/); access code → POST /api/order {code} → /g/<token>. */
 (function () {
   'use strict';
-  var DEMO_CODE = 'CPL-2026';
 
   var overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -31,6 +31,7 @@
     '        </div>',
     '        <label class="fld"><span>Your patient alias <small>(so we customize the guide)</small></span><input type="text" name="alias" placeholder="e.g. Bebe Babbitt"></label>',
     '        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:6px;">Request my invoice →</button>',
+    '        <p class="code-error" data-order-error hidden style="margin-top:10px;"></p>',
     '      </form>',
     '      <button class="modal-link" data-goto="code">Already have an access code? Enter it →</button>',
     '    </div>',
@@ -46,7 +47,7 @@
     '          <button type="submit" class="btn btn-primary">Unlock</button>',
     '        </form>',
     '        <p class="code-error" data-code-error hidden>That code didn\u2019t match. Check the email we sent, or message support.</p>',
-    '        <p class="code-hint">Prototype tip: use <b>' + DEMO_CODE + '</b> to see the unlocked state.</p>',
+    '        <p class="code-hint">Your access code arrives in your delivery email the moment payment clears.</p>',
     '      </div>',
     '    </div>',
     // step 3 — code entry (direct)
@@ -59,7 +60,7 @@
     '        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:10px;">Unlock guide →</button>',
     '      </form>',
     '      <p class="code-error" data-code-error2 hidden>That code didn\u2019t match. Double-check your email or message support.</p>',
-    '      <p class="code-hint">Prototype tip: use <b>' + DEMO_CODE + '</b>.</p>',
+    '      <p class="code-hint">Paste the code from your delivery email to unlock your guide.</p>',
     '    </div>',
     // step 4 — unlocked
     '    <div data-step="done" hidden>',
@@ -119,35 +120,69 @@
   overlay.querySelectorAll('[data-modal-dismiss]').forEach(function (b) { b.addEventListener('click', close); });
   overlay.querySelector('[data-goto="code"]').addEventListener('click', function () { show('code'); });
 
-  // order → invoice sent
+  // order → POST /api/order → creates a real Order in /ops/ + sends emails
   overlay.querySelector('[data-order-form]').addEventListener('submit', function (e) {
     e.preventDefault();
-    var email = this.querySelector('input[name=email]').value;
-    overlay.querySelector('[data-sent-email]').textContent = email;
-    show('sent');
+    var form = this;
+    var email = (form.querySelector('input[name=email]').value || '').trim();
+    var errEl = overlay.querySelector('[data-order-error]');
+    if (errEl) errEl.hidden = true;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      if (errEl) { errEl.textContent = 'Please enter a valid email address.'; errEl.hidden = false; }
+      return;
+    }
+    function val(n) { var el = form.querySelector('input[name=' + n + ']'); return el ? el.value.trim() : ''; }
+    var payload = {
+      case: overlay.querySelector('[data-case-title]').textContent,
+      price: overlay.querySelector('[data-case-price]').textContent,
+      email: email, school: val('school'), course: val('course'), alias: val('alias')
+    };
+    var btn = form.querySelector('button[type=submit]'), orig = btn.innerHTML;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        btn.disabled = false; btn.innerHTML = orig;
+        if (res.ok && res.j && res.j.ok) {
+          overlay.querySelector('[data-sent-email]').textContent = email;
+          show('sent');
+        } else if (errEl) {
+          errEl.textContent = (res.j && res.j.error) || 'Something went wrong. Please try again.';
+          errEl.hidden = false;
+        }
+      })
+      .catch(function () {
+        btn.disabled = false; btn.innerHTML = orig;
+        if (errEl) { errEl.textContent = 'Network error. Please try again.'; errEl.hidden = false; }
+      });
   });
 
-  function tryUnlock(value, errEl) {
-    if (value.trim().toUpperCase() === DEMO_CODE) {
-      if (errEl) errEl.hidden = true;
-      // reflect unlocked state on the page if a guide gallery exists
-      document.querySelectorAll('.gpage.locked .gpage-frame .gpage-tag').forEach(function (t) {
-        t.textContent = 'Unlocked'; t.classList.remove('locked'); t.classList.add('sample');
+  // access code → POST /api/order {code} → redirect to the real guide link (/g/<token>)
+  function tryUnlock(value, errEl, btn) {
+    var code = (value || '').trim().toUpperCase();
+    if (errEl) errEl.hidden = true;
+    if (!code) { if (errEl) { errEl.textContent = 'Enter your access code.'; errEl.hidden = false; } return; }
+    var orig = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.textContent = 'Checking…'; }
+    fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code }) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (btn) { btn.disabled = false; btn.innerHTML = orig; }
+        if (res.ok && res.j && res.j.ok && res.j.accessUrl) { window.location.href = res.j.accessUrl; }
+        else if (errEl) { errEl.textContent = (res.j && res.j.error) || 'That code didn’t match. Check your delivery email.'; errEl.hidden = false; }
+      })
+      .catch(function () {
+        if (btn) { btn.disabled = false; btn.innerHTML = orig; }
+        if (errEl) { errEl.textContent = 'Network error. Please try again.'; errEl.hidden = false; }
       });
-      document.querySelectorAll('.gpage.locked').forEach(function (g) { g.classList.remove('locked'); });
-      show('done');
-      return true;
-    }
-    if (errEl) errEl.hidden = false;
-    return false;
   }
   overlay.querySelector('[data-code-form]').addEventListener('submit', function (e) {
     e.preventDefault();
-    tryUnlock(this.querySelector('input[name=code]').value, overlay.querySelector('[data-code-error]'));
+    tryUnlock(this.querySelector('input[name=code]').value, overlay.querySelector('[data-code-error]'), this.querySelector('button[type=submit]'));
   });
   overlay.querySelector('[data-code-form2]').addEventListener('submit', function (e) {
     e.preventDefault();
-    tryUnlock(this.querySelector('input[name=code]').value, overlay.querySelector('[data-code-error2]'));
+    tryUnlock(this.querySelector('input[name=code]').value, overlay.querySelector('[data-code-error2]'), this.querySelector('button[type=submit]'));
   });
   overlay.querySelector('[data-download]').addEventListener('click', function (e) { e.preventDefault(); close(); });
 
