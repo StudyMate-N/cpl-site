@@ -1534,6 +1534,60 @@ def build_js():
         with open(os.path.join(PUBLIC, name), "w", encoding="utf-8") as fw:
             fw.write(content)
 
+
+def build_cases_manifest():
+    """Emit public/cases.json — the catalog the ops inbound webhook reads to
+    set each order's `ready` (pre-built → auto-deliver) flag + price."""
+    single_price = PRICING.get("single", {}).get("price", 150)
+    manifest = []
+    for c in CASES:
+        aliases = c.get("aliases") or []
+        manifest.append({
+            "slug": c.get("slug", ""),
+            "title": c.get("title", ""),
+            "cc": c.get("chief_complaint", ""),
+            "ready": c.get("lead_time") == "same-day",
+            "price": single_price,
+            "school": c.get("school", ""),
+            "course": c.get("course", ""),
+            "alias": aliases[0] if aliases else "",
+        })
+    with open(os.path.join(PUBLIC, "cases.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, separators=(",", ":"))
+
+
+def build_ops():
+    """Mount the ops console at /ops/ from src/ops/ (source of truth).
+    admin.html → public/ops/index.html; assets copied alongside; the shared
+    design-system CSS is copied in as cpl.css (admin.html links it relatively)."""
+    src_ops = os.path.join(ROOT, "src", "ops")
+    if not os.path.isdir(src_ops):
+        return
+    out = os.path.join(PUBLIC, "ops")
+    os.makedirs(out, exist_ok=True)
+    copies = [
+        ("admin.html", "index.html"),
+        ("admin.css", "admin.css"),
+        ("cpl-admin.js", "cpl-admin.js"),
+        ("cpl-admin-auth.js", "cpl-admin-auth.js"),
+        ("cpl-emails.js", "cpl-emails.js"),
+    ]
+    for src_name, dst_name in copies:
+        sp = os.path.join(src_ops, src_name)
+        if not os.path.exists(sp):
+            continue
+        with open(sp, "r", encoding="utf-8") as fr:
+            content = fr.read()
+        with open(os.path.join(out, dst_name), "w", encoding="utf-8") as fw:
+            fw.write(content)
+    # shared design-system CSS (admin.html links href="cpl.css")
+    css_src = os.path.join(ROOT, "src", "cpl.css")
+    if os.path.exists(css_src):
+        with open(css_src, "r", encoding="utf-8") as fr:
+            css = fr.read()
+        with open(os.path.join(out, "cpl.css"), "w", encoding="utf-8") as fw:
+            fw.write(css)
+
 # ─── Orchestrator ────────────────────────────────────────────────
 def build_all():
     print(f"Building CPL static site → {PUBLIC}/")
@@ -1566,6 +1620,10 @@ def build_all():
     print("  ✓ favicon.svg")
     build_js()
     print("  ✓ cpl.js")
+    build_cases_manifest()
+    print("  ✓ cases.json (ops catalog manifest)")
+    build_ops()
+    print("  ✓ ops/ (operations console)")
 
     # Now build cheat sheets via the existing module
     print("\nRebuilding cheat sheet PDFs...")

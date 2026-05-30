@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPL Ops — Order fulfillment</title>
+<meta name="description" content="Clinical Performance Lab operations console — order fulfillment, Payoneer invoicing, and automated guide delivery.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cpl.css">
+<link rel="stylesheet" href="admin.css">
+<script>
+  /* Avoid a flash of the console before auth resolves: if a session is
+     already present, mark the body authed synchronously. */
+  try { if (localStorage.getItem('cpl_ops_session')) document.documentElement.classList.add('ops-authed-pre'); } catch (e) {}
+</script>
+</head>
+<body class="adm-body">
+
+<!-- ── Auth gate (server-rendered for the real /ops/ route; demo-gated here) ── -->
+<div class="ops-gate" id="opsGate">
+  <div class="ops-gate-card">
+    <span class="ops-gate-logo">CPL</span>
+    <h1>Operations Console</h1>
+    <p class="ops-gate-sub">Authorized staff only. Enter your ops passcode to continue.</p>
+    <form id="opsLogin" autocomplete="off" novalidate>
+      <label class="ops-fld">
+        <span>Ops passcode</span>
+        <input type="password" id="opsPass" placeholder="••••••••" autocomplete="off">
+      </label>
+      <button type="submit" class="btn btn-lime btn-lg btn-block" id="opsGo">Sign in →</button>
+      <p class="ops-err" id="opsErr" hidden>That passcode didn’t work.</p>
+    </form>
+    <p class="ops-gate-foot">Access is logged. Authorized CPL staff only.</p>
+  </div>
+</div>
+
+<div class="adm">
+  <!-- top bar -->
+  <header class="adm-top">
+    <div class="adm-top-inner">
+      <div class="adm-brand">
+        <span class="adm-logo">CPL</span>
+        <span><b>Clinical Performance Lab</b><small>Operations console</small></span>
+      </div>
+      <div class="adm-top-spacer"></div>
+      <button class="adm-sim" id="admSim">＋ Simulate new order</button>
+      <span class="adm-env" id="admEnv">Demo</span>
+      <div class="adm-who">
+        <span class="av">OP</span>
+        <span>Ops · CPL</span>
+        <button class="adm-signout" id="admSignout" title="Sign out" aria-label="Sign out">Sign out</button>
+      </div>
+    </div>
+    <!-- stat strip -->
+    <div class="adm-stats">
+      <div class="adm-stats-inner" id="admStats"></div>
+    </div>
+  </header>
+
+  <!-- main split -->
+  <main class="adm-main">
+    <section class="adm-queue">
+      <div class="adm-queue-head">
+        <h2>Order queue</h2>
+        <div class="adm-tabs" id="admTabs"></div>
+      </div>
+      <div class="adm-list" id="admList"></div>
+    </section>
+
+    <section class="adm-detail" id="admDetail"></section>
+  </main>
+</div>
+
+<script src="cpl-emails.js"></script>
+<script src="cpl-admin-auth.js"></script>
+<script src="cpl-admin.js"></script>
+</body>
+</html>

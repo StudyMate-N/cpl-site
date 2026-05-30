@@ -42,3 +42,4 @@ Thumbs.db
 .vercel
 .env*
 _inbound_key.txt
+_ops_extract/

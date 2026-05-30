@@ -16,6 +16,18 @@
     },
     "api/cron/drip.js": {
       "maxDuration": 60
+    },
+    "api/ops/inbound.js": {
+      "maxDuration": 15
+    },
+    "api/ops/orders/[id]/confirm-payment.js": {
+      "maxDuration": 15
+    },
+    "api/ops/orders/[id]/deliver.js": {
+      "maxDuration": 30
+    },
+    "api/g/[token].js": {
+      "maxDuration": 10
     }
   },
   "crons": [
@@ -45,7 +57,23 @@
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
+    },
+    {
+      "source": "/ops/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/g/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
     }
+  ],
+  "rewrites": [
+    { "source": "/g/:token", "destination": "/api/g/:token" }
   ],
   "redirects": [
     {
