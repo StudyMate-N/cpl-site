@@ -266,7 +266,6 @@ function requireAuth(req, res) {
 async function storeFiles(orderId, files) {
   if (!Array.isArray(files) || !files.length) return [];
   const { put } = require('@vercel/blob');
-  const token = process.env.BLOB_READ_WRITE_TOKEN;
   const safeId = String(orderId).replace(/[^A-Za-z0-9_-]/g, '');
   const out = [];
   for (const f of files) {
@@ -274,12 +273,15 @@ async function storeFiles(orderId, files) {
     const buf = Buffer.from(f.data, 'base64');
     const safeName = String(f.name).replace(/[^A-Za-z0-9._-]/g, '_');
     const key = 'guides/' + safeId + '/' + safeName;
-    const res = await put(key, buf, {
+    const opts = {
       access: 'public',
       addRandomSuffix: true,
       contentType: f.type || 'application/octet-stream',
-      token: token,
-    });
+    };
+    // Only pin an explicit token if one is configured; otherwise let
+    // @vercel/blob auto-resolve auth from the connected store (runtime env).
+    if (process.env.BLOB_READ_WRITE_TOKEN) opts.token = process.env.BLOB_READ_WRITE_TOKEN;
+    const res = await put(key, buf, opts);
     out.push({ name: safeName, url: res.url, size: buf.length, type: f.type || '' });
   }
   return out;
