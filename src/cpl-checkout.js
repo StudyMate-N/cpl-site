@@ -24,7 +24,7 @@
     '      </div>',
     '      <div class="invoice-note"><b>How ordering works:</b> request an invoice below. We email it within the hour. Once it\u2019s paid, you\u2019ll receive a personal <b>access code</b> that unlocks your complete guide for download.</div>',
     '      <form data-order-form>',
-    '        <label class="fld"><span>Your email</span><input type="email" name="email" placeholder="you@school.edu" required autocomplete="email"></label>',
+    '        <label class="fld"><span>Your email</span><input type="email" name="email" placeholder="you@email.com" required autocomplete="email"></label>',
     '        <div class="fld-row">',
     '          <label class="fld"><span>School</span><input type="text" name="school" placeholder="e.g. Chamberlain"></label>',
     '          <label class="fld"><span>Course / week</span><input type="text" name="course" placeholder="e.g. NR 509 Wk 6"></label>',

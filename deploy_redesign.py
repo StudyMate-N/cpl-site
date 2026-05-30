@@ -55,6 +55,8 @@ SUBS = [
     ('src="previews/',             'src="/previews/'),
     ('data-lightbox="previews/',   'data-lightbox="/previews/'),
     ('href="previews/',            'href="/previews/'),
+    # ---- Neutral email placeholder (students dislike sharing school email) ----
+    ('placeholder="you@school.edu"', 'placeholder="you@email.com"'),
     # ---- Email rebrand (order matters: specific contexts before general) ------
     # Order requests → orders@
     ('mailto:Tutorspot98@gmail.com?subject=',

@@ -374,7 +374,7 @@ def popup_html():
     <h3 id="popupTitle">Cheat sheets for every case stage.</h3>
     <p>Four free PDFs — history, PE, DDx, plan/SOAP. Email-delivered. No spam.</p>
     <form class="popup-form" onsubmit="cplSubmitPopup(event)">
-      <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+      <input type="email" name="email" placeholder="you@email.com" required autocomplete="email">
       <button type="submit" class="btn btn-primary btn-lg">Get the cheat sheets →</button>
     </form>
     <p class="popup-fine">We'll send a confirmation link. Unsubscribe any time.</p>
@@ -550,7 +550,7 @@ def build_home():
           <h3>Where should we send your selections?</h3>
           <p>Pick at least one cheat sheet above. We'll confirm by email and send the PDFs — no spam, unsubscribe any time.</p>
           <div class="capture-row">
-            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+            <input type="email" name="email" placeholder="you@email.com" required autocomplete="email">
             <button type="submit" class="btn btn-lime btn-lg">Send the PDFs →</button>
           </div>
           <p class="capture-fine">We use your email only to deliver requested resources and a short clinical-insight follow-up.</p>
@@ -645,7 +645,7 @@ def build_free_resources():
           <h3>Where should we send them?</h3>
           <p>We'll send a one-click confirmation, then the PDFs. No spam — unsubscribe any time.</p>
           <div class="capture-row">
-            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email">
+            <input type="email" name="email" placeholder="you@email.com" required autocomplete="email">
             <button type="submit" class="btn btn-lime btn-lg">Send my cheat sheets →</button>
           </div>
           <p class="capture-fine">We use your email only to deliver requested resources and a short clinical-insight follow-up.</p>
@@ -1054,7 +1054,7 @@ def build_case_preview(case):
           <h4>Get the free cheat sheets first</h4>
           <p>Four PDFs that work across every iHuman case. Email-delivered, no card.</p>
           <form data-capture>
-            <input type="email" name="email" placeholder="you@school.edu" required autocomplete="email" style="width:100%; padding:12px 16px; border-radius:999px; border:1.5px solid var(--border-strong); font-family:var(--font-body); font-size:.92rem; background:#fff; margin-bottom:9px;">
+            <input type="email" name="email" placeholder="you@email.com" required autocomplete="email" style="width:100%; padding:12px 16px; border-radius:999px; border:1.5px solid var(--border-strong); font-family:var(--font-body); font-size:.92rem; background:#fff; margin-bottom:9px;">
             <button type="submit" class="btn btn-primary" style="width:100%;">Get all 4 cheat sheets →</button>
             <p class="form-success" data-capture-msg style="display:none; margin:12px 0 0; color:var(--teal-700); font-size:.85rem;"></p>
           </form>
@@ -1170,7 +1170,7 @@ def build_simulator():
 
     <form id="waitlistForm" novalidate style="max-width:460px; margin:28px auto 0;">
       <div style="display:flex; gap:9px; flex-wrap:wrap; justify-content:center;">
-        <input type="email" id="wlEmail" name="email" placeholder="you@school.edu" required autocomplete="email"
+        <input type="email" id="wlEmail" name="email" placeholder="you@email.com" required autocomplete="email"
                style="flex:1; min-width:210px; padding:14px 18px; border-radius:999px; border:1.5px solid var(--border-strong); font-family:var(--font-body); font-size:1rem; background:#fff;">
         <button type="submit" class="btn btn-lime btn-lg" id="wlBtn">Notify me &rarr;</button>
       </div>
