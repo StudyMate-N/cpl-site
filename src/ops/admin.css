@@ -87,6 +87,9 @@
 .adm-avail.build { background:var(--warm-bg); border:1px solid var(--warm-border); color:var(--trap-amber); }
 
 .adm-detail-body { padding:24px 26px; display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+/* grid children must be allowed to shrink below their content min-width,
+   otherwise the action/mail columns overflow on narrow screens */
+.adm-actioncol, .adm-mailcol { min-width:0; }
 @media (max-width:1080px){ .adm-detail-body { grid-template-columns:1fr; } }
 
 /* action card */
@@ -230,4 +233,14 @@ html.ops-authed-pre body:not(.ops-authed) .adm { display:block; }
 @media (max-width:560px){
   .adm-stats-inner { grid-template-columns:1fr; }
   .adm-stats-inner > .adm-stat.live { grid-column:auto; }
+  /* tighten chrome for phones so content gets the full width */
+  .adm-top-inner { padding:12px 14px; gap:10px; }
+  .adm-main { padding:16px 13px 32px; gap:16px; }
+  .adm-detail-head { padding:18px 15px 15px; }
+  .adm-detail-head h2 { font-size:1.25rem; }
+  .adm-detail-body { padding:18px 15px; gap:18px; }
+  .adm-meta-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .mail-frame { height:430px; }
+  .action-card { padding:18px 16px; }
+  .adm-detail { min-height:0; }
 }
