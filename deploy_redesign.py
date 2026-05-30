@@ -59,11 +59,12 @@ SUBS = [
     # Order requests → orders@
     ('mailto:Tutorspot98@gmail.com?subject=',
      f'mailto:{ORDER_EMAIL}?subject='),
-    # Legal / data contexts (privacy deletion + terms) → support@
+    # Privacy deletion / data request → support@ (data-handling context)
     ('deletion requests? Email <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>',
      f'deletion requests? Email <a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),
+    # Terms "Questions about these terms?" is a GENERAL contact → hello@ (matches design)
     ('these terms? Email <a href="mailto:Tutorspot98@gmail.com">Tutorspot98@gmail.com</a>',
-     f'these terms? Email <a href="mailto:{SUPPORT_EMAIL}">{SUPPORT_EMAIL}</a>'),
+     f'these terms? Email <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>'),
     # Everything else (footer, Contact, about CTA) → hello@
     ('mailto:Tutorspot98@gmail.com',  f'mailto:{CONTACT_EMAIL}'),
     # Bare display text (footer text, thank-you whitelist tip) → hello@
