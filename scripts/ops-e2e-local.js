@@ -70,13 +70,16 @@ function cookieFrom(res) {
   return String(sc).split(';')[0]; // ops_session=...
 }
 
-const login = require('../api/ops/login');
+const auth = require('../api/ops/auth');
 const orders = require('../api/ops/orders');
 const inbound = require('../api/ops/inbound');
-const invoice = require('../api/ops/orders/[id]/invoice');
-const confirmPay = require('../api/ops/orders/[id]/confirm-payment');
-const deliver = require('../api/ops/orders/[id]/deliver');
+const orderAction = require('../api/ops/orders/[id]/[action]');
 const gpage = require('../api/g/[token]');
+// consolidated-route shims (preserve the test's call sites)
+const login = (req, res) => { if (req.body) req.body = Object.assign({ action: 'login' }, req.body); return auth(req, res); };
+const invoice = (req, res) => { req.query = Object.assign({}, req.query, { action: 'invoice' }); return orderAction(req, res); };
+const confirmPay = (req, res) => { req.query = Object.assign({}, req.query, { action: 'confirm-payment' }); return orderAction(req, res); };
+const deliver = (req, res) => { req.query = Object.assign({}, req.query, { action: 'deliver' }); return orderAction(req, res); };
 
 let pass = 0, fail = 0;
 function ok(cond, label) { if (cond) { pass++; console.log('  ✓ ' + label); } else { fail++; console.log('  ✗ FAIL: ' + label); } }

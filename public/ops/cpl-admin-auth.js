@@ -21,24 +21,27 @@
   }
 
   function authenticate(passcode) {
-    return fetch(BASE + '/login', {
+    return fetch(BASE + '/auth', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ passcode: passcode })
+      body: JSON.stringify({ action: 'login', passcode: passcode })
     }).then(function (r) { return r.ok; }).catch(function () { return false; });
   }
 
   function signOut() {
     try { localStorage.removeItem(SESSION); } catch (e) {}
-    fetch(BASE + '/logout', { method: 'POST', credentials: 'include' })
-      .then(function () { location.reload(); })
-      .catch(function () { location.reload(); });
+    fetch(BASE + '/auth', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'logout' })
+    }).then(function () { location.reload(); }).catch(function () { location.reload(); });
   }
 
   // Confirm an existing session server-side (the httpOnly cookie can't be read here).
   function checkSession() {
-    return fetch(BASE + '/session', { credentials: 'include' })
+    return fetch(BASE + '/auth', { credentials: 'include' })
       .then(function (r) { return r.ok; }).catch(function () { return false; });
   }
 

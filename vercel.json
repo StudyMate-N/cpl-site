@@ -20,10 +20,7 @@
     "api/ops/inbound.js": {
       "maxDuration": 15
     },
-    "api/ops/orders/[id]/confirm-payment.js": {
-      "maxDuration": 15
-    },
-    "api/ops/orders/[id]/deliver.js": {
+    "api/ops/orders/[id]/[action].js": {
       "maxDuration": 30
     },
     "api/g/[token].js": {
