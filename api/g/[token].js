@@ -29,13 +29,16 @@ function page(opts) {
     '.brand{font-size:14px;font-weight:600;color:var(--cream)}.brand small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(250,247,240,.5);margin-top:2px}' +
     '.body{padding:30px 28px}h1{font-family:Georgia,serif;font-size:23px;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}' +
     '.case{font-size:14px;color:var(--muted);margin:0 0 22px}' +
-    '.file{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;text-decoration:none}' +
-    '.file .n{font-weight:600;font-size:14px;color:var(--ink)}.file .s{font-size:12px;color:var(--muted);margin-top:2px}' +
-    '.dl{display:inline-block;background:var(--lime);color:var(--ink);font-weight:700;font-size:13px;padding:9px 18px;border-radius:999px;white-space:nowrap}' +
+    '.file{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;text-decoration:none}' +
+    '.fmeta{flex:1;min-width:0}' +
+    '.file .n{display:block;font-weight:600;font-size:14px;color:var(--ink);line-height:1.3;word-break:break-word}' +
+    '.file .s{display:block;font-size:12px;color:var(--muted);margin-top:3px}' +
+    '.dl{flex-shrink:0;display:inline-block;background:var(--lime);color:var(--ink);font-weight:700;font-size:13px;padding:9px 16px;border-radius:999px;white-space:nowrap}' +
     '.code{margin:18px 0 0;font-size:13px;color:var(--muted)}.code b{font-family:monospace;color:var(--ink);letter-spacing:.06em}' +
     '.note{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.55;color:var(--muted)}' +
     '.foot{padding:18px 28px;border-top:1px solid var(--border);background:var(--cream2);font-size:11px;color:var(--muted)}' +
     '.foot a{color:var(--teal)}.err h1{color:var(--ink)}' +
+    '@media(max-width:480px){.body{padding:24px 18px}.head{padding:18px 18px}h1{font-size:21px}.file{padding:12px 12px}.dl{padding:9px 13px;font-size:12px}}' +
     '</style></head><body><div class="card">' +
     '<div class="head"><div class="logo">CPL</div><div class="brand">Clinical Performance Lab<small>Secure guide access</small></div></div>' +
     '<div class="body' + (opts.err ? ' err' : '') + '">' + opts.html + '</div>' +
@@ -66,8 +69,11 @@ module.exports = async function handler(req, res) {
   let filesHtml;
   if (files.length) {
     filesHtml = files.map(function (f) {
-      return '<a class="file" href="' + esc(f.url) + '" download>' +
-        '<span><span class="n">' + esc(f.name) + '</span>' + (f.size ? '<span class="s">' + esc(fmtSize(f.size)) + '</span>' : '') + '</span>' +
+      // ?download=1 → Vercel Blob serves Content-Disposition: attachment, so the
+      // file saves to the device (and the page stays put) instead of opening inline.
+      var dl = esc(f.url) + (f.url.indexOf('?') >= 0 ? '&amp;' : '?') + 'download=1';
+      return '<a class="file" href="' + dl + '" download>' +
+        '<span class="fmeta"><span class="n">' + esc(f.name) + '</span>' + (f.size ? '<span class="s">' + esc(fmtSize(f.size)) + '</span>' : '') + '</span>' +
         '<span class="dl">Download →</span></a>';
     }).join('');
   } else {
