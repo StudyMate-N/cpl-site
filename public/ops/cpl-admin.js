@@ -45,6 +45,19 @@
       fr.readAsDataURL(file);
     });
   }
+  // Upload guide files straight to Vercel Blob from the browser (bypasses the
+  // 4.5 MB serverless body limit). Returns [{name,url,size,type}] to attach.
+  function uploadGuides(picked) {
+    if (!picked || !picked.length) return Promise.resolve([]);
+    if (!window.__blobUpload) return Promise.reject(new Error('Upload module not ready — refresh the page and try again.'));
+    return Promise.all(picked.map(function (f) {
+      return window.__blobUpload('guides/' + (f.name || 'guide'), f, {
+        access: 'public',
+        handleUploadUrl: OPS.base + '/blob-upload',
+        contentType: f.type || undefined
+      }).then(function (res) { return { name: f.name, url: res.url, size: f.size, type: f.type || '' }; });
+    }));
+  }
   function replaceOrder(updated) {
     if (!updated || !updated.id) return;
     for (var i = 0; i < orders.length; i++) {
@@ -272,10 +285,10 @@
       var payload = { email: email, case: kase, price: v('price') || 150, school: v('school'), course: v('course'), alias: v('alias'), invoiceUrl: v('invoiceUrl') };
       if (form.querySelector('input[name=ready]').checked) payload.ready = true;
       var orig = submitBtn.innerHTML; submitBtn.disabled = true; submitBtn.textContent = picked.length ? 'Uploading…' : 'Working…';
-      // read any attached guide files (base64), then create the order in one request
-      Promise.all(picked.map(function (f) { return fileToB64(f).then(function (d) { return { name: f.name, type: f.type, data: d }; }); }))
-        .then(function (files) {
-          if (files.length) payload.files = files;
+      // upload any attached guide(s) straight to Blob, then create the order
+      uploadGuides(picked)
+        .then(function (fileUrls) {
+          if (fileUrls.length) payload.fileUrls = fileUrls;
           return api('/orders', { method: 'POST', body: JSON.stringify(payload) });
         })
         .then(function (r) {
@@ -295,7 +308,7 @@
         })
         .catch(function () {
           submitBtn.disabled = false; submitBtn.innerHTML = orig;
-          errEl.textContent = 'Could not read the attached file. Please try again.'; errEl.hidden = false;
+          errEl.textContent = 'Could not upload the attached guide. Please try again.'; errEl.hidden = false;
         });
     });
   }
@@ -727,16 +740,14 @@
       btnG.addEventListener('click', function () {
         if (OPS.mode === 'live') {
           btnG.disabled = true; btnG.textContent = 'Uploading…';
-          Promise.all(picked.map(function (f) {
-            return fileToB64(f).then(function (data) { return { name: f.name, type: f.type, data: data }; });
-          })).then(function (files) {
-            return api('/orders/' + o.id + (sending ? '/deliver' : '/attach'), { method: 'POST', body: JSON.stringify({ files: files }) });
+          uploadGuides(picked).then(function (fileUrls) {
+            return api('/orders/' + o.id + (sending ? '/deliver' : '/attach'), { method: 'POST', body: JSON.stringify({ fileUrls: fileUrls }) });
           }).then(function (r) {
             if (sending) applyMutation(r, 'delivery', (o.status === 'fulfilled' ? 'Guide sent to ' : 'Guide delivered to ') + o.email, 'Access code + magic link emailed.');
             else applyMutation(r, null, 'Guide saved to order', 'Staged — it’ll deliver when you confirm payment.');
           }).catch(function () {
             btnG.disabled = false; btnG.innerHTML = origLabel;
-            toast('Upload failed', 'Could not read the files. Please try again.');
+            toast('Upload failed', 'Could not upload the files. Please try again.');
           });
           return;
         }

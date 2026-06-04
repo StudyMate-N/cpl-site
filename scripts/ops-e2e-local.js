@@ -198,6 +198,10 @@ function ok(cond, label) { if (cond) { pass++; console.log('  ✓ ' + label); } 
   // confirm payment (ready) → auto-delivers the pre-attached guide
   r = mockRes(); await confirmPay(mockReq({ method: 'POST', query: { id: body.order.id }, headers: { cookie } }), r);
   ok(jbody(r).order.status === 'fulfilled' && jbody(r).order.files.length === 1, 'that order auto-delivers the attached guide on payment confirm');
+  // manual order with a DIRECT-UPLOAD file url (fileUrls — large-file path, no base64)
+  r = mockRes(); await orders(mockReq({ method: 'POST', headers: { cookie }, body: { email: 'url@buyer.com', case: 'Custom big PDF case', fileUrls: [{ name: 'big-guide.pdf', url: 'https://store.public.blob.vercel-storage.com/guides/big-guide-abc.pdf', size: 9000000, type: 'application/pdf' }] } }), r);
+  body = jbody(r);
+  ok(r.statusCode === 200 && body.order.files.length === 1 && body.order.files[0].url.indexOf('blob.vercel-storage.com') >= 0 && !!body.order.accessUrl, 'manual order with direct-upload fileUrls → file attached + link minted (no size limit)');
   // unauth POST → 401
   r = mockRes(); await orders(mockReq({ method: 'POST', body: { email: 'x@y.com', case: 'X' } }), r);
   ok(r.statusCode === 401, 'manual order without cookie → 401 (gated)');

@@ -287,6 +287,20 @@ async function storeFiles(orderId, files) {
   return out;
 }
 
+// Files already uploaded straight to Blob from the browser (client upload) —
+// normalize the {url,name,size,type} objects the front-end sends.
+function normalizeFileUrls(arr) {
+  if (!Array.isArray(arr)) return [];
+  return arr.filter(function (f) { return f && f.url && /^https?:\/\//i.test(String(f.url)); }).map(function (f) {
+    return {
+      name: String(f.name || 'guide').replace(/[^A-Za-z0-9._-]/g, '_').slice(0, 120),
+      url: String(f.url),
+      size: Number(f.size) || 0,
+      type: String(f.type || ''),
+    };
+  });
+}
+
 // ─── catalog (cases.json emitted by build.py) ─────────────────────
 let _catalog = null;
 function loadCatalog() {
@@ -387,7 +401,7 @@ module.exports = {
   SESSION_COOKIE, signSession, verifySession, checkPasscode, parseCookies,
   setSessionCookie, clearSessionCookie, isAuthed, requireAuth,
   // storage
-  storeFiles,
+  storeFiles, normalizeFileUrls,
   // catalog
   loadCatalog, lookupCase, normalizeTitle,
   // webhook

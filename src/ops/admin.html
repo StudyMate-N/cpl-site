@@ -75,6 +75,13 @@
   </main>
 </div>
 
+<!-- Vercel Blob client: lets the console upload large guide files straight to
+     storage (past the 4.5 MB serverless body limit). Sets window.__blobUpload. -->
+<script type="module">
+  import { upload } from 'https://esm.sh/@vercel/blob@0.27.3/client';
+  window.__blobUpload = upload;
+  window.dispatchEvent(new Event('blob-client-ready'));
+</script>
 <script src="cpl-emails.js"></script>
 <script src="cpl-admin-auth.js"></script>
 <script src="cpl-admin.js"></script>

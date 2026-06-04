@@ -54,18 +54,20 @@ module.exports = async function handler(req, res) {
       });
       order.events[order.events.length - 1].sub = 'Created by ops (manual)';
 
-      // optionally stage the guide now so it auto-delivers the moment payment clears
-      const files = (body.files && Array.isArray(body.files)) ? body.files : [];
-      if (files.length) {
-        try {
-          const stored = await ops.storeFiles(order.id, files);
-          if (stored.length) {
-            order.files = (order.files || []).concat(stored);
-            if (!order.accessUrl) await ops.mintAccess(order);
-            order.events.push(ops.ev('files', 'Guide file(s) attached', stored.map(function (f) { return f.name; }).join(', '), ''));
-          }
-        } catch (e) { console.error('manual attach failed:', e.message); }
-      }
+      // optionally stage the guide now so it auto-delivers the moment payment clears.
+      // fileUrls = uploaded straight to Blob from the browser (large files);
+      // files = small base64 inline (legacy / tiny files).
+      try {
+        let stored = ops.normalizeFileUrls(body.fileUrls);
+        if (body.files && Array.isArray(body.files) && body.files.length) {
+          stored = stored.concat(await ops.storeFiles(order.id, body.files));
+        }
+        if (stored.length) {
+          order.files = (order.files || []).concat(stored);
+          if (!order.accessUrl) await ops.mintAccess(order);
+          order.events.push(ops.ev('files', 'Guide file(s) attached', stored.map(function (f) { return f.name; }).join(', '), ''));
+        }
+      } catch (e) { console.error('manual attach failed:', e.message); }
 
       const sent = {};
       if (invoiceUrl) {

@@ -66,14 +66,13 @@ async function doConfirmPayment(req, res, order) {
 async function doDeliver(req, res, order) {
   let body;
   try { body = await ops.readLargeJson(req, 8 * 1024 * 1024); }
-  catch (e) { return json(res, 413, { error: 'upload too large or invalid (max ~6MB total)' }); }
-  const files = (body && body.files) || [];
-  if (!Array.isArray(files) || !files.length) return json(res, 400, { error: 'no files provided' });
-
-  let stored;
-  try { stored = await ops.storeFiles(order.id, files); }
-  catch (e) { console.error('blob store failed:', e.message); return json(res, 502, { error: 'file storage failed: ' + e.message }); }
-  if (!stored.length) return json(res, 400, { error: 'no valid files stored' });
+  catch (e) { return json(res, 413, { error: 'upload too large for inline send — use the dropzone (direct upload)' }); }
+  let stored = ops.normalizeFileUrls(body && body.fileUrls); // direct browser→Blob uploads
+  if (body && Array.isArray(body.files) && body.files.length) { // legacy small base64
+    try { stored = stored.concat(await ops.storeFiles(order.id, body.files)); }
+    catch (e) { console.error('blob store failed:', e.message); return json(res, 502, { error: 'file storage failed: ' + e.message }); }
+  }
+  if (!stored.length) return json(res, 400, { error: 'no files provided' });
 
   order.files = (order.files || []).concat(stored);
   if (!order.accessUrl) await ops.mintAccess(order);
@@ -96,14 +95,13 @@ async function doDeliver(req, res, order) {
 async function doAttach(req, res, order) {
   let body;
   try { body = await ops.readLargeJson(req, 8 * 1024 * 1024); }
-  catch (e) { return json(res, 413, { error: 'upload too large or invalid (max ~6MB total)' }); }
-  const files = (body && body.files) || [];
-  if (!Array.isArray(files) || !files.length) return json(res, 400, { error: 'no files provided' });
-
-  let stored;
-  try { stored = await ops.storeFiles(order.id, files); }
-  catch (e) { console.error('blob store failed:', e.message); return json(res, 502, { error: 'file storage failed: ' + e.message }); }
-  if (!stored.length) return json(res, 400, { error: 'no valid files stored' });
+  catch (e) { return json(res, 413, { error: 'upload too large for inline send — use the dropzone (direct upload)' }); }
+  let stored = ops.normalizeFileUrls(body && body.fileUrls); // direct browser→Blob uploads
+  if (body && Array.isArray(body.files) && body.files.length) { // legacy small base64
+    try { stored = stored.concat(await ops.storeFiles(order.id, body.files)); }
+    catch (e) { console.error('blob store failed:', e.message); return json(res, 502, { error: 'file storage failed: ' + e.message }); }
+  }
+  if (!stored.length) return json(res, 400, { error: 'no files provided' });
 
   order.files = (order.files || []).concat(stored);
   if (!order.accessUrl) await ops.mintAccess(order); // link exists; not "delivered" until paid/sent

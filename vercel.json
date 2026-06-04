@@ -26,6 +26,9 @@
     "api/ops/inbound.js": {
       "maxDuration": 15
     },
+    "api/ops/blob-upload.js": {
+      "maxDuration": 10
+    },
     "api/ops/orders/[id]/[action].js": {
       "maxDuration": 30
     },
