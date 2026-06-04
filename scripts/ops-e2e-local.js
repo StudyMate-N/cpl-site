@@ -179,6 +179,21 @@ function ok(cond, label) { if (cond) { pass++; console.log('  ✓ ' + label); } 
   r = mockRes(); await gpage(mockReq({ method: 'GET', query: { token: stagedTok } }), r);
   ok(r.statusCode === 200 && /Bebe-Guide\.docx/.test(r._data), 'magic link serves the pre-attached guide file');
 
+  console.log('\n── 7. Manual order + invoice in one go (ops) ───');
+  // ops creates a custom order WITH a Payoneer link → should land 'invoiced' + invoice email
+  r = mockRes(); await orders(mockReq({ method: 'POST', headers: { cookie }, body: { email: 'custom@buyer.com', case: 'Bebe Babbitt — Migraine with Aura', price: 175, invoiceUrl: 'https://pay.payoneer.com/manual/1', school: 'Walden', course: 'NRNP 6552', alias: 'Bebe Babbitt' } }), r);
+  body = jbody(r);
+  ok(r.statusCode === 200 && body.order && body.order.status === 'invoiced', 'manual order with link → created + invoiced in one step');
+  ok(body.order.invoiceUrl === 'https://pay.payoneer.com/manual/1' && body.order.amount === 175 && body.order.ready === true, 'manual order carries invoice link, amount, catalog ready-flag');
+  ok((body.sent || {}).invoice && (body.sent.invoice.id), 'manual order sent the invoice email: ' + (body.sent.invoice || {}).id);
+  // manual order WITHOUT a link → just created (status new) + order-received email
+  r = mockRes(); await orders(mockReq({ method: 'POST', headers: { cookie }, body: { email: 'custom2@buyer.com', case: 'Totally Custom Case — built to order', price: 200 } }), r);
+  body = jbody(r);
+  ok(r.statusCode === 200 && body.order.status === 'new' && body.order.case === 'Totally Custom Case — built to order', 'manual order, no link, custom case → created (status new)');
+  // unauth POST → 401
+  r = mockRes(); await orders(mockReq({ method: 'POST', body: { email: 'x@y.com', case: 'X' } }), r);
+  ok(r.statusCode === 401, 'manual order without cookie → 401 (gated)');
+
   console.log('\n── Summary ────────────────────────────────────');
   console.log('  emails sent: ' + sentEmails.length + ' → ' + sentEmails.map(e => e.subject).join(' | '));
   console.log('  PASS ' + pass + ' / FAIL ' + fail);

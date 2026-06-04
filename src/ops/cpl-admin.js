@@ -197,6 +197,77 @@
 
   /* ── DOM refs ──────────────────────────────────────────────── */
   var $stats, $tabs, $list, $detail, _pollTimer = null;
+  /* ── manual "New order" — ops-initiated; create + invoice in one go ─── */
+  function setupNewOrder(btn) {
+    var ov = document.createElement('div');
+    ov.className = 'adm-modal-overlay';
+    ov.id = 'newOrderOverlay';
+    ov.innerHTML =
+      '<div class="adm-modal" role="dialog" aria-modal="true">' +
+        '<button class="adm-modal-close" data-no-close aria-label="Close">×</button>' +
+        '<h3>New order</h3>' +
+        '<p class="sub">Create an order manually — for a custom request or one that came in off-platform. Add the Payoneer link to invoice the customer in the same step.</p>' +
+        '<form id="newOrderForm">' +
+          '<label class="adm-fld"><span>Customer email *</span><input type="email" name="email" required placeholder="you@email.com" autocomplete="off"></label>' +
+          '<label class="adm-fld"><span>Case / guide *</span><input type="text" name="case" required placeholder="e.g. Bebe Babbitt — Migraine with Aura"></label>' +
+          '<div class="adm-modal-row">' +
+            '<label class="adm-fld"><span>Price ($)</span><input type="number" name="price" value="150" min="0" step="1"></label>' +
+            '<label class="adm-fld"><span>School</span><input type="text" name="school" placeholder="e.g. Chamberlain"></label>' +
+          '</div>' +
+          '<div class="adm-modal-row">' +
+            '<label class="adm-fld"><span>Course / week</span><input type="text" name="course" placeholder="e.g. NR 509 Wk 6"></label>' +
+            '<label class="adm-fld"><span>Patient alias</span><input type="text" name="alias" placeholder="e.g. Bebe Babbitt"></label>' +
+          '</div>' +
+          '<label class="adm-fld"><span>Payoneer invoice link <small>(optional — blank just creates the order)</small></span><input type="url" name="invoiceUrl" placeholder="https://pay.payoneer.com/…"></label>' +
+          '<div class="adm-fld"><label class="chk"><input type="checkbox" name="ready"> Pre-built case (auto-delivers the instant payment is confirmed)</label></div>' +
+          '<p class="adm-modal-err" data-no-err hidden></p>' +
+          '<div class="adm-modal-actions">' +
+            '<button type="button" class="btn btn-ghost" data-no-close>Cancel</button>' +
+            '<button type="submit" class="btn btn-primary" data-no-submit>Create &amp; send invoice →</button>' +
+          '</div>' +
+        '</form>' +
+      '</div>';
+    document.body.appendChild(ov);
+
+    var form = ov.querySelector('#newOrderForm');
+    var errEl = ov.querySelector('[data-no-err]');
+    var submitBtn = ov.querySelector('[data-no-submit]');
+    var inv = form.querySelector('input[name=invoiceUrl]');
+
+    function openModal() { errEl.hidden = true; form.reset(); submitBtn.innerHTML = 'Create order →'; ov.classList.add('open'); setTimeout(function () { form.querySelector('input[name=email]').focus(); }, 40); }
+    function closeModal() { ov.classList.remove('open'); }
+    btn.addEventListener('click', openModal);
+    [].forEach.call(ov.querySelectorAll('[data-no-close]'), function (c) { c.addEventListener('click', closeModal); });
+    ov.addEventListener('click', function (e) { if (e.target === ov) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ov.classList.contains('open')) closeModal(); });
+    inv.addEventListener('input', function () { submitBtn.innerHTML = inv.value.trim() ? 'Create &amp; send invoice →' : 'Create order →'; });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      errEl.hidden = true;
+      function v(n) { var el = form.querySelector('[name=' + n + ']'); return el ? el.value.trim() : ''; }
+      var email = v('email'), kase = v('case');
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { errEl.textContent = 'Enter a valid customer email.'; errEl.hidden = false; return; }
+      if (!kase) { errEl.textContent = 'Enter the case / guide name.'; errEl.hidden = false; return; }
+      var payload = { email: email, case: kase, price: v('price') || 150, school: v('school'), course: v('course'), alias: v('alias'), invoiceUrl: v('invoiceUrl') };
+      if (form.querySelector('input[name=ready]').checked) payload.ready = true;
+      var orig = submitBtn.innerHTML; submitBtn.disabled = true; submitBtn.textContent = 'Working…';
+      api('/orders', { method: 'POST', body: JSON.stringify(payload) }).then(function (r) {
+        submitBtn.disabled = false; submitBtn.innerHTML = orig;
+        if (r.status === 401) { sessionLost(); return; }
+        if (r.body && r.body.ok && r.body.order) {
+          replaceOrder(r.body.order);
+          filter = 'all'; mailKey = null;
+          closeModal();
+          toast('Order ' + r.body.order.id + ' created', r.body.order.status === 'invoiced' ? ('Invoice emailed to ' + r.body.order.email) : 'Saved to the queue.');
+          flashStat(); render();
+        } else {
+          errEl.textContent = (r.body && r.body.error) || 'Could not create the order. Please try again.'; errEl.hidden = false;
+        }
+      });
+    });
+  }
+
   function init() {
     $stats = document.getElementById('admStats');
     $tabs = document.getElementById('admTabs');
@@ -205,10 +276,12 @@
 
     var sim = document.getElementById('admSim');
     var env = document.getElementById('admEnv');
+    var newBtn = document.getElementById('admNew');
     if (OPS.mode === 'live') {
-      // real orders arrive via the inbound webhook — no manual simulate
+      // real orders arrive via webhook/checkout — swap "Simulate" for a real manual "New order"
       if (sim) sim.style.display = 'none';
       if (env) { env.textContent = 'Live'; env.classList.add('live'); }
+      if (newBtn) { newBtn.hidden = false; setupNewOrder(newBtn); }
     } else if (sim) {
       sim.addEventListener('click', simulateOrder);
     }
