@@ -220,6 +220,10 @@
           '</div>' +
           '<label class="adm-fld"><span>Payoneer invoice link <small>(optional — blank just creates the order)</small></span><input type="url" name="invoiceUrl" placeholder="https://pay.payoneer.com/…"></label>' +
           '<div class="adm-fld"><label class="chk"><input type="checkbox" name="ready"> Pre-built case (auto-delivers the instant payment is confirmed)</label></div>' +
+          '<div class="adm-fld"><span>Attach the guide <small>(optional — staged now, auto-delivers when payment clears)</small></span>' +
+            '<div class="dropzone" data-no-dz><div class="dz-ico">📎</div><b>Drop the guide here</b><span>or click to browse — .docx, .pdf, .zip</span></div>' +
+            '<input type="file" data-no-dzinput hidden multiple accept=".doc,.docx,.pdf,.zip">' +
+            '<div data-no-dzfiles></div></div>' +
           '<p class="adm-modal-err" data-no-err hidden></p>' +
           '<div class="adm-modal-actions">' +
             '<button type="button" class="btn btn-ghost" data-no-close>Cancel</button>' +
@@ -234,7 +238,23 @@
     var submitBtn = ov.querySelector('[data-no-submit]');
     var inv = form.querySelector('input[name=invoiceUrl]');
 
-    function openModal() { errEl.hidden = true; form.reset(); submitBtn.innerHTML = 'Create order →'; ov.classList.add('open'); setTimeout(function () { form.querySelector('input[name=email]').focus(); }, 40); }
+    // guide attach dropzone
+    var dz = ov.querySelector('[data-no-dz]'), dzIn = ov.querySelector('[data-no-dzinput]'), dzFiles = ov.querySelector('[data-no-dzfiles]');
+    var picked = [];
+    function renderPicked() {
+      dzFiles.innerHTML = picked.map(function (f, i) {
+        var ext = (f.name.split('.').pop() || '').toUpperCase().slice(0, 4);
+        return '<div class="dz-file"><span class="fi">' + esc(ext) + '</span><span class="fn">' + esc(f.name) + '</span><button type="button" class="fx" data-rm="' + i + '">×</button></div>';
+      }).join('');
+      [].forEach.call(dzFiles.querySelectorAll('[data-rm]'), function (b) { b.addEventListener('click', function () { picked.splice(+b.getAttribute('data-rm'), 1); renderPicked(); }); });
+    }
+    dz.addEventListener('click', function () { dzIn.click(); });
+    dzIn.addEventListener('change', function () { picked = picked.concat([].slice.call(dzIn.files)); renderPicked(); });
+    ['dragover', 'dragenter'].forEach(function (e) { dz.addEventListener(e, function (ev2) { ev2.preventDefault(); dz.classList.add('drag'); }); });
+    ['dragleave', 'drop'].forEach(function (e) { dz.addEventListener(e, function (ev2) { ev2.preventDefault(); dz.classList.remove('drag'); }); });
+    dz.addEventListener('drop', function (ev2) { picked = picked.concat([].slice.call(ev2.dataTransfer.files)); renderPicked(); });
+
+    function openModal() { errEl.hidden = true; form.reset(); picked = []; renderPicked(); submitBtn.innerHTML = 'Create order →'; ov.classList.add('open'); setTimeout(function () { form.querySelector('input[name=email]').focus(); }, 40); }
     function closeModal() { ov.classList.remove('open'); }
     btn.addEventListener('click', openModal);
     [].forEach.call(ov.querySelectorAll('[data-no-close]'), function (c) { c.addEventListener('click', closeModal); });
@@ -251,20 +271,32 @@
       if (!kase) { errEl.textContent = 'Enter the case / guide name.'; errEl.hidden = false; return; }
       var payload = { email: email, case: kase, price: v('price') || 150, school: v('school'), course: v('course'), alias: v('alias'), invoiceUrl: v('invoiceUrl') };
       if (form.querySelector('input[name=ready]').checked) payload.ready = true;
-      var orig = submitBtn.innerHTML; submitBtn.disabled = true; submitBtn.textContent = 'Working…';
-      api('/orders', { method: 'POST', body: JSON.stringify(payload) }).then(function (r) {
-        submitBtn.disabled = false; submitBtn.innerHTML = orig;
-        if (r.status === 401) { sessionLost(); return; }
-        if (r.body && r.body.ok && r.body.order) {
-          replaceOrder(r.body.order);
-          filter = 'all'; mailKey = null;
-          closeModal();
-          toast('Order ' + r.body.order.id + ' created', r.body.order.status === 'invoiced' ? ('Invoice emailed to ' + r.body.order.email) : 'Saved to the queue.');
-          flashStat(); render();
-        } else {
-          errEl.textContent = (r.body && r.body.error) || 'Could not create the order. Please try again.'; errEl.hidden = false;
-        }
-      });
+      var orig = submitBtn.innerHTML; submitBtn.disabled = true; submitBtn.textContent = picked.length ? 'Uploading…' : 'Working…';
+      // read any attached guide files (base64), then create the order in one request
+      Promise.all(picked.map(function (f) { return fileToB64(f).then(function (d) { return { name: f.name, type: f.type, data: d }; }); }))
+        .then(function (files) {
+          if (files.length) payload.files = files;
+          return api('/orders', { method: 'POST', body: JSON.stringify(payload) });
+        })
+        .then(function (r) {
+          submitBtn.disabled = false; submitBtn.innerHTML = orig;
+          if (r.status === 401) { sessionLost(); return; }
+          if (r.body && r.body.ok && r.body.order) {
+            var o = r.body.order;
+            replaceOrder(o);
+            filter = 'all'; mailKey = null;
+            closeModal();
+            var attached = (o.files && o.files.length) ? ' · guide attached' : '';
+            toast('Order ' + o.id + ' created', (o.status === 'invoiced' ? ('Invoice emailed to ' + o.email) : 'Saved to the queue.') + attached);
+            flashStat(); render();
+          } else {
+            errEl.textContent = (r.body && r.body.error) || 'Could not create the order. Please try again.'; errEl.hidden = false;
+          }
+        })
+        .catch(function () {
+          submitBtn.disabled = false; submitBtn.innerHTML = orig;
+          errEl.textContent = 'Could not read the attached file. Please try again.'; errEl.hidden = false;
+        });
     });
   }
 

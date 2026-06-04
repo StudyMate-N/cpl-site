@@ -5,7 +5,7 @@
 //   creates the order (status 'new') and emails the order confirmation.
 'use strict';
 const ops = require('../_ops');
-const { readJsonBody, isValidEmail, normalizeEmail } = require('../_lib');
+const { isValidEmail, normalizeEmail } = require('../_lib');
 const { sendOps } = require('../_ops-mail');
 
 function clip(v, n) { return (v == null ? '' : String(v)).trim().slice(0, n || 120); }
@@ -27,7 +27,8 @@ module.exports = async function handler(req, res) {
 
   if (req.method === 'POST') {
     let body;
-    try { body = await readJsonBody(req); } catch (e) { res.statusCode = 400; return res.end(JSON.stringify({ error: 'bad body' })); }
+    // larger reader so an attached guide file (base64) fits in the same request
+    try { body = await ops.readLargeJson(req, 8 * 1024 * 1024); } catch (e) { res.statusCode = 413; return res.end(JSON.stringify({ error: 'request too large or invalid (attached file > ~6MB?)' })); }
 
     if (!isValidEmail(body && body.email)) { res.statusCode = 400; return res.end(JSON.stringify({ error: 'valid customer email required' })); }
     const email = normalizeEmail(body.email);
@@ -52,6 +53,19 @@ module.exports = async function handler(req, res) {
         alias: clip(body.alias, 80),
       });
       order.events[order.events.length - 1].sub = 'Created by ops (manual)';
+
+      // optionally stage the guide now so it auto-delivers the moment payment clears
+      const files = (body.files && Array.isArray(body.files)) ? body.files : [];
+      if (files.length) {
+        try {
+          const stored = await ops.storeFiles(order.id, files);
+          if (stored.length) {
+            order.files = (order.files || []).concat(stored);
+            if (!order.accessUrl) await ops.mintAccess(order);
+            order.events.push(ops.ev('files', 'Guide file(s) attached', stored.map(function (f) { return f.name; }).join(', '), ''));
+          }
+        } catch (e) { console.error('manual attach failed:', e.message); }
+      }
 
       const sent = {};
       if (invoiceUrl) {

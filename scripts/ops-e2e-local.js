@@ -190,6 +190,14 @@ function ok(cond, label) { if (cond) { pass++; console.log('  ✓ ' + label); } 
   r = mockRes(); await orders(mockReq({ method: 'POST', headers: { cookie }, body: { email: 'custom2@buyer.com', case: 'Totally Custom Case — built to order', price: 200 } }), r);
   body = jbody(r);
   ok(r.statusCode === 200 && body.order.status === 'new' && body.order.case === 'Totally Custom Case — built to order', 'manual order, no link, custom case → created (status new)');
+  // manual order WITH an attached guide + invoice link → created, invoiced, file staged, link minted
+  const guideB64 = Buffer.from('manual order attached guide').toString('base64');
+  r = mockRes(); await orders(mockReq({ method: 'POST', headers: { cookie }, body: { email: 'attach@buyer.com', case: 'Bebe Babbitt — Migraine with Aura', invoiceUrl: 'https://pay.payoneer.com/manual/2', files: [{ name: 'guide.docx', type: 'application/octet-stream', data: guideB64 }] } }), r);
+  body = jbody(r);
+  ok(r.statusCode === 200 && body.order.status === 'invoiced' && body.order.files.length === 1 && !!body.order.accessUrl, 'manual order + attached guide + link → invoiced, guide staged, link minted in one request');
+  // confirm payment (ready) → auto-delivers the pre-attached guide
+  r = mockRes(); await confirmPay(mockReq({ method: 'POST', query: { id: body.order.id }, headers: { cookie } }), r);
+  ok(jbody(r).order.status === 'fulfilled' && jbody(r).order.files.length === 1, 'that order auto-delivers the attached guide on payment confirm');
   // unauth POST → 401
   r = mockRes(); await orders(mockReq({ method: 'POST', body: { email: 'x@y.com', case: 'X' } }), r);
   ok(r.statusCode === 401, 'manual order without cookie → 401 (gated)');
