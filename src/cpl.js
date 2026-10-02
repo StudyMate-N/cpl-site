@@ -33,7 +33,7 @@
     }
   });
   document.querySelectorAll('.nav-links a,.mobile-menu>a').forEach(function (a) {
-    if (a.pathname === location.pathname) a.setAttribute('aria-current', 'page');
+    if (!a.hash && a.pathname === location.pathname) a.setAttribute('aria-current', 'page');
   });
 
   /* Let native checkboxes handle both pointer and keyboard selection. */

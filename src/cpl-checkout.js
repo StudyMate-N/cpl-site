@@ -106,14 +106,14 @@
     document.body.style.overflow = '';
     if (opener && opener.isConnected) opener.focus();
   }
-  function setCase(name, price, delivery) {
+  function setCase(name, price, delivery, aliasValue) {
     overlay.querySelectorAll('[data-case-title]').forEach(function (e) { e.textContent = name; });
     overlay.querySelectorAll('[data-case-name]').forEach(function (e) { e.textContent = name; });
     overlay.querySelectorAll('[data-done-case]').forEach(function (e) { e.textContent = name; });
     if (price) overlay.querySelector('[data-case-price]').textContent = price;
     overlay.querySelector('[data-case-delivery]').textContent = 'Word + PDF · ' + (delivery || 'delivery confirmed before payment');
     var alias = overlay.querySelector('input[name=alias]');
-    if (alias) alias.value = name.split('—')[0].trim();
+    if (alias) alias.value = aliasValue !== null && aliasValue !== undefined ? aliasValue : name.split('—')[0].trim();
   }
 
   // open triggers
@@ -121,7 +121,7 @@
     var orderBtn = ev.target.closest('[data-order]');
     if (orderBtn) {
       ev.preventDefault();
-      setCase(orderBtn.getAttribute('data-order') || 'Case guide', orderBtn.getAttribute('data-price'), orderBtn.getAttribute('data-delivery'));
+      setCase(orderBtn.getAttribute('data-order') || 'Case guide', orderBtn.getAttribute('data-price'), orderBtn.getAttribute('data-delivery'), orderBtn.getAttribute('data-alias'));
       open('order');
       return;
     }

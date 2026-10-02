@@ -14,8 +14,15 @@ with a serverless email-capture backend.
 
 ```
 cpl-site/
-├── build.py                    # Generates static site + cheat sheets
-├── site_redesign.py            # Public page layouts and content
+├── build.py                    # Orchestrator: pages, assets, manifests, ops, PDFs
+├── web/                        # Public page templates (homepage v2 design system)
+│   ├── layout.py               #   page shell, header, footer
+│   ├── components.py           #   logo, icons, case cards, school strip data
+│   └── pages.py                #   one builder per public page
+├── src/                        # Front-end sources copied into public/
+│   ├── site.css                #   design system → public/styles.css
+│   ├── cpl*.js                 #   behaviour (cpl-home.js = homepage search/strip)
+│   └── img/                    #   optimized WebP imagery
 ├── cases_data.py               # 171-case catalog
 ├── cheat_sheet_content.py      # Content for the 4 cheat sheet PDFs
 ├── cheat_sheet_flowables.py    # ReportLab diagrams (cardiac, SNOOP4, etc.)
@@ -226,12 +233,23 @@ to margins.
 
 ---
 
-## Public redesign (October 2026)
+## Public site — homepage v2 (October 2026)
 
-Public layouts live in `site_redesign.py`, with styles in `src/cpl-public.css`.
-`build.py` installs these layouts while keeping the private operations pages,
-PDF generator and API handlers. Front-end interactions live in `src/cpl.js`,
-`src/cpl-catalog.js`, `src/cpl-checkout.js` and `src/cpl-support.js`.
+The public front-end was rebuilt from the Claude Design "CPL Homepage v2"
+handoff. Everything public is generated from `web/` + `src/`; the API,
+emails, ops console (`src/ops/`), case data and PDFs are unchanged.
+
+- **Design tokens** live at the top of `src/site.css` (lime/ink palette,
+  Newsreader + IBM Plex Sans + IBM Plex Mono). Change a color or spacing
+  value there and it applies site-wide.
+- **Homepage** (`web/pages.py → build_home`): live case search (reads
+  `/cases.json`), "what's on your mind" chips, a moving school strip with
+  per-school panels, featured same-day cases, services, human support,
+  exam path and a mobile quick-action dock.
+- **Schools** in the strip are configured in `web/components.py → SCHOOLS`
+  (name, brand color, catalog match text). Case counts come from the catalog.
+- **Checkout, access codes, support chat, bundles and free-resource capture**
+  keep their existing DOM contracts and API calls.
 
 To regenerate the site without changing the existing PDFs:
 
@@ -241,6 +259,7 @@ python3 build.py --skip-pdfs
 
 Commit the generated `public/` pages and assets with the source changes.
 The existing main-branch GitHub Actions workflow deploys them to Vercel.
+Bump `ASSET_VERSION` in `build.py` when CSS/JS changes so browsers refetch.
 Bundle requests preserve every selected case; intake uses the bundle price rather than a fuzzy single-case match. Run `npm run test:orders` to check this flow with storage and email mocked.
 The simulator remains a waitlist. Search includes aliases, but patient age,
 presentation and course must be checked to match a guide version.
@@ -301,7 +320,7 @@ In Vercel dashboard → Storage → your KV → Data Browser. Useful keys:
 
 ### Update copyright year / footer text
 
-Edit `site_redesign.py` → `footer_html()`.
+Edit `web/layout.py` → `footer_html()`.
 
 ---
 
