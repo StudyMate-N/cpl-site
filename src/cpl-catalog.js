@@ -1,191 +1,141 @@
-/* CPL — catalog: live search, filters, bundle cart */
+/* CPL library: search, version references, filters, pagination and bundle cart. */
 (function () {
   'use strict';
   var grid = document.getElementById('caseGrid');
   if (!grid) return;
-
-  // Full catalog injected by the build (window.CPL_CASES, all 171 cases with
-  // per-case pretty-URL hrefs). Falls back to the curated demo list below.
-  var CASES = (window.CPL_CASES && window.CPL_CASES.length) ? window.CPL_CASES : [
-    { t:"Harvey Hoya — Hypertension Stage 2", cc:"High blood pressure noted at a community health fair", dx:"Primary hypertension, stage 2", sys:["Cardiovascular","Adult"], school:"Chamberlain University", course:"NR 509 / 511 · Wk 5", lead:"same-day" },
-    { t:"Bebe Babbitt — Migraine with Aura", cc:"More frequent, more severe headaches", dx:"Migraine with aura", sys:["Neurologic","Adult"], school:"Chamberlain University", course:"NR 509 · Wk 6", lead:"same-day", href:"case-preview.html" },
-    { t:"Cynthia Francis — Hyperlipidemia", cc:"Follow-up after an abnormal lipid panel", dx:"Mixed hyperlipidemia", sys:["Endocrine","Adult"], school:"Chamberlain University", course:"NR 509 / 511", lead:"same-day" },
-    { t:"Samantha Graves — Viral Gastroenteritis", cc:"Vomiting and diarrhea ×2 days", dx:"Acute viral gastroenteritis", sys:["GI","Pediatric"], school:"Chamberlain University", course:"NR 602 · Wk 5", lead:"same-day" },
-    { t:"Kennedy Poole — ADHD, Inattentive", cc:"Slipping grades and academic decline", dx:"ADHD, predominantly inattentive", sys:["Mental Health","Pediatric"], school:"Chamberlain University", course:"NR 602 · Wk 4", lead:"same-day" },
-    { t:"Christine Smith — Pyelonephritis", cc:"Flank pain, fever, dysuria", dx:"Acute pyelonephritis", sys:["GU","Adult"], school:"Walden University", course:"NRNP 6531 · Wk 7", lead:"same-day" },
-    { t:"Lori Jacobs — Urinary Tract Infection", cc:"Burning with urination ×3 days", dx:"Uncomplicated cystitis", sys:["GU","Adult"], school:"Walden University", course:"NRNP 6552", lead:"same-day" },
-    { t:"Nick Roberts — Acute Otitis Media", cc:"Ear pain and fever in a toddler", dx:"Acute otitis media", sys:["ENT","Pediatric"], school:"Chamberlain University", course:"NR 602", lead:"same-day" },
-    { t:"Danny Rivera — Pediatric Respiratory Infection", cc:"Cough and congestion in a child", dx:"Viral URI", sys:["Respiratory","Pediatric"], school:"Multiple Institutions", course:"NR 509 / Shadow Health", lead:"fast-build" },
-    { t:"Tina Jones — Comprehensive Assessment", cc:"Shadow Health comprehensive exam", dx:"Comprehensive H&P", sys:["General","Adult","Shadow Health"], school:"Multiple Institutions", course:"NR 509", lead:"fast-build" },
-    { t:"Ben Bundy — COPD Exacerbation", cc:"Worsening shortness of breath", dx:"COPD exacerbation", sys:["Respiratory","Adult"], school:"Walden University", course:"NRNP 6531 · Wk 4", lead:"fast-build" },
-    { t:"Jacob Abraham — GERD", cc:"Burning chest pain after meals", dx:"Gastroesophageal reflux disease", sys:["GI","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"fast-build" },
-    { t:"Evan Tyson — Diabetes Mellitus", cc:"Fatigue, thirst, frequent urination", dx:"Type 2 diabetes mellitus", sys:["Endocrine","Adult"], school:"Chamberlain University", course:"NR 509", lead:"fast-build" },
-    { t:"Maria Ash — Hypothyroidism", cc:"Fatigue, weight gain, cold intolerance", dx:"Primary hypothyroidism", sys:["Endocrine","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"fast-build" },
-    { t:"Chester Wilson — Gout", cc:"Acute great-toe pain and swelling", dx:"Acute gouty arthritis", sys:["Musculoskeletal","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"fast-build" },
-    { t:"Krista Hampton — Contact Dermatitis", cc:"Itchy rash after new detergent", dx:"Allergic contact dermatitis", sys:["Dermatology","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"fast-build" },
-    { t:"Jerome Cauthen — Acute Appendicitis", cc:"Migrating right-lower-quadrant pain", dx:"Acute appendicitis", sys:["GI","Surgery","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"fast-build" },
-    { t:"Florence Blackman — Coronary Artery Disease", cc:"Exertional chest tightness", dx:"Stable coronary artery disease", sys:["Cardiovascular","Adult"], school:"Walden University", course:"NRNP 6531", lead:"fast-build" },
-    { t:"Jacqueline Russell — Major Depressive Disorder", cc:"Low mood and anhedonia ×2 months", dx:"Major depressive disorder", sys:["Mental Health","Adult"], school:"Walden University", course:"NRNP 6568", lead:"fast-build" },
-    { t:"Janet Riley — Alzheimer's Disease", cc:"Progressive memory loss", dx:"Alzheimer's dementia", sys:["Neurologic","Geriatric"], school:"Walden University", course:"NRNP 6568", lead:"fast-build" },
-    { t:"Emma Ryan — Pediatric URI", cc:"Runny nose and mild cough", dx:"Upper respiratory infection", sys:["Respiratory","Pediatric"], school:"Chamberlain University", course:"NR 509", lead:"fast-build" },
-    { t:"Elias Leon — Hypertension", cc:"Elevated BP at a routine visit", dx:"Essential hypertension", sys:["Cardiovascular","Adult"], school:"South University", course:"NR 509", lead:"fast-build" },
-    { t:"Brad Banerjee — Ischemic Stroke", cc:"Sudden one-sided weakness", dx:"Acute ischemic stroke", sys:["Neurologic","Emergency","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Karen Simpson — Pulmonary Embolism", cc:"Sudden pleuritic chest pain, dyspnea", dx:"Pulmonary embolism", sys:["Respiratory","Emergency","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Jamie Feldman — Unstable Angina", cc:"Chest pain at rest", dx:"Unstable angina", sys:["Cardiovascular","Emergency","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"John Quimby — STEMI", cc:"Crushing chest pain with diaphoresis", dx:"ST-elevation MI", sys:["Cardiovascular","Emergency","Adult"], school:"Multiple Institutions", course:"NRNP 6531", lead:"on-request" },
-    { t:"Nancy Penn — Ectopic Pregnancy", cc:"Pelvic pain and spotting", dx:"Ectopic pregnancy", sys:["Women's Health","Emergency","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Caleb Metz — Testicular Torsion", cc:"Sudden severe scrotal pain", dx:"Testicular torsion", sys:["GU","Emergency","Adolescent"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Melissa Steward — Diabetic Ketoacidosis", cc:"Nausea, polyuria, confusion", dx:"Diabetic ketoacidosis", sys:["Endocrine","Emergency","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Miah Zavarro — Sickle Cell Anemia", cc:"Recurrent pain crises", dx:"Sickle cell disease", sys:["Hematology","Pediatric"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Jack Johnson — Schizophrenia", cc:"Auditory hallucinations, withdrawal", dx:"Schizophrenia", sys:["Mental Health","Adult"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" },
-    { t:"Ella West — Alzheimer's Disease", cc:"Memory complaints in an older adult", dx:"Alzheimer's dementia", sys:["Neurologic","Geriatric"], school:"Kaplan Medical", course:"Kaplan", lead:"on-request" }
-  ];
-  var PRICE = 150;
-  var LEAD_LABEL = { "same-day": "⚡ Same-day", "fast-build": "⌛ 24–48h", "on-request": "📋 On request" };
-
-  // state
-  var state = { q: "", sys: new Set(), school: new Set(), lead: new Set() };
-  var bundle = new Set();
-
-  // build filter chip rows
-  var systems = {}, schools = {};
-  CASES.forEach(function (c) { c.sys.forEach(function (s) { systems[s] = 1; }); schools[c.school] = 1; });
-  function chipRow(id, values, type) {
-    var wrap = document.getElementById(id);
-    if (!wrap) return;
-    values.forEach(function (v) {
-      var b = document.createElement('button');
-      b.className = 'filter-chip';
-      b.type = 'button';
-      b.textContent = (type === 'lead') ? LEAD_LABEL[v] : v;
-      b.setAttribute('data-val', v);
-      b.addEventListener('click', function () {
-        b.classList.toggle('active');
-        var set = state[type === 'lead' ? 'lead' : (type === 'school' ? 'school' : 'sys')];
-        if (set.has(v)) set.delete(v); else set.add(v);
-        render();
-      });
-      wrap.appendChild(b);
-    });
-  }
-  chipRow('fSystem', Object.keys(systems).sort(), 'sys');
-  chipRow('fSchool', Object.keys(schools).sort(), 'school');
-  chipRow('fLead', ['same-day', 'fast-build', 'on-request'], 'lead');
-
-  function matches(c) {
-    if (state.sys.size && !c.sys.some(function (s) { return state.sys.has(s); })) return false;
-    if (state.school.size && !state.school.has(c.school)) return false;
-    if (state.lead.size && !state.lead.has(c.lead)) return false;
-    if (state.q) {
-      var hay = (c.t + ' ' + c.cc + ' ' + c.dx + ' ' + c.sys.join(' ') + ' ' + c.school + ' ' + c.course).toLowerCase();
-      if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
-    }
-    return true;
-  }
-
-  var countEl = document.getElementById('catCount');
-  var clearEl = document.getElementById('filterClear');
-  var emptyEl = document.getElementById('catEmpty');
-
-  function render() {
-    var shown = CASES.filter(matches);
-    grid.innerHTML = '';
-    shown.forEach(function (c) {
-      var inB = bundle.has(c.t);
-      var card = document.createElement('div');
-      card.className = 'case-card cat-card';
-      card.innerHTML =
-        '<h3>' + c.t + '</h3>' +
-        '<p class="case-cc">' + c.cc + '</p>' +
-        '<div class="case-meta">' + c.sys.slice(0, 2).map(function (s) { return '<span class="case-tag">' + s + '</span>'; }).join('') +
-          '<span class="case-tag ' + (c.lead === 'same-day' ? 'lead-fast' : '') + '">' + LEAD_LABEL[c.lead] + '</span></div>' +
-        '<p class="case-sub">' + c.school + ' · ' + c.course + '</p>' +
-        '<div class="cat-card-actions">' +
-          '<a class="link-arrow" href="' + (c.href || '/cases/') + '">Preview case →</a>' +
-          '<button class="bundle-add' + (inB ? ' added' : '') + '" data-add="' + c.t.replace(/"/g, '') + '">' + (inB ? '✓ In bundle' : '+ Bundle') + '</button>' +
-        '</div>';
-      grid.appendChild(card);
-    });
-    if (countEl) countEl.textContent = 'Showing ' + shown.length + ' of ' + CASES.length + ' cases';
-    var active = state.sys.size + state.school.size + state.lead.size + (state.q ? 1 : 0);
-    if (clearEl) clearEl.style.display = active ? 'inline-flex' : 'none';
-    if (emptyEl) emptyEl.style.display = shown.length ? 'none' : 'block';
-  }
-
-  // add-to-bundle (delegated)
-  grid.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-add]');
-    if (!b) return;
-    var name = b.getAttribute('data-add');
-    if (bundle.has(name)) bundle.delete(name); else bundle.add(name);
-    renderBundle();
-    render();
-  });
-
-  // search
+  var cases = window.CPL_CASES || [];
   var search = document.getElementById('catSearch');
-  var searchClear = document.getElementById('catSearchClear');
-  var deb;
-  if (search) {
-    search.addEventListener('input', function () {
-      clearTimeout(deb);
-      deb = setTimeout(function () { state.q = search.value; if (searchClear) searchClear.style.display = search.value ? 'block' : 'none'; render(); }, 110);
-    });
+  var clearSearch = document.getElementById('catSearchClear');
+  var reset = document.getElementById('filterClear');
+  var systems = document.getElementById('fSystem');
+  var schools = document.getElementById('fSchool');
+  var lead = document.getElementById('fLead');
+  var more = document.getElementById('catLoadMore');
+  var count = document.getElementById('catCount');
+  var empty = document.getElementById('catEmpty');
+  var pageSize = 24, limit = pageSize;
+  var bundle = new Set();
+  var leadLabels = {'same-day':'Same-day guide','fast-build':'24–48h build','on-request':'Confirm availability'};
+  function norm(value) { return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ''); }
+  function el(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
   }
-  if (searchClear) searchClear.addEventListener('click', function () { search.value = ''; state.q = ''; searchClear.style.display = 'none'; render(); });
-
-  if (clearEl) clearEl.addEventListener('click', function () {
-    state.sys.clear(); state.school.clear(); state.lead.clear(); state.q = '';
-    if (search) search.value = ''; if (searchClear) searchClear.style.display = 'none';
-    document.querySelectorAll('.filter-chip.active').forEach(function (c) { c.classList.remove('active'); });
-    render();
+  function options(select, values) {
+    Array.from(new Set(values)).filter(Boolean).sort().forEach(function (value) { var option = el('option', '', value); option.value = value; select.appendChild(option); });
+  }
+  options(systems, cases.reduce(function (all, c) { return all.concat(c.sys || []); }, []));
+  options(schools, cases.map(function (c) { return c.school; }));
+  var queryParams = new URLSearchParams(location.search);
+  search.value = queryParams.get('q') || '';
+  [systems, schools, lead].forEach(function (select, n) {
+    var value = queryParams.get(['system','school','availability'][n]);
+    if (value && Array.from(select.options).some(function (o) { return o.value === value; })) select.value = value;
   });
-
-  // bundle cart
-  var bar = document.getElementById('bundleBar');
-  function priceFor(n) {
-    if (n === 0) return 0;
-    var tiers = { 1: 150, 2: 280, 3: 390, 4: 470, 5: 540 };
-    if (tiers[n]) return tiers[n];
-    return 540 + (n - 5) * 80;
+  function matches(c) {
+    if (systems.value && (c.sys || []).indexOf(systems.value) === -1) return false;
+    if (schools.value && schools.value !== c.school) return false;
+    if (lead.value && lead.value !== c.lead) return false;
+    var query = search.value.trim().toLowerCase();
+    if (!query) return true;
+    var hay = [c.t,c.cc,c.dx,c.school,c.course,c.patient].concat(c.sys || [], c.aliases || []).join(' ');
+    return norm(hay).indexOf(norm(query)) !== -1;
   }
+  function updateUrl() {
+    var p = new URLSearchParams();
+    if (search.value.trim()) p.set('q', search.value.trim());
+    if (systems.value) p.set('system', systems.value);
+    if (schools.value) p.set('school', schools.value);
+    if (lead.value) p.set('availability', lead.value);
+    var url = location.pathname + (p.toString() ? '?' + p.toString() : '') + location.hash;
+    try { history.replaceState(null, '', url); } catch (ignore) {}
+  }
+  function render() {
+    var matched = cases.filter(matches), visible = matched.slice(0, limit);
+    grid.replaceChildren();
+    visible.forEach(function (c) {
+      var name = c.t.split('—')[0].trim(), focus = c.t.indexOf('—') === -1 ? c.dx : c.t.split('—').slice(1).join('—').trim();
+      var card = el('article', 'case-card cat-card');
+      var top = el('div','card-top');
+      top.appendChild(el('span','system-label', (c.sys || []).filter(function (s) { return s !== 'Adult'; })[0] || 'Clinical'));
+      top.appendChild(el('span','availability' + (c.lead === 'same-day' ? ' ready' : ''),leadLabels[c.lead] || 'Confirm availability'));
+      card.appendChild(top);
+      var h = el('h3'), titleLink = el('a','',name); titleLink.href = c.href; h.appendChild(titleLink); card.appendChild(h);
+      card.appendChild(el('p','case-focus',focus));
+      card.appendChild(el('p','case-cc',c.cc));
+      var course = el('div','card-course',c.course || 'Course to confirm');
+      course.appendChild(el('span','',c.school)); card.appendChild(course);
+      var actions = el('div','cat-card-actions'), link = el('a','','View case'); link.href = c.href; actions.appendChild(link);
+      var selected = bundle.has(c.t), button = el('button','bundle-add' + (selected ? ' added' : ''),selected ? 'Selected' : '+ Bundle');
+      button.type = 'button'; button.setAttribute('data-add',c.t); button.setAttribute('aria-pressed',String(selected)); button.setAttribute('aria-label',(selected ? 'Remove ' : 'Add ') + name + (selected ? ' from bundle' : ' to bundle'));
+      actions.appendChild(button); card.appendChild(actions); grid.appendChild(card);
+    });
+    count.textContent = matched.length ? visible.length + ' of ' + matched.length + ' matching cases' : '0 matching cases';
+    clearSearch.hidden = !search.value;
+    reset.hidden = !(search.value || systems.value || schools.value || lead.value);
+    empty.hidden = matched.length > 0;
+    more.hidden = visible.length >= matched.length;
+    more.textContent = 'Show more cases (' + (matched.length - visible.length) + ' remaining)';
+    updateUrl();
+  }
+  function priceFor(n) {
+    var tiers = {0:0,1:150,2:280,3:390,4:470,5:540};
+    return tiers[n] !== undefined ? tiers[n] : 540 + (n - 5) * 80;
+  }
+  var bar = document.getElementById('bundleBar');
+  function sizeBundleBar() { document.body.style.setProperty('--bundle-height', bar.getBoundingClientRect().height + 'px'); }
+  if (window.ResizeObserver) new ResizeObserver(sizeBundleBar).observe(bar);
   function renderBundle() {
-    if (!bar) return;
-    var n = bundle.size;
-    if (!n) { bar.classList.remove('open'); return; }
-    bar.classList.add('open');
-    var total = priceFor(n);
-    var full = n * PRICE;
-    var save = full - total;
+    var n = bundle.size, total = priceFor(n), save = n * 150 - total;
+    bar.classList.toggle('open',n > 0); bar.inert = n === 0;
     bar.querySelector('[data-bundle-count]').textContent = n + (n === 1 ? ' case' : ' cases');
     bar.querySelector('[data-bundle-total]').textContent = '$' + total;
-    var saveEl = bar.querySelector('[data-bundle-save]');
-    saveEl.textContent = save > 0 ? ('Save $' + save) : 'Add a 2nd case to save';
-    saveEl.style.color = save > 0 ? 'var(--lime-400)' : 'var(--on-dark-2)';
-    var list = bar.querySelector('[data-bundle-list]');
-    list.innerHTML = '';
+    bar.querySelector('[data-bundle-save]').textContent = save ? 'Save $' + save : '';
+    var list = bar.querySelector('[data-bundle-list]'); list.replaceChildren();
     bundle.forEach(function (name) {
-      var chip = document.createElement('span');
-      chip.className = 'bundle-chip';
-      chip.innerHTML = name.split('—')[0].trim() + ' <button data-remove="' + name.replace(/"/g, '') + '" aria-label="Remove">×</button>';
-      list.appendChild(chip);
+      var chip = el('span','bundle-chip',name.split('—')[0].trim()), button = el('button','','×');
+      button.type = 'button'; button.setAttribute('data-remove',name); button.setAttribute('aria-label','Remove ' + name + ' from bundle');
+      chip.appendChild(button); list.appendChild(chip);
     });
+    document.body.classList.toggle('has-bundle',n > 0);
+    sizeBundleBar();
   }
-  if (bar) {
-    bar.addEventListener('click', function (e) {
-      var r = e.target.closest('[data-remove]');
-      if (r) { bundle.delete(r.getAttribute('data-remove')); renderBundle(); render(); return; }
-      if (e.target.closest('[data-bundle-order]')) {
-        var names = Array.from(bundle);
-        var label = names.length === 1 ? names[0] : (names.length + '-case bundle');
-        if (window.cplCheckout) window.cplCheckout.open('order');
-        var titleEls = document.querySelectorAll('[data-case-title],[data-case-name]');
-        titleEls.forEach(function (el) { el.textContent = label; });
-        var priceEl = document.querySelector('[data-case-price]');
-        if (priceEl) priceEl.textContent = priceFor(bundle.size);
-      }
-    });
-  }
-
+  grid.addEventListener('click',function (ev) {
+    var b = ev.target.closest('[data-add]'); if (!b) return;
+    var name = b.getAttribute('data-add');
+    if (bundle.has(name)) bundle.delete(name); else bundle.add(name);
+    var selected = bundle.has(name);
+    b.classList.toggle('added',selected); b.textContent = selected ? 'Selected' : '+ Bundle'; b.setAttribute('aria-pressed',String(selected));
+    b.setAttribute('aria-label',(selected ? 'Remove ' : 'Add ') + name.split('—')[0].trim() + (selected ? ' from bundle' : ' to bundle'));
+    renderBundle();
+  });
+  bar.addEventListener('click',function (ev) {
+    var remove = ev.target.closest('[data-remove]');
+    if (remove) { bundle.delete(remove.getAttribute('data-remove')); renderBundle(); render(); return; }
+    if (ev.target.closest('[data-bundle-order]') && bundle.size && window.cplCheckout) {
+      var names = Array.from(bundle), label = names.length === 1 ? names[0] : names.length + '-case bundle: ' + names.join('; ');
+      window.cplCheckout.open('order');
+      document.querySelector('[data-case-title]').textContent = names.length === 1 ? names[0] : names.length + '-case bundle';
+      document.querySelector('[data-case-name]').textContent = label;
+      document.querySelector('[data-case-price]').textContent = priceFor(bundle.size);
+      var delivery = document.querySelector('[data-case-delivery]'); if (delivery) delivery.textContent = 'Case versions and delivery windows confirmed before payment';
+      var alias = document.querySelector('.modal input[name=alias]'); if (alias) alias.value = '';
+    }
+  });
+  var debounce;
+  search.addEventListener('input',function () { clearTimeout(debounce); debounce = setTimeout(function () { limit = pageSize; render(); },120); });
+  clearSearch.addEventListener('click',function () { search.value = ''; limit = pageSize; render(); search.focus(); });
+  [systems,schools,lead].forEach(function (select) { select.addEventListener('change',function () { limit = pageSize; render(); }); });
+  function resetAll() { search.value = ''; systems.value = ''; schools.value = ''; lead.value = ''; limit = pageSize; render(); search.focus(); }
+  reset.addEventListener('click',resetAll);
+  document.querySelector('[data-reset-catalog]').addEventListener('click',resetAll);
+  more.addEventListener('click',function () { limit += pageSize; render(); });
+  window.addEventListener('popstate',function () {
+    var p = new URLSearchParams(location.search); search.value = p.get('q') || '';
+    systems.value = p.get('system') || ''; schools.value = p.get('school') || ''; lead.value = p.get('availability') || '';
+    limit = pageSize; render();
+  });
   render();
 })();

@@ -20,45 +20,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=20261002-redesign">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 </head>
 <body class="confirm">
 
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="/" class="nav-brand">
-      <span class="nav-logo">CPL</span>
-      <span>Clinical Performance Lab<small>iHuman case mastery</small></span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/simulator/">Simulator</a></li>
-      <li><a href="/free-resources/">Free cheat sheets</a></li>
-      <li><a href="/cases/">Case catalog</a></li>
-      <li><a href="/faq/">FAQ</a></li>
-      <li><a href="/about/">About</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Get early access</a>
-      <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
-    </div>
-  </div>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="nav"><div class="nav-inner">
+  <a href="/" class="nav-brand" aria-label="Clinical Performance Lab home"><span class="nav-logo">CPL<span></span></span><span class="brand-name">Clinical<br>Performance Lab</span></a>
+  <nav aria-label="Main navigation"><ul class="nav-links"><li><a href="/cases/">Case library</a></li><li><a href="/free-resources/">Free resources</a></li><li><a href="/simulator/">Simulator <span class="nav-soon">Soon</span></a></li><li><a href="/about/">About</a></li></ul></nav>
+  <div class="nav-actions"><button class="guide-access nav-cta-desktop" data-access-code><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/></svg> Access my guide</button><button class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+</div></header>
+<div class="menu-backdrop"></div>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true" inert>
+  <div class="mobile-menu-head"><span class="small-label">Clinical Performance Lab</span><button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button></div>
+  <a href="/cases/" data-menu-close>Case library</a><a href="/free-resources/" data-menu-close>Free resources</a><a href="/simulator/" data-menu-close>Simulator · coming soon</a><a href="/sample-guide/" data-menu-close>Sample guide</a><a href="/about/" data-menu-close>About CPL</a><a href="/faq/" data-menu-close>Questions &amp; answers</a><button class="btn btn-primary" data-access-code data-menu-close>Access my guide</button>
 </nav>
 
-<div class="menu-backdrop"></div>
-<div class="mobile-menu">
-  <button class="mobile-menu-close" data-menu-close aria-label="Close menu">×</button>
-  <a href="/simulator/" data-menu-close>Simulator</a>
-  <a href="/free-resources/" data-menu-close>Free cheat sheets</a>
-  <a href="/cases/" data-menu-close>Case catalog</a>
-  <a href="/faq/" data-menu-close>FAQ</a>
-  <a href="/about/" data-menu-close>About</a>
-  <a href="/simulator/" class="btn btn-primary" data-menu-close>Get early access</a>
-</div>
-
-
+<main id="main-content">
 
 <section class="status-page">
   <div class="container">
@@ -81,7 +62,8 @@
 
   if (!token) {
     titleEl.textContent = "Missing confirmation token";
-    subEl.textContent = "This link is incomplete. If you got it via email, try clicking it directly rather than copy-pasting.";
+    subEl.textContent = "This link is incomplete. Open the confirmation link directly from your email, or request a new link.";
+    resultEl.innerHTML = '<a href="/free-resources/" class="btn btn-primary">Request a new link</a>';
     return;
   }
 
@@ -93,7 +75,7 @@
       if (badge) badge.textContent = '✓';
       titleEl.textContent = "Your PDFs are on the way!";
       subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
-      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Get early access</a>';
+      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case library</a><a href="/simulator/" class="btn btn-ghost">Join simulator waitlist</a>';
     } else {
       titleEl.textContent = "Couldn't confirm";
       subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
@@ -106,53 +88,19 @@
 })();
 </script>
 
+</main>
 
 
-<footer class="footer">
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand">Clinical Performance Lab</div>
-      <p class="footer-tagline">Learn to think like a clinician. Master iHuman. A clinical reasoning platform for nursing students — free simulator, free cheat sheets, and complete case guides built on 200+ verified submissions.</p>
-      <p class="footer-tagline" style="margin-top:12px;">
-        <a href="mailto:hello@clinicalperformancelab.com">hello@clinicalperformancelab.com</a>
-      </p>
-    </div>
-    <div>
-      <h4>Learn</h4>
-      <ul>
-        <li><a href="/simulator/">Case Simulator</a></li>
-        <li><a href="/free-resources/">Free Cheat Sheets</a></li>
-        <li><a href="/sample-guide/">Sample Guide</a></li>
-        <li><a href="/cases/">Case Catalog</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Company</h4>
-      <ul>
-        <li><a href="/about/">About CPL</a></li>
-        <li><a href="/faq/">FAQ</a></li>
-        <li><a href="mailto:hello@clinicalperformancelab.com">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="/terms/">Terms of Use</a></li>
-        <li><a href="/privacy/">Privacy</a></li>
-      </ul>
-    </div>
-  </div>
+<footer class="footer"><div class="container footer-inner">
+  <div class="footer-intro"><a class="footer-brand" href="/">Clinical Performance Lab<span>™</span></a><p>Study the encounter.<br>Understand the reasoning.</p><a class="footer-email" href="mailto:hello@clinicalperformancelab.com">hello@clinicalperformancelab.com</a></div>
+  <div><h3>Study</h3><a href="/cases/">Case library</a><a href="/sample-guide/">Sample guide</a><a href="/free-resources/">Free resources</a><a href="/simulator/">Simulator waitlist</a></div>
+  <div><h3>Get help</h3><a href="/faq/">Questions &amp; answers</a><a href="/about/">About CPL</a><a href="mailto:support@clinicalperformancelab.com">Contact support</a><button data-access-code>Access my guide</button></div>
+  <div><h3>The details</h3><a href="/terms/">Terms of use</a><a href="/privacy/">Privacy</a><p class="footer-note">Independent educational resource.<br>Not affiliated with iHuman, Kaplan, or any institution.</p></div>
+</div><div class="container footer-bottom"><span>© 2026 Clinical Performance Lab</span><span>For personal study and academic preparation.</span></div></footer>
 
-  <div class="footer-bottom">
-    <span>© 2026 Clinical Performance Lab. For personal study use only.</span>
-    <span>Independent educational resource · Not affiliated with iHuman or any institution</span>
-  </div>
-</footer>
-
-
-<script src="/cpl.js" defer></script>
-<script src="/cpl-checkout.js" defer></script>
-<script src="/cpl-support.js" defer></script>
+<script src="/cpl.js?v=20261002-redesign" defer></script>
+<script src="/cpl-checkout.js?v=20261002-redesign" defer></script>
+<script src="/cpl-support.js?v=20261002-redesign" defer></script>
 
 </body>
 </html>

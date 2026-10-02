@@ -10,6 +10,7 @@
   overlay.className = 'modal-overlay';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('inert', '');
   overlay.innerHTML = [
     '<div class="modal">',
     '  <button class="modal-close" aria-label="Close">×</button>',
@@ -19,35 +20,35 @@
     '      <div class="modal-eyebrow">Order a case guide</div>',
     '      <h3 class="modal-title" data-case-title>Case guide</h3>',
     '      <div class="order-summary">',
-    '        <div><span data-case-name>Case guide</span><small>Word + PDF · same-day delivery</small></div>',
+    '        <div><span data-case-name>Case guide</span><small data-case-delivery>Word + PDF · delivery confirmed before payment</small></div>',
     '        <div class="os-price"><span class="cur">$</span><span data-case-price>150</span></div>',
     '      </div>',
-    '      <div class="invoice-note"><b>How ordering works:</b> request an invoice below. We email it within the hour. Once it\u2019s paid, you\u2019ll receive a personal <b>access code</b> that unlocks your complete guide for download.</div>',
+    '      <div class="invoice-note"><b>How ordering works:</b> request an invoice below. We confirm your case version, available material and delivery window before payment. Your delivery email includes a personal <b>access code</b> to open your guide.</div>',
     '      <form data-order-form>',
     '        <label class="fld"><span>Your email</span><input type="email" name="email" placeholder="you@email.com" required autocomplete="email"></label>',
     '        <div class="fld-row">',
     '          <label class="fld"><span>School</span><input type="text" name="school" placeholder="e.g. Chamberlain"></label>',
     '          <label class="fld"><span>Course / week</span><input type="text" name="course" placeholder="e.g. NR 509 Wk 6"></label>',
     '        </div>',
-    '        <label class="fld"><span>Your patient alias <small>(so we customize the guide)</small></span><input type="text" name="alias" placeholder="e.g. Bebe Babbitt"></label>',
-    '        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:6px;">Request my invoice →</button>',
-    '        <p class="code-error" data-order-error hidden style="margin-top:10px;"></p>',
+    '        <label class="fld"><span>Patient name in your assignment <small>(to confirm the version)</small></span><input type="text" name="alias" placeholder="e.g. Bebe Babbitt"></label>',
+    '        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:6px;">Request my invoice</button>',
+    '        <p class="code-error" data-order-error role="alert" hidden style="margin-top:10px;"></p>',
     '      </form>',
-    '      <button class="modal-link" data-goto="code">Already have an access code? Enter it →</button>',
+    '      <button class="modal-link" data-goto="code">Already have a code? Enter it here</button>',
     '    </div>',
     // step 2 — invoice sent
     '    <div data-step="sent" hidden>',
-    '      <div class="modal-badge">📧</div>',
-    '      <h3 class="modal-title">Invoice on its way</h3>',
-    '      <p class="modal-sub">We\u2019ve sent an invoice to <b data-sent-email>your email</b>. As soon as it\u2019s paid, your access code lands in the same inbox \u2014 usually within the hour.</p>',
+    '      <div class="modal-badge" aria-hidden="true">✓</div>',
+    '      <h3 class="modal-title">Request received</h3>',
+    '      <p class="modal-sub">CPL will confirm your case, available material and delivery window by email at <b data-sent-email>your email</b> before payment. When your guide is ready, your delivery email will include the access code.</p>',
     '      <div class="code-entry">',
     '        <div class="modal-eyebrow">Got your code?</div>',
     '        <form data-code-form>',
-    '          <input type="text" name="code" placeholder="CPL-XXXX" autocomplete="off" spellcheck="false">',
+    '          <input type="text" name="code" aria-label="Access code" placeholder="CPL-XXXX" autocomplete="off" spellcheck="false">',
     '          <button type="submit" class="btn btn-primary">Unlock</button>',
     '        </form>',
-    '        <p class="code-error" data-code-error hidden>That code didn\u2019t match. Check the email we sent, or message support.</p>',
-    '        <p class="code-hint">Your access code arrives in your delivery email the moment payment clears.</p>',
+    '        <p class="code-error" data-code-error role="alert" hidden>That code didn\u2019t match. Check the email we sent, or message support.</p>',
+    '        <p class="code-hint">Your access code arrives with your guide in the delivery email.</p>',
     '      </div>',
     '    </div>',
     // step 3 — code entry (direct)
@@ -56,10 +57,10 @@
     '      <h3 class="modal-title">Enter your access code</h3>',
     '      <p class="modal-sub">Paste the code from your delivery email to unlock the complete guide.</p>',
     '      <form data-code-form2>',
-    '        <input type="text" name="code" placeholder="CPL-XXXX" autocomplete="off" spellcheck="false" class="code-input-lg">',
-    '        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:10px;">Unlock guide →</button>',
+    '        <input type="text" name="code" aria-label="Access code" placeholder="CPL-XXXX" autocomplete="off" spellcheck="false" class="code-input-lg">',
+    '        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:10px;">Unlock guide</button>',
     '      </form>',
-    '      <p class="code-error" data-code-error2 hidden>That code didn\u2019t match. Double-check your email or message support.</p>',
+    '      <p class="code-error" data-code-error2 role="alert" hidden>That code didn\u2019t match. Double-check your email or message support.</p>',
     '      <p class="code-hint">Paste the code from your delivery email to unlock your guide.</p>',
     '    </div>',
     // step 4 — unlocked
@@ -67,7 +68,7 @@
     '      <div class="modal-badge success">✓</div>',
     '      <h3 class="modal-title">Guide unlocked</h3>',
     '      <p class="modal-sub">Your complete <b data-done-case>case guide</b> is ready. We\u2019ve also emailed you a permanent copy.</p>',
-    '      <a href="#" class="btn btn-lime btn-lg" style="width:100%;" data-download>Download guide (Word + PDF) →</a>',
+    '      <a href="#" class="btn btn-lime btn-lg" style="width:100%;" data-download>Download guide (Word + PDF)</a>',
     '      <button class="modal-link" data-modal-dismiss>Back to the case</button>',
     '    </div>',
     '  </div>',
@@ -78,25 +79,39 @@
   var modal = overlay.querySelector('.modal');
   var steps = overlay.querySelectorAll('[data-step]');
   var current = 'order';
+  var opener;
 
   function show(step) {
     current = step;
     steps.forEach(function (s) { s.hidden = s.getAttribute('data-step') !== step; });
+    var active = overlay.querySelector('[data-step="' + step + '"]');
+    var heading = active.querySelector('.modal-title');
+    heading.id = 'checkout-' + step + '-title';
+    overlay.setAttribute('aria-labelledby', heading.id);
+    if (overlay.classList.contains('open')) {
+      var first = active.querySelector('input, button, a');
+      if (first) first.focus();
+    }
   }
   function open(step) {
+    opener = document.activeElement;
+    overlay.removeAttribute('inert');
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
     show(step || 'order');
   }
   function close() {
     overlay.classList.remove('open');
+    overlay.setAttribute('inert', '');
     document.body.style.overflow = '';
+    if (opener && opener.isConnected) opener.focus();
   }
-  function setCase(name, price) {
+  function setCase(name, price, delivery) {
     overlay.querySelectorAll('[data-case-title]').forEach(function (e) { e.textContent = name; });
     overlay.querySelectorAll('[data-case-name]').forEach(function (e) { e.textContent = name; });
     overlay.querySelectorAll('[data-done-case]').forEach(function (e) { e.textContent = name; });
     if (price) overlay.querySelector('[data-case-price]').textContent = price;
+    overlay.querySelector('[data-case-delivery]').textContent = 'Word + PDF · ' + (delivery || 'delivery confirmed before payment');
     var alias = overlay.querySelector('input[name=alias]');
     if (alias) alias.value = name.split('—')[0].trim();
   }
@@ -106,7 +121,7 @@
     var orderBtn = ev.target.closest('[data-order]');
     if (orderBtn) {
       ev.preventDefault();
-      setCase(orderBtn.getAttribute('data-order') || 'Case guide', orderBtn.getAttribute('data-price'));
+      setCase(orderBtn.getAttribute('data-order') || 'Case guide', orderBtn.getAttribute('data-price'), orderBtn.getAttribute('data-delivery'));
       open('order');
       return;
     }
@@ -116,7 +131,16 @@
 
   overlay.querySelector('.modal-close').addEventListener('click', close);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    if (e.key === 'Tab') {
+      var focusable = Array.from(overlay.querySelectorAll('button,a[href],input')).filter(function (el) { return !el.disabled && el.getClientRects().length; });
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
   overlay.querySelectorAll('[data-modal-dismiss]').forEach(function (b) { b.addEventListener('click', close); });
   overlay.querySelector('[data-goto="code"]').addEventListener('click', function () { show('code'); });
 
@@ -133,7 +157,7 @@
     }
     function val(n) { var el = form.querySelector('input[name=' + n + ']'); return el ? el.value.trim() : ''; }
     var payload = {
-      case: overlay.querySelector('[data-case-title]').textContent,
+      case: overlay.querySelector('[data-case-name]').textContent,
       price: overlay.querySelector('[data-case-price]').textContent,
       email: email, school: val('school'), course: val('course'), alias: val('alias')
     };

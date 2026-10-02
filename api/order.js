@@ -10,6 +10,10 @@ const { sendOps } = require('./_ops-mail');
 const { readJsonBody, isValidEmail, normalizeEmail, checkRateLimit, getClientIp, getKV } = require('./_lib');
 
 function clip(v, n) { return (v == null ? '' : String(v)).trim().slice(0, n || 120); }
+function bundlePrice(count) {
+  const tiers = { 2: 280, 3: 390, 4: 470, 5: 540 };
+  return tiers[count] || 540 + (count - 5) * 80;
+}
 
 module.exports = async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
@@ -41,19 +45,28 @@ module.exports = async function handler(req, res) {
   // ─── order branch: create a new order ───────────────────────────
   if (!isValidEmail(body && body.email)) return res.status(400).json({ ok: false, error: 'Please enter a valid email address.' });
   const email = normalizeEmail(body.email);
-  const caseTitle = clip(body.case, 160);
+  const rawCase = (body.case == null ? '' : String(body.case)).trim();
+  if (rawCase.length > 8000) return res.status(400).json({ ok: false, error: 'The selection is too long. Please choose a smaller bundle.' });
+  const caseTitle = clip(rawCase, 8000);
   if (!caseTitle) return res.status(400).json({ ok: false, error: 'Please choose a case.' });
+  const bundleMatch = /^(\d+)-case bundle(?:$|:)/i.exec(caseTitle);
+  const bundleCount = bundleMatch ? Number(bundleMatch[1]) : 0;
+  if (bundleMatch && (!Number.isSafeInteger(bundleCount) || bundleCount < 2 || bundleCount > Math.max(5, ops.loadCatalog().length))) {
+    return res.status(400).json({ ok: false, error: 'Please choose a valid bundle from the case library.' });
+  }
 
   const rl = await checkRateLimit('order:' + ip, 8, 3600);
   if (!rl.allowed) return res.status(429).json({ ok: false, error: 'Too many requests. Please try again later.' });
 
   try {
-    const cat = ops.lookupCase(caseTitle);
+    // A bundle contains catalog titles; fuzzy single-case matching would
+    // otherwise replace the entire selection and its price with the first case.
+    const cat = bundleMatch ? null : ops.lookupCase(caseTitle);
     const order = await ops.createOrder({
       email: email,
       case: (cat && (cat.title || cat.case)) || caseTitle,
       cc: (cat && cat.cc) || '',
-      price: (cat && cat.price) || Number(body.price) || 150,
+      price: bundleMatch ? bundlePrice(bundleCount) : (cat && cat.price) || Number(body.price) || 150,
       ready: cat ? !!cat.ready : false,
       school: clip(body.school, 80),
       course: clip(body.course, 80),

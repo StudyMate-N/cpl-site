@@ -230,7 +230,7 @@ def write_page(rel_path, body, title=None, description=None, page_class="", head
     body_scripts  — extra <script> tags injected before the core scripts
                     (e.g. React/Babel + the simulator .jsx on the sim page).
     """
-    full_title = f"{title} · {SITE_NAME}" if title else f"{SITE_NAME} — Learn to think like a clinician"
+    full_title = f"{title} · {SITE_NAME}" if title else f"{SITE_NAME} — Clinical reasoning, case by case"
     desc = description or SITE_TAG
     full_path = os.path.join(PUBLIC, rel_path, "index.html") if rel_path else os.path.join(PUBLIC, "index.html")
     os.makedirs(os.path.dirname(full_path), exist_ok=True)
@@ -259,7 +259,7 @@ def write_page(rel_path, body, title=None, description=None, page_class="", head
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=20261002-redesign">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 {head_extra}
 </head>
@@ -267,13 +267,15 @@ def write_page(rel_path, body, title=None, description=None, page_class="", head
 
 {nav_html()}
 
+<main id="main-content">
 {body}
+</main>
 
 {footer_html()}
 {body_scripts}
-<script src="/cpl.js" defer></script>
-<script src="/cpl-checkout.js" defer></script>
-<script src="/cpl-support.js" defer></script>
+<script src="/cpl.js?v=20261002-redesign" defer></script>
+<script src="/cpl-checkout.js?v=20261002-redesign" defer></script>
+<script src="/cpl-support.js?v=20261002-redesign" defer></script>
 
 </body>
 </html>
@@ -299,7 +301,7 @@ def nav_html():
       <li><a href="/about/">About</a></li>
     </ul>
     <div class="nav-actions">
-      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Get early access</a>
+      <a href="/simulator/" class="btn btn-primary btn-sm nav-cta-desktop">Join simulator waitlist</a>
       <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -313,7 +315,7 @@ def nav_html():
   <a href="/cases/" data-menu-close>Case catalog</a>
   <a href="/faq/" data-menu-close>FAQ</a>
   <a href="/about/" data-menu-close>About</a>
-  <a href="/simulator/" class="btn btn-primary" data-menu-close>Get early access</a>
+  <a href="/simulator/" class="btn btn-primary" data-menu-close>Join simulator waitlist</a>
 </div>
 """
 
@@ -325,7 +327,7 @@ def footer_html():
   <div class="footer-inner">
     <div>
       <div class="footer-brand">Clinical Performance Lab</div>
-      <p class="footer-tagline">Learn to think like a clinician. Master iHuman. A clinical reasoning platform for nursing students — free simulator, free cheat sheets, and complete case guides built on 200+ verified submissions.</p>
+      <p class="footer-tagline">Clinical reasoning, case by case. Master iHuman. A clinical reasoning platform for nursing students — free simulator, free cheat sheets, and complete case guides built on 200+ verified submissions.</p>
       <p class="footer-tagline" style="margin-top:12px;">
         <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>
       </p>
@@ -475,7 +477,7 @@ def build_home():
     <div class="hero-panel">
       <div class="hero-content">
         <span class="eyebrow on-dark" data-reveal><span class="dot"></span>Clinical reasoning · made visible</span>
-        <h1 data-reveal data-reveal-delay="60">Learn to think like a clinician. <span class="italic-accent">Master iHuman.</span></h1>
+        <h1 data-reveal data-reveal-delay="60">Clinical reasoning, case by case. <span class="italic-accent">Master iHuman.</span></h1>
         <p class="hero-sub" data-reveal data-reveal-delay="120">
           iHuman scores you against a rubric you never see. CPL makes that invisible logic visible and teachable — the question hierarchies, the must-not-miss diagnoses, the harmful-flag traps. Practice free. Master the patterns. Submit with confidence.
         </p>
@@ -592,7 +594,7 @@ def build_home():
 
     write_page("", body,
                title=None,
-               description="Learn to think like a clinician and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.",
+               description="Clinical reasoning, case by case and master iHuman. Free clinical reasoning simulator, free cheat sheets, and complete case guides built from verified student submissions.",
                page_class="home")
 
 
@@ -1095,7 +1097,8 @@ def build_confirm():
 
   if (!token) {
     titleEl.textContent = "Missing confirmation token";
-    subEl.textContent = "This link is incomplete. If you got it via email, try clicking it directly rather than copy-pasting.";
+    subEl.textContent = "This link is incomplete. Open the confirmation link directly from your email, or request a new link.";
+    resultEl.innerHTML = '<a href="/free-resources/" class="btn btn-primary">Request a new link</a>';
     return;
   }
 
@@ -1107,7 +1110,7 @@ def build_confirm():
       if (badge) badge.textContent = '✓';
       titleEl.textContent = "Your PDFs are on the way!";
       subEl.textContent = "Check your inbox in a minute. We've also scheduled a short follow-up over the next week with a clinical insight you can use.";
-      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case catalog →</a><a href="/simulator/" class="btn btn-ghost">Get early access</a>';
+      resultEl.innerHTML = '<a href="/cases/" class="btn btn-lime">Browse case library</a><a href="/simulator/" class="btn btn-ghost">Join simulator waitlist</a>';
     } else {
       titleEl.textContent = "Couldn't confirm";
       subEl.textContent = data.error || "This link is invalid or expired. Try requesting a new one from the free resources page.";
@@ -1578,6 +1581,11 @@ def build_js():
             content = fr.read()
         with open(os.path.join(PUBLIC, name), "w", encoding="utf-8") as fw:
             fw.write(content)
+    # Public presentation is separate from the private operations stylesheet.
+    with open(os.path.join(ROOT, "src", "cpl-public.css"), encoding="utf-8") as fr:
+        public_css = fr.read()
+    with open(os.path.join(PUBLIC, "styles.css"), "w", encoding="utf-8") as fw:
+        fw.write(public_css)
 
 
 def build_cases_manifest():
@@ -1634,7 +1642,7 @@ def build_ops():
             fw.write(css)
 
 # ─── Orchestrator ────────────────────────────────────────────────
-def build_all():
+def build_all(rebuild_pdfs=True):
     print(f"Building CPL static site → {PUBLIC}/")
     build_home()
     print("  ✓ index.html")
@@ -1671,18 +1679,23 @@ def build_all():
     print("  ✓ ops/ (operations console)")
 
     # Now build cheat sheets via the existing module
-    print("\nRebuilding cheat sheet PDFs...")
-    import subprocess
-    res = subprocess.run(
-        ["python3", os.path.join(ROOT, "generate_cheat_sheets.py")],
-        capture_output=True, text=True
-    )
-    print(res.stdout)
-    if res.returncode != 0:
-        print(f"  ⚠ Cheat sheet build failed:\n{res.stderr}")
+    if rebuild_pdfs:
+        print("\nRebuilding cheat sheet PDFs...")
+        import subprocess
+        res = subprocess.run(
+            ["python3", os.path.join(ROOT, "generate_cheat_sheets.py")],
+            capture_output=True, text=True
+        )
+        print(res.stdout)
+        if res.returncode != 0:
+            raise RuntimeError(f"Cheat sheet build failed:\n{res.stderr}")
 
     print(f"\n✓ Site built in {PUBLIC}/")
 
 
+import site_redesign
+site_redesign.install(globals())
+
 if __name__ == "__main__":
-    build_all()
+    import sys
+    build_all(rebuild_pdfs="--skip-pdfs" not in sys.argv)

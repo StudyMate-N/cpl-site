@@ -1,7 +1,7 @@
-# Clinical Performance Lab — V3
+# Clinical Performance Lab
 
 **Brand:** Clinical Performance Lab (CPL)
-**Tagline:** Submission-ready clinical reasoning for nursing students
+**Tagline:** Clinical reasoning, case by case
 **Primary product:** iHuman case guides ($150 / 3 for $390 / 5 for $540)
 **Lead magnet:** 4 free cheat sheet PDFs (one per case stage)
 
@@ -13,9 +13,10 @@ with a serverless email-capture backend.
 ## What's in here
 
 ```
-cpl-v3/
+cpl-site/
 ├── build.py                    # Generates static site + cheat sheets
-├── cases_data.py               # 16-case product catalog
+├── site_redesign.py            # Public page layouts and content
+├── cases_data.py               # 171-case catalog
 ├── cheat_sheet_content.py      # Content for the 4 cheat sheet PDFs
 ├── cheat_sheet_flowables.py    # ReportLab diagrams (cardiac, SNOOP4, etc.)
 ├── generate_cheat_sheets.py    # PDF generator (Fraunces + Inter typography)
@@ -27,7 +28,7 @@ cpl-v3/
 │   ├── favicon.svg
 │   ├── sitemap.xml, robots.txt
 │   ├── cheat-sheets/*.pdf      # 4 free PDFs (~78 KB each)
-│   ├── case/{slug}/            # 16 case preview pages
+│   ├── case/{slug}/            # 171 case preview pages
 │   ├── free-resources/         # Lead-magnet hub
 │   ├── cases/                  # Catalog grid
 │   ├── confirm/                # Token validation landing
@@ -225,6 +226,25 @@ to margins.
 
 ---
 
+## Public redesign (October 2026)
+
+Public layouts live in `site_redesign.py`, with styles in `src/cpl-public.css`.
+`build.py` installs these layouts while keeping the private operations pages,
+PDF generator and API handlers. Front-end interactions live in `src/cpl.js`,
+`src/cpl-catalog.js`, `src/cpl-checkout.js` and `src/cpl-support.js`.
+
+To regenerate the site without changing the existing PDFs:
+
+```bash
+python3 build.py --skip-pdfs
+```
+
+Commit the generated `public/` pages and assets with the source changes.
+The existing main-branch GitHub Actions workflow deploys them to Vercel.
+Bundle requests preserve every selected case; intake uses the bundle price rather than a fuzzy single-case match. Run `npm run test:orders` to check this flow with storage and email mocked.
+The simulator remains a waitlist. Search includes aliases, but patient age,
+presentation and course must be checked to match a guide version.
+
 ## Maintenance
 
 ### Add a new case to the catalog
@@ -281,7 +301,7 @@ In Vercel dashboard → Storage → your KV → Data Browser. Useful keys:
 
 ### Update copyright year / footer text
 
-Edit `build.py` → `footer_html()`.
+Edit `site_redesign.py` → `footer_html()`.
 
 ---
 
@@ -302,106 +322,18 @@ One-time use per email. Bundles already discounted.
 ## Contact
 
 - **Operations:** Tutorspot98@gmail.com
-- **Brand domain:** cpl-site.vercel.app
-- **GitHub / Vercel project:** (configure via `vercel link`)
+- **Brand domain:** www.clinicalperformancelab.com
+- **GitHub:** StudyMate-N/cpl-site · **Vercel project:** cpl-site
 
 ---
 
-## Phase 3 — Dynamic site layer
+## Current public interactions
 
-Phase 3 added interactive JavaScript functionality on top of the static HTML foundation. All pages remain static HTML for SEO/performance, but `cpl.js` wires in client-side dynamism after load.
+- Homepage search sends the query to the case library. Course shortcuts use the same URL query.
+- The library searches patients, presentations, institutions, courses and aliases. Filters and queries remain in the URL; results load 24 at a time.
+- Bundle selection calculates existing pricing tiers and submits all selected case titles. Order intake calculates bundle pricing before saving the request.
+- Native checkboxes select the free PDFs. Forms handle validation, submission errors, confirmation and double opt-in delivery through the existing API routes.
+- Guide-page previews open in a keyboard-accessible dialog. Mobile navigation and checkout return focus to the control that opened them.
+- The simulator page collects its launch waitlist. Support quick answers describe actual availability and case-version checks.
 
-### What changed
-
-**Case catalog (`/cases/`):**
-- Unified grid — no more "coming soon" split. All 16 cases orderable today.
-- Live search box (debounced 100ms) — searches title, CC, diagnosis, course, aliases
-- 3-row filter rail — School · System · Lead Time. Click to toggle. "Clear filters" appears only when active.
-- Live result counter ("Showing N of 16 cases")
-- Empty state with "Show all cases" reset button
-
-**Bundle Builder (bottom of /cases/):**
-- Two-column interactive builder — click cases on the left, pricing updates on the right
-- Pricing tiers: 1=$150, 2=$280, 3=$390, 4=$470, 5=$540, beyond=$540+$80/case
-- Live save calculation with strikethrough original price
-- "Order this bundle →" generates prefilled mailto with case list
-- Selection persists in localStorage (survives page refresh)
-- Mobile: stacks to single column, cart below pool
-
-**Case preview pages:**
-- ⚡ / ⌛ lead-time badge in hero eyebrow
-- Scoring trap callouts reveal on scroll with configurable stagger delay
-- "Recently viewed" sidebar block appears after navigating 2+ cases
-- Sticky sidebar gains box-shadow after 200px scroll
-
-**Site-wide:**
-- Scroll-reveal animations on hero elements (`data-reveal` attribute + `is-revealed` class)
-- Animated number counters (`data-counter` attribute) with easeOutCubic
-- All animations respect `prefers-reduced-motion`
-
-**Engagement popup:**
-- Scores session engagement (time on page, scroll depth, pages visited, case clicks, returning visitor)
-- Fires when score ≥ 6, after 5s minimum on page
-- Suppressed for 30 days after subscribe (localStorage)
-- ESC, click-outside, × button all close it; suppressed for the session after close
-
-**Exit-intent capture:**
-- Arms after 8s on case-preview pages
-- Fires popup when cursor exits top of viewport
-- Suppressed if popup already shown this session
-
-### Architecture of `cpl.js`
-
-Source lives in `src/cpl.js` (759 lines). `build.py`'s `build_js()` copies it to `public/cpl.js`.
-
-9 self-contained modules inside an IIFE:
-
-```
-reveal       — IntersectionObserver + CSS class toggle
-counters     — requestAnimationFrame easeOutCubic ticker
-catalog      — filter state machine + live DOM hide/show
-bundle       — case selection Set, pricing lookup, mailto generator
-recent       — localStorage read/write + DOM injection
-popup        — engagement scorer + form submit handler
-exitIntent   — mouseleave listener (case pages only)
-forms        — resource card checkbox toggling + lead-magnet AJAX
-sticky       — scroll listener for sidebar shadow
-```
-
-Exposed at `window.cpl` for debugging. E.g.:
-
-```javascript
-// Force the popup to fire (useful for testing)
-window.cpl.popup.fire('manual-test');
-
-// Add a case to the bundle builder
-window.cpl.bundle.addCaseBySlug('harvey-hoya-htn');
-
-// Check if subscriber
-window.cpl.isSubscribed();  // → true/false
-```
-
-### Adding / editing a case
-
-Edit `cases_data.py` → set `"lead_time": "same-day"` for battle-tested cases, `"fast-build"` for on-demand.
-The filter data attributes are auto-generated during build from `tags`, `course`, and `school` fields.
-
-```bash
-python3 build.py && vercel --prod
-```
-
-### Tuning the engagement popup threshold
-
-In `src/cpl.js`, find `const FIRE_THRESHOLD = 6;` and the score breakdown:
-
-```javascript
-+1  if time on page ≥ 15s
-+2  if scroll depth ≥ 40%
-+3  if scroll depth ≥ 75%
-+3  if visited ≥ 2 pages this session
-+5  if clicked a case card
-+2  if returning visitor
-```
-
-Lower `FIRE_THRESHOLD` for more aggressive capture, raise it for less interruption.
-After editing `src/cpl.js`, run `python3 build.py` to copy it to `public/cpl.js`.
+The public pages keep their existing URLs. Case-specific history excerpts are published only when explicitly supplied in the catalog data; unrelated preview pages are identified as examples of the format.

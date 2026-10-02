@@ -5,17 +5,16 @@
   'use strict';
 
   var SYSTEM = [
-    'You are the support assistant for Clinical Performance Lab (CPL), a clinical-reasoning education platform that helps nursing and NP students master iHuman virtual-patient cases.',
-    'Mission: make iHuman\u2019s invisible scoring logic visible and teachable. Lead with education.',
-    'Free forever: the case simulator and four cheat-sheet PDFs (history, physical exam, DDx, management/SOAP).',
-    'Premium: complete case guides built from 200+ verified submissions and mapped to the scoring rubric. Pricing: single guide $150; 3-case bundle $390 (save $60); 5-case bundle $540 (save $210). New customers: code CPLFIRST15 = 15% off first single case.',
-    'Ordering: the student requests an invoice; CPL emails it; once paid the student receives a personal access code that unlocks the complete guide for download. Same-day delivery, Word + PDF.',
-    'Catalog: 171 cases across Chamberlain (NR509/NR511/NR602), Walden (NURS6512, NRNP6531/6541/6552/6568) and others. iHuman rotates patient names, so each guide covers all aliases of a case template.',
-    'Tone: warm, calm, confident, concise \u2014 the audience is stressed students, often on mobile, anxious about grades. Reduce anxiety. On academic-integrity questions: CPL is a study and learning resource (like a tutor or answer-explanation guide); encourage students to follow their school\u2019s policies and use guides to learn the reasoning. Never claim affiliation with iHuman or any school.',
-    'Keep replies under ~90 words. Use plain language. If unsure or it needs a human, offer to pass it to the CPL team at support@clinicalperformancelab.com.'
+    'You are the support assistant for Clinical Performance Lab (CPL), an independent clinical reasoning education resource for nursing students.',
+    'Four free PDF resources cover history, physical examination, differential diagnosis, and management/SOAP. Email confirmation is required for delivery. The simulator is in development and only its waitlist is available.',
+    'Prices in USD: single guide $150, three-case bundle $390, five-case bundle $540. CPLFIRST15 gives 15% off the first single guide.',
+    'Ordering: request an invoice. CPL confirms the case version, content and delivery window before payment. Word and PDF guide delivery includes an access code. Availability varies: same-day, 24–48 hour build, or availability check.',
+    'Patient names and aliases are search references. Do not assume findings or history responses transfer between versions. Direct students to the case library and the CPL team for version checks.',
+    'Do not invent clinical findings, scoring targets, source verification, inventory availability or patient responses. Do not promise a live simulator or universal same-day delivery.',
+    'Use plain language and keep replies under 90 words. Encourage students to follow their school policies. Support email: support@clinicalperformancelab.com.'
   ].join(' ');
 
-  var GREETING = "Hi! I'm the CPL assistant 👋 I can help with how ordering works, what's free, whether we have your case, or scoring questions. What's on your mind?";
+  var GREETING = "Hi, I can explain ordering, free resources and how to match your case version. For specific case questions, email the CPL team.";
   var CHIPS = ['How does ordering work?', 'What\u2019s free?', 'Do you have my case?', 'Is this allowed?'];
 
   var history = [];
@@ -23,20 +22,24 @@
   var fab = document.createElement('button');
   fab.className = 'cpl-fab';
   fab.setAttribute('aria-label', 'Open support chat');
-  fab.innerHTML = '<span class="cpl-fab-ico">💬</span><span class="cpl-fab-label">Support</span>';
+  fab.textContent = 'Need help?';
   document.body.appendChild(fab);
 
   var panel = document.createElement('div');
   panel.className = 'cpl-chat';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', 'CPL support');
+  panel.setAttribute('inert', '');
+  panel.setAttribute('aria-hidden', 'true');
   panel.innerHTML = [
     '<div class="cpl-chat-head">',
-    '  <div class="cpl-chat-id"><span class="cpl-chat-avatar">CPL</span><div><b>CPL Support</b><small><span class="cpl-dot"></span>AI assistant · real humans on standby</small></div></div>',
+    '  <div class="cpl-chat-id"><span class="cpl-chat-avatar">CPL</span><div><b>CPL Support</b><small><span class="cpl-dot"></span>Quick answers · email our team</small></div></div>',
     '  <button class="cpl-chat-close" aria-label="Close chat">×</button>',
     '</div>',
-    '<div class="cpl-chat-body" data-chat-body></div>',
+    '<div class="cpl-chat-body" data-chat-body role="log" aria-live="polite"></div>',
     '<div class="cpl-chat-chips" data-chat-chips></div>',
     '<form class="cpl-chat-input" data-chat-form>',
-    '  <input type="text" placeholder="Ask about cases, scoring, orders…" autocomplete="off" data-chat-text>',
+    '  <input type="text" aria-label="Your support question" placeholder="Ask about guides, resources, orders…" autocomplete="off" data-chat-text>',
     '  <button type="submit" aria-label="Send">↑</button>',
     '</form>',
     '<div class="cpl-chat-foot">Powered by CPL · or email <a href="mailto:support@clinicalperformancelab.com">support@clinicalperformancelab.com</a></div>'
@@ -74,14 +77,14 @@
   function fallback(q) {
     var s = q.toLowerCase();
     if (s.indexOf('order') > -1 || s.indexOf('buy') > -1 || s.indexOf('pay') > -1)
-      return "Easy: request an invoice on any case, we email it within the hour, and once it\u2019s paid you get an access code that unlocks the complete guide (Word + PDF, same day). Single guide is $150 — code CPLFIRST15 takes 15% off your first.";
-    if (s.indexOf('free') > -1)
-      return "The case simulator and all four cheat-sheet PDFs — history, physical exam, DDx, and management/SOAP — are free forever. No card needed. Grab them from the Free Cheat Sheets section.";
+      return "Request an invoice from a case page or a selected bundle. CPL confirms the case version, content and delivery window before payment. Your delivery email includes an access code for the Word and PDF guide. A single guide is $150 USD; CPLFIRST15 gives 15% off your first single guide.";
+    if (s.indexOf('free') > -1 || s.indexOf('simulator') > -1)
+      return "The four PDF resources cover history, physical examination, differential diagnosis, and management/SOAP. Choose your PDFs on the Free resources page, then confirm your email to receive them. The simulator is still in development; you can join its waitlist.";
     if (s.indexOf('allow') > -1 || s.indexOf('integrity') > -1 || s.indexOf('cheat') > -1)
-      return "CPL is a study resource — it teaches the clinical reasoning iHuman rewards so you learn it, like a tutor or answer-explanation guide. Always follow your school\u2019s academic policies. We\u2019re not affiliated with iHuman.";
+      return "CPL supports personal study and practice. Complete your own encounter and documentation, and follow your school's academic policies. CPL is independent and is not affiliated with iHuman or any institution.";
     if (s.indexOf('case') > -1 || s.indexOf('have') > -1)
-      return "Most likely! We catalog 171 cases across Chamberlain and Walden programs. Tell me the patient name or diagnosis and I\u2019ll point you to it — and remember iHuman rotates names, so guides cover every alias.";
-    return "Great question — for anything specific, the CPL team can help directly at support@clinicalperformancelab.com. In the meantime: the simulator and cheat sheets are free, and complete guides are $150 with same-day delivery.";
+      return "Search the case library by patient name, presentation, course or school. Match the age and course details before ordering. Names alone do not confirm a version, and findings should not transfer between versions. Email support@clinicalperformancelab.com if you need a match checked.";
+    return "For a specific answer, email support@clinicalperformancelab.com with your patient name, course and question. You can also find ordering, delivery and free resource details on the Questions & answers page.";
   }
 
   var pending = false;
@@ -114,11 +117,15 @@
 
   function openChat() {
     panel.classList.add('open');
+    panel.removeAttribute('inert');
+    panel.setAttribute('aria-hidden', 'false');
+    fab.setAttribute('aria-expanded', 'true');
     fab.classList.add('hidden');
     if (!greeted) { addMsg('bot', GREETING); renderChips(); greeted = true; }
     setTimeout(function () { input.focus(); }, 200);
   }
-  function closeChat() { panel.classList.remove('open'); fab.classList.remove('hidden'); }
+  function closeChat() { panel.classList.remove('open'); panel.setAttribute('inert', ''); panel.setAttribute('aria-hidden', 'true'); fab.classList.remove('hidden'); fab.setAttribute('aria-expanded', 'false'); fab.focus(); }
+  panel.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); closeChat(); } });
 
   fab.addEventListener('click', openChat);
   panel.querySelector('.cpl-chat-close').addEventListener('click', closeChat);
