@@ -1,45 +1,6 @@
-# Environment
 .env
-.env.local
-.env.*.local
-
-# Zip archives (source was extracted, zips not needed in repo)
-*.zip
-
-# Temporary extraction directories
-_extract_*/
-_new_files/
-_new_updated/
-
-# Source guide PDFs (large binaries, not for repo)
-_guides_src/
-
-# Overhaul instruction package (extracted, not for repo)
-_overhaul_extract/
-
-# Redesign package (extracted reference, not for repo)
-_newdesign_extract/
-
-# Node
-node_modules/
-
-# Vercel
+.env.*
 .vercel/
-
-# Python
+node_modules/
 __pycache__/
-*.pyc
-*.pyo
-.Python
-
-# Claude Code
-.claude/
-
-# OS
 .DS_Store
-Thumbs.db
-
-.vercel
-.env*
-_inbound_key.txt
-_ops_extract/
