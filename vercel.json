@@ -1,96 +1,20 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": null,
-  "installCommand": "npm install",
+  "installCommand": null,
   "outputDirectory": "public",
   "framework": null,
-  "functions": {
-    "api/subscribe.js": {
-      "maxDuration": 10
-    },
-    "api/confirm.js": {
-      "maxDuration": 10
-    },
-    "api/unsubscribe.js": {
-      "maxDuration": 5
-    },
-    "api/waitlist.js": {
-      "maxDuration": 10
-    },
-    "api/order.js": {
-      "maxDuration": 10
-    },
-    "api/cron/drip.js": {
-      "maxDuration": 60
-    },
-    "api/ops/inbound.js": {
-      "maxDuration": 15
-    },
-    "api/ops/blob-upload.js": {
-      "maxDuration": 10
-    },
-    "api/ops/orders/[id]/[action].js": {
-      "maxDuration": 30
-    },
-    "api/g/[token].js": {
-      "maxDuration": 10
-    }
-  },
-  "crons": [
-    {
-      "path": "/api/cron/drip",
-      "schedule": "0 9 * * *"
-    }
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
-      "source": "/cheat-sheets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" },
-        { "key": "Content-Disposition", "value": "inline" }
-      ]
-    },
-    {
-      "source": "/(.*)\\.(css|js|svg|png|jpg|webp)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
-      ]
-    },
-    {
-      "source": "/api/(.*)",
+      "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
-    },
-    {
-      "source": "/ops/(.*)",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    },
-    {
-      "source": "/g/(.*)",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
-      ]
-    }
-  ],
-  "rewrites": [
-    { "source": "/g/:token", "destination": "/api/g/:token" }
-  ],
-  "redirects": [
-    {
-      "source": "/free",
-      "destination": "/free-resources/",
-      "permanent": true
-    },
-    {
-      "source": "/catalog",
-      "destination": "/cases/",
-      "permanent": true
     }
   ]
 }
