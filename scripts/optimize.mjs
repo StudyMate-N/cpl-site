@@ -138,10 +138,86 @@ async function extractPhotos(js, head) {
   return { js, head: head + preloads.join('') };
 }
 
+/* ─── Step 2: embedded fonts → /fonts/*.woff2 ─────────────────────────────
+   The export inlines ten @font-face rules as base64, but Newsreader 400/500/600
+   and IBM Plex Sans 400–700 are each one variable font repeated per weight.
+   Content-hashed filenames collapse the repeats, so five files are downloaded
+   instead of ten copies. Every weight is kept: Plex Sans 700 (bold <th> in the
+   case tables) and Plex Mono 500 (reader-tab numbers) are used on case pages. */
+
+// Fallback faces sized to match the web fonts, so the swap doesn't move text.
+// Metrics come from the font files (fontTools) against Times New Roman / Arial
+// (via their metric-compatible Liberation clones). Newsreader's width relative
+// to Times varies with optical size (×1.09 at the 45px mobile h1, ×1.16 at the
+// 73px desktop h1), so its size-adjust was tuned empirically: 112% gave the
+// lowest CLS across 360–1920px with fonts delayed 1.5s (max 0.015); 113%+
+// re-wraps the mobile h1. Re-tune if the fonts or the hero copy change.
+const FALLBACKS = {
+  Newsreader: {
+    local: ['Times New Roman', 'Liberation Serif', 'Tinos'],
+    css: 'size-adjust:112%;ascent-override:65.63%;descent-override:23.66%;line-gap-override:0%',
+  },
+  'IBM Plex Sans': {
+    local: ['Arial', 'Liberation Sans', 'Arimo'],
+    css: 'size-adjust:100.18%;ascent-override:102.32%;descent-override:27.45%;line-gap-override:0%',
+  },
+};
+// Fonts the first screen paints with: hero h1 (Newsreader 500), "start here."
+// (Newsreader 500 italic) and body copy (Plex Sans 400).
+const PRELOAD = [
+  ['Newsreader', '500', 'normal'],
+  ['Newsreader', '500', 'italic'],
+  ['IBM Plex Sans', '400', 'normal'],
+];
+
+function extractFonts(head) {
+  mkdirSync(join(PUBLIC, 'fonts'), { recursive: true });
+  const urls = {};
+  let count = 0;
+  head = head.replace(/@font-face\s*\{[^}]*\}/g, (rule) => {
+    const family = rule.match(/font-family:\s*'([^']+)'/)?.[1];
+    const weight = rule.match(/font-weight:\s*(\d+)/)?.[1];
+    const style = rule.match(/font-style:\s*(\w+)/)?.[1] || 'normal';
+    const data = rule.match(/url\(data:font\/woff2;base64,([A-Za-z0-9+/=]+)\)/);
+    if (!family || !weight || !data) return rule;
+    const buf = Buffer.from(data[1], 'base64');
+    const slug = `${family.toLowerCase().replace(/\s+/g, '-')}${style === 'italic' ? '-italic' : ''}`;
+    const url = emit('fonts', slug, 'woff2', buf);
+    urls[`${family}|${weight}|${style}`] = url;
+    count++;
+    return rule.replace(data[0], `url(${url})`);
+  });
+  if (count === 0) fail('no embedded fonts found');
+  const unique = new Set(Object.values(urls));
+  console.log(`  ${count} @font-face rules → ${unique.size} files`);
+
+  const fallbackCss = Object.entries(FALLBACKS)
+    .map(([family, f]) => `@font-face{font-family:"${family} Fallback";src:${f.local.map((n) => `local("${n}")`).join(',')};${f.css}}`)
+    .join('');
+  const styleAt = head.indexOf('<style>');
+  if (styleAt < 0) fail('no <style> block for fallback faces');
+  head = head.slice(0, styleAt + 7) + fallbackCss + head.slice(styleAt + 7);
+
+  // Put the fallback right after each web font in every font-family stack.
+  let stacks = 0;
+  for (const family of Object.keys(FALLBACKS)) {
+    const re = new RegExp(`(font-family:\\s*(?:"${family}"|${family.includes(' ') ? `"${family}"` : family}))(?=\\s*,)`, 'g');
+    head = head.replace(re, (m) => { stacks++; return `${m},"${family} Fallback"`; });
+  }
+  console.log(`  fallback faces added to ${stacks} font-family stacks`);
+
+  const preloads = [...new Set(PRELOAD.map(([f, w, s]) => {
+    const url = urls[`${f}|${w}|${s}`];
+    if (!url) fail(`preload font missing: ${f} ${w} ${s}`);
+    return url;
+  }))].map((url) => `<link rel="preload" as="font" type="font/woff2" href="${url}" crossorigin>`);
+  return head + preloads.join('');
+}
+
 /* ─── Pipeline ───────────────────────────────────────────────────────── */
 async function main() {
   const html = readFileSync(SRC, 'utf8');
-  rmSync(ASSETS, { recursive: true, force: true });
+  for (const dir of ['assets', 'fonts']) rmSync(join(PUBLIC, dir), { recursive: true, force: true });
   mkdirSync(ASSETS, { recursive: true });
 
   // Split the document: <head>…</head>, then the body with one inline app script.
@@ -156,6 +232,9 @@ async function main() {
 
   console.log('Step 1: photos');
   ({ js, head } = await extractPhotos(js, head));
+
+  console.log('Step 2: fonts');
+  head = extractFonts(head);
 
   const out = `${head}${bodyStart}<script>${js}</script>${tail}`;
   writeFileSync(join(PUBLIC, 'index.html'), out);
