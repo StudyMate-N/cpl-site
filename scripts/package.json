@@ -1,0 +1,9 @@
+{
+  "name": "cpl-site-optimize",
+  "private": true,
+  "type": "module",
+  "description": "Post-processes source/index.html into the optimized public/ site. Run: npm --prefix scripts ci && node scripts/optimize.mjs",
+  "devDependencies": {
+    "sharp": "0.34.4"
+  }
+}
