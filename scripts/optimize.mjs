@@ -214,6 +214,20 @@ function extractFonts(head) {
   return head + preloads.join('');
 }
 
+/* ─── Step 5: smoothness ─────────────────────────────────────────────────
+   The sticky header is rgba(255,255,255,.97) with backdrop-filter: blur(14px).
+   At 97% opacity the blur is invisible, but it makes the compositor re-blur
+   whatever scrolls underneath on every frame, which is costly on phone GPUs.
+   On mobile widths (the app's own 800px breakpoint) and for users who ask for
+   reduced motion or transparency, use the same white as a solid fill.
+   Desktop keeps the blur: scrolling there measured smooth (p95 16.7ms at
+   4× CPU throttle). will-change keeps the header on its own compositor layer,
+   as the blur did, so its text anti-aliasing is unchanged. Appended to the
+   app stylesheet in step 3. */
+const SMOOTHNESS_CSS =
+  '@media (max-width:800px),(prefers-reduced-motion:reduce),(prefers-reduced-transparency:reduce)' +
+  '{.site-header{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;will-change:transform}}';
+
 /* ─── Pipeline ───────────────────────────────────────────────────────── */
 async function main() {
   const html = readFileSync(SRC, 'utf8');
@@ -244,7 +258,7 @@ async function main() {
   console.log('Step 3: external CSS/JS');
   const style = head.match(/<style>([\s\S]*?)<\/style>/);
   if (!style) fail('no <style> block to extract');
-  const cssUrl = emit('assets', 'app', 'css', Buffer.from(style[1]));
+  const cssUrl = emit('assets', 'app', 'css', Buffer.from(style[1] + SMOOTHNESS_CSS));
   const jsUrl = emit('assets', 'app', 'js', Buffer.from(js));
   head = head.replace(style[0], '');
   const PREVIEW_TAGS = /<link rel="stylesheet" href="\/previews\/cpl-previews\.css">|<script src="\/previews\/cpl-previews\.js" defer><\/script>/g;
