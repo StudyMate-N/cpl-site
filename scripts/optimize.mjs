@@ -236,7 +236,24 @@ async function main() {
   console.log('Step 2: fonts');
   head = extractFonts(head);
 
-  const out = `${head}${bodyStart}<script>${js}</script>${tail}`;
+  /* Step 3: CSS and JS become hashed, cacheable files referenced from <head>.
+     The app script was a classic inline script after #root; `defer` keeps
+     that ordering (it runs once the document is parsed). The preview add-on
+     loads right after it, also deferred, instead of being discovered only
+     at the end of the body. */
+  console.log('Step 3: external CSS/JS');
+  const style = head.match(/<style>([\s\S]*?)<\/style>/);
+  if (!style) fail('no <style> block to extract');
+  const cssUrl = emit('assets', 'app', 'css', Buffer.from(style[1]));
+  const jsUrl = emit('assets', 'app', 'js', Buffer.from(js));
+  head = head.replace(style[0], '');
+  const PREVIEW_TAGS = /<link rel="stylesheet" href="\/previews\/cpl-previews\.css">|<script src="\/previews\/cpl-previews\.js" defer><\/script>/g;
+  tail = tail.replace(PREVIEW_TAGS, '');
+  head += `<link rel="stylesheet" href="${cssUrl}"><link rel="stylesheet" href="/previews/cpl-previews.css">` +
+    `<script defer src="${jsUrl}"></script><script defer src="/previews/cpl-previews.js"></script>`;
+  console.log(`  ${cssUrl} ${kb(style[1].length)}, ${jsUrl} ${kb(Buffer.byteLength(js))}`);
+
+  const out = `${head}${bodyStart.replace(PREVIEW_TAGS, '')}${tail}`;
   writeFileSync(join(PUBLIC, 'index.html'), out);
   console.log(`index.html ${kb(html.length)} → ${kb(Buffer.byteLength(out))}`);
 }
